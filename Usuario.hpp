@@ -1,14 +1,15 @@
 #include <iostream>
 #include <vector>
+#include "Anuncio.hpp"
 class Usuario {
 public:
 	Usuario() {};
 	~Usuario() {};
-	Anuncio criarAnuncio(Produto produto);
-	bool deletarAnuncio(Anuncio anuncioDeletar);
-	bool comprar(Anuncio anuncioCompra);
-	bool cancelarCompra(Compra compraCancelar);
-	bool favoritar(Anuncio anuncioFavoritar);
+	Anuncio criarAnuncio(Produto *produto);
+	bool deletarAnuncio(Anuncio *anuncioDeletar);
+	bool comprar(Anuncio *anuncioCompra);
+	bool cancelarCompra(Compra *compraCancelar);
+	bool favoritar(Anuncio *anuncioFavoritar);
 	std::string getEmail();
 	std::string getTelefone();
 	std::string getEndereco();
