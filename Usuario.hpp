@@ -19,7 +19,7 @@ public:
 	std::string getSenha();
 	std::string login;
 	std::vector<Anuncio> anuncios;
-	std::time_t* tempoDeBanimento;
+	std::time_t tempoDeBanimento;
 protected:
 	std::string email;
 	std::string telefone;
