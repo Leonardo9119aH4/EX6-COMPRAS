@@ -1,13 +1,14 @@
 #include <iostream>
 #include <vector>
 #include "Anuncio.hpp"
+#include "Compra.hpp"
 class Usuario {
 public:
 	Usuario() {};
 	~Usuario() {};
 	Anuncio criarAnuncio(Produto *produto);
 	bool deletarAnuncio(Anuncio *anuncioDeletar);
-	bool comprar(Anuncio *anuncioCompra);
+	bool comprar(Compra *anuncioCompra, bool avista, char opc, int pagamento, int parcelas);
 	bool cancelarCompra(Compra *compraCancelar);
 	bool favoritar(Anuncio *anuncioFavoritar);
 	std::string getEmail();
@@ -16,14 +17,14 @@ public:
 	std::string getCpf();
 	std::string getSenha();
 	std::string login;
-	std::vector<Anuncio> favoritos;
 	std::vector<Anuncio> anuncios;
-	std::vector<Compra> compras;
 protected:
 	std::string email;
 	std::string telefone;
 	std::string endereco;
 	std::string	cpf;
+	std::vector<Anuncio*> favoritos;
+	std::vector<Compra*> compras;
 private:
 	std::string senha;
 };
