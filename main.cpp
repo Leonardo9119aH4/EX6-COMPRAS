@@ -82,21 +82,80 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins) {
 	}
 }
 void OpcUsuario(Usuario* usuario, bool isAdmin) {
-	int Opc;
+	int opc1, opc2;
+	std::string str;
 	if (isAdmin) {
-		std::cout << "1- Verificar dados cadastrais\n2- Alterar o endereco de residencia\n3- Buscar por categoria\n4- Favoritar um anuncio\n5- Adicionar uma compra ao carrinho\n6- Compra";
+		std::cout << "1- Area do comprador\n2- Area do vendedor\n3- Area do admininstrador\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
 	}
 	else {
-		std::cout << "";
+		std::cout << "1- Area do comprador\n2- Area do vendedor\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
 	}
-	
+	std::cin >> opc1;
 	do {
-		switch (Opc) {
+		switch (opc1) {
 		case 1:
-			//
+			std::cout << "1- Buscar por categoria\n2- Favoritar um anuncio\n3- Desfavoritar um anuncio\n4- Adicionar um produto ao carrinho\n5- Comprar\n6- Cancelar uma compra\n7- Devolver um produto";
+			std::cin >> opc2;
+			switch (opc2) {
+			case 1:
+				break;
+			default:
+				std::cout << "Opcao invalida!" << std::endl;
+				break;
+			}
 			break;
+		case 2:
+			std::cout << "1- Criar anuncio\n2- Deletar um anuncio\nDigite uma opcao: ";
+			std::cin >> opc2;
+			switch (opc2) {
+			case 1:
+				break;
+			default:
+				std::cout << "Opcao invalida!" << std::endl;
+			}
+			break;
+		case 3:
+			if (isAdmin) {
+				std::cout << "1- Listar usuarios\n2- Banir um usuario\n3- Desbanir um usuario\n4- Cadastrar um admininistrador\n5- Deletar um anuncio\nDigite uma opcao: ";
+				std::cin >> opc2;
+				switch (opc2) {
+				case 1:
+					break;
+				default:
+					std::cout << "Opcao invalida!" << std::endl;
+					break;
+				}
+			}
+			else {
+				std::cout << "Acesso negado" << std::endl;
+			}
+			break;
+		case 4:
+			std::cout << "O seu login eh " << usuario->login << "\nO seu endereco de residencia eh " << usuario->getEndereco() << "\nO seu email eh " << usuario->getEmail() << "\nO seu telefone eh " << usuario->getTelefone() << "\nO seu CPF eh" << usuario->getCpf() << std::endl;
+			break;
+		case 5:
+			std::cout << "Digite o seu novo endereco: ";
+			std::cin >> str;
+			//usuario->setEndereco(str);
+			break;
+		case 6:
+			std::cout << "Digite a sua senha atual: ";
+			std::cin >> str;
+			if (usuario->getSenha() == str) {
+				std::cout << "Digite a nova senha: ";
+				std::cin >> str;
+				//usuario->setSenha(str);
+			}
+			else {
+				std::cout << "Senha incorreta!" << std::endl;
+			}
+			break;
+		case 7:
+			std::cout << "Logout!" << std::endl;
+		default:
+			std::cout << "Opcao invalida!" << std::endl;
 		}
-	} while (true);
+	} while (opc1 != 6);
 }
 int main() {
 	int Opc;
