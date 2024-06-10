@@ -17,7 +17,7 @@ bool Admin::unbanUsuario(Usuario* usuarioDesbanir) {
 }
 
 bool Admin::excluirAnuncio(Anuncio* anuncioDeletar) {
-	anuncioDeletar
+	anuncioDeletar->~Anuncio();
 }
 
 #endif
