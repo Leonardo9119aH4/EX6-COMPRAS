@@ -4,8 +4,9 @@
 #include "Compra.hpp"
 #include "Produto.hpp"
 #include "Usuario.hpp"
+#include "Admin.hpp"
 void Cadastrar(), void Login();
-void Cadastrar(std::vector<Usuario>* usuarios, /* std::vector<Admin>* admins, */ bool cadAdmin) {
+void Cadastrar(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, bool cadAdmin) {
 	bool conflito=false;
 	std::string login, senha, email, telefone, endereco, cpf;
 	std::cout << "Digite o nome de usuario a ser criado: ";
@@ -35,16 +36,16 @@ void Cadastrar(std::vector<Usuario>* usuarios, /* std::vector<Admin>* admins, */
 		std::cout << "Digite o seu CPF: ";
 		std::cin >> cpf;
 		if (cadAdmin) {
-			//Admin admin();
-			//admins->push_back(admin)
+			Admin admin(login, email, telefone, endereco, cpf, senha);
+			admins->push_back(admin);
 		}
 		else {
-			Usuario usuario;
+			Usuario usuario(login, email, telefone, endereco, cpf, senha);
 			usuarios->push_back(usuario);
 		}
 	}
 }
-void Login(std::vector<Usuario>* usuarios /* std::vector<Admin>* admins, */) {
+void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins) {
 	bool exito = false, ban = false;
 	std::string login, senha;
 	std::cout << "Digite o seu login: ";
@@ -53,19 +54,18 @@ void Login(std::vector<Usuario>* usuarios /* std::vector<Admin>* admins, */) {
 	std::cin >> senha;
 	for (int i = 0; i < usuarios->size(); i++) {
 		if (usuarios->at(i).login == login && usuarios->at(i).getSenha() == senha) {
-			//if(usuarios->at(i).ban){}
 			exito = true;
 			OpcUsuario(&usuarios->at(i), false);
 			break;
 		}
 	}
-	//for (int i = 0; i < admins->size(); i++) {
-	//	if (admins->at(i).login == login && admins->at(i).getSenha() == senha) {
-	//		exito = true;
-	//		OpcUsuario(&admins->at(i), true);
-	//		break;
-	//	}
-	//}
+	for (int i = 0; i < admins->size(); i++) {
+		if (admins->at(i).login == login && admins->at(i).getSenha() == senha) {
+			exito = true;
+			OpcUsuario(&admins->at(i), true);
+			break;
+		}
+	}
 	if (!exito) {
 		std::cout << "Nome de usuario e/ou senha incorreto(s)!" << std::endl;
 	}
@@ -89,16 +89,16 @@ void OpcUsuario(Usuario* usuario, bool isAdmin) {
 int main() {
 	int Opc;
 	std::vector<Usuario> usuarios;
-	//std::vector<Admin> admins;
+	std::vector<Admin> admins;
 	do {
 		std::cout << "1- Login\n2- Cadastrar\n3- Sair\nDigite a opcao: ";
 		std::cin >> Opc;
 		switch (Opc) {
 		case 1:
-			Login(&usuarios);
+			Login(&usuarios, &admins);
 			break;
 		case 2:
-			Cadastrar(&usuarios, false);
+			Cadastrar(&usuarios, &admins, false);
 			break;
 		case 3:
 			std::cout << "Saindo do programa..." << std::endl;
