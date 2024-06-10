@@ -132,6 +132,7 @@
     <ClCompile Include="Usuario.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Admin.hpp" />
     <ClInclude Include="Anuncio.hpp" />
     <ClInclude Include="Compra.hpp" />
     <ClInclude Include="Produto.hpp" />

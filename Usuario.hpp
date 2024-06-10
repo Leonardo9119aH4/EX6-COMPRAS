@@ -4,7 +4,7 @@
 #include "Compra.hpp"
 class Usuario {
 public:
-	Usuario() {};
+	Usuario(std::string login, std::string email, std::string telefone, std::string endereco, std::string cpf, std::string senha);
 	~Usuario() {};
 	Anuncio criarAnuncio(Produto *produto);
 	bool deletarAnuncio(Anuncio *anuncioDeletar);
@@ -22,7 +22,7 @@ protected:
 	std::string email;
 	std::string telefone;
 	std::string endereco;
-	std::string	cpf;
+	std::string cpf;
 	std::vector<Anuncio*> favoritos;
 	std::vector<Compra*> compras;
 private:

@@ -11,6 +11,15 @@ Anuncio Usuario::criarAnuncio(Produto *produto) {
 	return novoAnuncio;
 }
 
+Usuario::Usuario(std::string _login, std::string _email, std::string _telefone, std::string _endereco, std::string _cpf, std::string _senha) {
+	email = _email;
+	login = _login;
+	telefone = _telefone;
+	endereco = _endereco;
+	cpf = _cpf;
+	senha = _senha;
+}
+
 bool Usuario::deletarAnuncio(Anuncio *anuncioDeletar) {
 	for (int i = 0; i < anuncios.size(); i++) {
 		if (anuncioDeletar->operator==(anuncios.at(i))) {
