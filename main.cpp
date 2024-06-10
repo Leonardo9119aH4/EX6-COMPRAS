@@ -61,10 +61,12 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins) {
 				break;
 			}
 			else if (usuarios->at(i).tempoDeBanimento == std::numeric_limits<time_t>::max()) {
-
+				std::cout << "A sua conta foi banida permanentemente. Contate um admininstrador do sistema." << std::endl;
 			}
 			else {
-				std::cout << "A sua conta foi banida por" << std::endl;
+				struct tm diaTm;
+				localtime_s(&diaTm, &usuarios->at(i).tempoDeBanimento);
+				std::cout << "A sua conta foi banida por" << diaTm.tm_mday << " dias" << std::endl;
 			}	
 		}
 	}
@@ -82,11 +84,12 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins) {
 void OpcUsuario(Usuario* usuario, bool isAdmin) {
 	int Opc;
 	if (isAdmin) {
-		std::cout << "";
+		std::cout << "1- Verificar dados cadastrais\n2- Alterar o endereco de residencia\n3- Buscar por categoria\n4- Favoritar um anuncio\n5- Adicionar uma compra ao carrinho\n6- Compra";
 	}
 	else {
 		std::cout << "";
 	}
+	
 	do {
 		switch (Opc) {
 		case 1:
@@ -99,6 +102,7 @@ int main() {
 	int Opc;
 	std::vector<Usuario> usuarios;
 	std::vector<Admin> admins;
+	std::vector<std::string> tipos;
 	do {
 		std::cout << "1- Login\n2- Cadastrar\n3- Sair\nDigite a opcao: ";
 		std::cin >> Opc;
