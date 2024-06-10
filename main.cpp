@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <limits>
 #include "Anuncio.hpp"
 #include "Compra.hpp"
 #include "Produto.hpp"
@@ -16,11 +17,11 @@ void Cadastrar(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, bool 
 			conflito = true;
 		}
 	}
-	//for (int i = 0; i < admins->size(); i++) {
-	//	if (login == admins->at(i).login) {
-	//		conflito = true;
-	//	}
-	//}
+	for (int i = 0; i < admins->size(); i++) {
+		if (login == admins->at(i).login) {
+			conflito = true;
+		}
+	}
 	if (conflito) {
 		std::cout << "Esse nome de usuario ja existe!" << std::endl;
 	}
@@ -46,7 +47,7 @@ void Cadastrar(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, bool 
 	}
 }
 void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins) {
-	bool exito = false, ban = false;
+	bool exito = false;
 	std::string login, senha;
 	std::cout << "Digite o seu login: ";
 	std::cin >> login;
@@ -54,9 +55,17 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins) {
 	std::cin >> senha;
 	for (int i = 0; i < usuarios->size(); i++) {
 		if (usuarios->at(i).login == login && usuarios->at(i).getSenha() == senha) {
-			exito = true;
-			OpcUsuario(&usuarios->at(i), false);
-			break;
+			if (usuarios->at(i).tempoDeBanimento == 0) {
+				exito = true;
+				OpcUsuario(&usuarios->at(i), false);
+				break;
+			}
+			else if (usuarios->at(i).tempoDeBanimento == std::numeric_limits<time_t>::max()) {
+
+			}
+			else {
+				std::cout << "A sua conta foi banida por" << std::endl;
+			}	
 		}
 	}
 	for (int i = 0; i < admins->size(); i++) {
