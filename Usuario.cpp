@@ -11,13 +11,14 @@ Anuncio Usuario::criarAnuncio(Produto *produto) {
 	return novoAnuncio;
 }
 
-Usuario::Usuario(std::string _login, std::string _email, std::string _telefone, std::string _endereco, std::string _cpf, std::string _senha) {
+Usuario::Usuario(std::string& _login, std::string& _email, std::string& _telefone, std::string& _endereco, std::string& _cpf, std::string& _senha, bool _isBan) {
 	email = _email;
 	login = _login;
 	telefone = _telefone;
 	endereco = _endereco;
 	cpf = _cpf;
 	senha = _senha;
+	isBan = _isBan;
 }
 
 bool Usuario::deletarAnuncio(Anuncio *anuncioDeletar) {

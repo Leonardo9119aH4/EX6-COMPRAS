@@ -4,7 +4,7 @@
 #include "Usuario.hpp"
 
 class Admin : public Usuario {
-	Admin() {};
-	~Admin() {};
-	bool banirUsuario(Usuario* usuarioBanir, std::chrono::system_clock time_t);
+	bool banirUsuario(Usuario* usuarioBanir, std::chrono::system_clock* tempoDeBanimento);
+	bool desbanirUsuario(Usuario* usuarioDesbanir);
+	bool excluirAnuncio(Anuncio* anuncioDeletar);
 };

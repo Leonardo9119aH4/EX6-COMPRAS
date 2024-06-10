@@ -2,9 +2,10 @@
 #include <vector>
 #include "Anuncio.hpp"
 #include "Compra.hpp"
+
 class Usuario {
 public:
-	Usuario(std::string login, std::string email, std::string telefone, std::string endereco, std::string cpf, std::string senha);
+	Usuario(std::string& login, std::string& email, std::string& telefone, std::string& endereco, std::string& cpf, std::string& senha, bool _isBan);
 	~Usuario() {};
 	Anuncio criarAnuncio(Produto *produto);
 	bool deletarAnuncio(Anuncio *anuncioDeletar);
@@ -18,6 +19,8 @@ public:
 	std::string getSenha();
 	std::string login;
 	std::vector<Anuncio> anuncios;
+	bool isBan;
+	std::chrono::system_clock* tempoDeBanimento;
 protected:
 	std::string email;
 	std::string telefone;
