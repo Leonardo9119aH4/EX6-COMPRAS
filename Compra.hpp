@@ -1,16 +1,15 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <chrono>
+#include <ctime>
 #include "Anuncio.hpp"
 #ifndef COMPRA_HPP
 #define COMPRA_HPP
 class Compra {
 public:
-	Compra(std::string entrega);
+	Compra(std::string entrega, Anuncio* _anuncio);
 	~Compra() {};
-	std::vector<Anuncio*> getAnuncios();
-	void addAnuncio(Anuncio* anuncio);
-	bool removeAnuncio(Anuncio* anuncio);
+	Anuncio* getAnuncio();
 	std::string getEntrega();
 	void setEntrega(std::string _entrega);
 	int getStatus();
@@ -19,14 +18,15 @@ public:
 	float getValor();
 	float Parcelar(int vezes);
 	void Pagar(int _pagamento);
-	std::vector<float> getParcelas();
-
+	bool Cancelar();
+	bool Devolver(std::string _entrega);
 protected:
-	std::vector<Anuncio*> anuncios;
+	Anuncio* anuncio;
 	int parcelas, status;
 	std::string entrega;
-	int pagamento; //id para o tipo de pagamento
+	int pagamento; 
 	float valor=0;
+	time_t dataCompra, dataEntrega, dataDevolucao;
 };
 #endif // !COMPRA_HPP
 /* 
@@ -41,5 +41,6 @@ Status:
 2- Efetuada
 3- Entregue
 4- Cancelada
-5- Devolvida
+5- Em devolucao
+6- Devolvida
 */

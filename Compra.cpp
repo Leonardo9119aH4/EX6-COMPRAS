@@ -1,26 +1,16 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
 #include "Compra.hpp"
-Compra::Compra(std::string _entrega) {
+Compra::Compra(std::string _entrega, Anuncio* _anuncio) {
 	entrega = _entrega;
+	anuncio = _anuncio;
+	valor = anuncio->preco + 20; //sao 20 reais de frete
 	status = 1;
+	dataCompra = std::time(nullptr);
+	dataEntrega = dataCompra + 60 * 60 * 24 * 5;
 }
-std::vector<Anuncio*> Compra::getAnuncios(){
-	return anuncios;
-}
-void Compra::addAnuncio(Anuncio* anuncio) {
-	anuncios.push_back(anuncio);
-	valor += anuncio->preco;
-}
-bool Compra::removeAnuncio(Anuncio* anuncio) {
-	int index;
-	auto it = std::find(anuncios.begin(), anuncios.end(), anuncio);
-	if (it != anuncios.end()) {
-		index = std::distance(anuncios.begin(), it);
-		anuncios.erase(anuncios.begin() + index);
-	}
-	valor -= anuncio->preco;
+Anuncio* Compra::getAnuncio(){
+	return anuncio;
 }
 std::string Compra::getEntrega() {
 	return entrega;
@@ -49,4 +39,20 @@ float Compra::Parcelar(int vezes) {
 void Compra::Pagar(int _pagamento) {
 	pagamento = _pagamento;
 	status = 2;
+}
+bool Compra::Cancelar() {
+	if (status == 1 || status == 2) {
+		status == 4;
+		return true;
+	}
+	return false;
+}
+bool Compra::Devolver(std::string _entrega) {
+	if (status == 3) {
+		entrega = _entrega;
+		dataDevolucao = std::time(nullptr);
+		status = 5;
+		return true;
+	}
+	return false;
 }
