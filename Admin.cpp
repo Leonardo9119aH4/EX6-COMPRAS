@@ -20,4 +20,14 @@ bool Admin::excluirAnuncio(Anuncio* anuncioDeletar) {
 	anuncioDeletar->~Anuncio();
 }
 
+Admin::Admin(std::string& _login, std::string& _email, std::string& _telefone, std::string& _endereco, std::string& _cpf, std::string& _senha) {
+	email = _email;
+	login = _login;
+	telefone = _telefone;
+	endereco = _endereco;
+	cpf = _cpf;
+	senha = _senha;
+	tempoDeBanimento = 0;
+}
+
 #endif
