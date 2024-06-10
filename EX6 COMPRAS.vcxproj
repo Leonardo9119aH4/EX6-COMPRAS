@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Compra.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Usuario.cpp" />
   </ItemGroup>
