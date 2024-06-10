@@ -21,40 +21,42 @@ bool Usuario::deletarAnuncio(Anuncio *anuncioDeletar) {
 	return false;
 }
 
-bool Usuario::comprar(Anuncio *anuncioCompra) {
+bool Usuario::comprar(Compra *anuncioCompra, bool avista, char opc, int pagamento, int parcelas) {
 	char opc;
 	int pagamento;
 	int parcelas;
 	bool avista;
-	std::cout << "Voce ira pagar a vista? (S/N)";
-	std::cin >> opc;
-	if (opc == 's' || opc == 'S') {
-		avista = true;
-	}
-	else {
-		avista = false;
-	}
-	if (avista) {
-		std::cout << "Qual sera o metodo de pagamento: \n1 - Boleto\n2 - Pix\n3 - Credito\n4 - Debito";
-		std::cin >> pagamento;
-		parcelas = 0;
-	}
-	else {
-		std::cout << "Qual sera o metodo de pagamento: \n1 - Credito\n2 - Debito\n";
-		std::cin >> pagamento;
-	}
-	if (!avista) {
-		pagamento += 2;
-		std::cout << "Digite a quantidade de parcelas: ";
-		std::cin >> parcelas;
-		if (parcelas <= anuncioCompra->parcelas) {
-			std::cout << "" << parcelar(parcelas);
-		};
-		pagar(pagamento, )
-	}
 	compras.push_back(anuncioCompra);
-	
+	anuncioCompra->setStatus(1);
 	return true;
+}
+
+bool Usuario::cancelarCompra(Compra* compraCancelar) {
+	compraCancelar->setStatus(4);
+}
+
+bool Usuario::favoritar(Anuncio* anuncioFavoritar) {
+	favoritos.push_back(anuncioFavoritar);
+}
+
+std::string Usuario::getEmail() {
+	return email;
+}
+
+std::string Usuario::getTelefone() {
+	return telefone;
+}
+
+std::string Usuario::getEndereco() {
+	return endereco;
+}
+
+std::string Usuario::getCpf() {
+	return cpf;
+}
+
+std::string Usuario::getSenha() {
+	return senha;
 }
 #endif
 
