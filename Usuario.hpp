@@ -17,6 +17,12 @@ public:
 	std::string getEndereco();
 	std::string getCpf();
 	std::string getSenha();
+	void setSenha(std::string _senha) {
+		senha = _senha;
+	}
+	void setEndereco(std::string _endereco) {
+		endereco = _endereco;
+	}
 	std::string login;
 	std::vector<Anuncio> anuncios;
 	std::time_t tempoDeBanimento;
