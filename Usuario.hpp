@@ -5,7 +5,7 @@
 
 class Usuario {
 public:
-	Usuario(std::string& login, std::string& email, std::string& telefone, std::string& endereco, std::string& cpf, std::string& senha, bool _isBan);
+	Usuario(std::string& _login, std::string& _email, std::string& _telefone, std::string& _endereco, std::string& _cpf, std::string& _senha);
 	~Usuario() {};
 	Anuncio criarAnuncio(Produto *produto);
 	bool deletarAnuncio(Anuncio *anuncioDeletar);
@@ -19,8 +19,7 @@ public:
 	std::string getSenha();
 	std::string login;
 	std::vector<Anuncio> anuncios;
-	bool isBan;
-	std::chrono::system_clock* tempoDeBanimento;
+	std::time_t* tempoDeBanimento;
 protected:
 	std::string email;
 	std::string telefone;

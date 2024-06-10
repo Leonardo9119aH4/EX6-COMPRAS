@@ -6,11 +6,14 @@
 #ifndef ADMIN_HPP_
 #define ADMIN_HPP_
 
-bool Admin::banirUsuario(Usuario* usuarioBanir, std::chrono::system_clock* _tempoDeBanimento) {
-	usuarioBanir->isBan = true;
+bool Admin::banirUsuario(Usuario* usuarioBanir, std::time_t* _tempoDeBanimento) {
 	tempoDeBanimento = _tempoDeBanimento;
+	return true;
 }
 
-bool Admin::unbanUsuario()
+bool Admin::unbanUsuario(Usuario* usuarioDesbanir) {
+	tempoDeBanimento = 0;
+	return true;
+}
 
 #endif
