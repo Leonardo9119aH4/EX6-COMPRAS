@@ -68,6 +68,14 @@ std::string Usuario::getCpf() {
 std::string Usuario::getSenha() {
 	return senha;
 }
+
+void Usuario::setSenha(std::string _senha) {
+	senha = _senha;
+}
+
+void setEndereco(std::string _endereco) {
+	endereco = _endereco;
+}
 #endif
 
 /*
