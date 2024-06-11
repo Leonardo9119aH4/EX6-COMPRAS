@@ -18,6 +18,3 @@ std::vector<Anuncio> pesquisar(std::vector<std::string> tags, std::vector<Usuari
 	}
 	return anunciosAchados;
 }
-
-
-

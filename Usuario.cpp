@@ -4,14 +4,14 @@
 #ifndef USUARIO_HPP_
 #define USUARIO_HPP_
 
-Anuncio Usuario::criarAnuncio(Produto *produto) {
-	Anuncio novoAnuncio = Anuncio();
+Anuncio Usuario::criarAnuncio(Produto *produto, std::string _titulo, int _disponibilidade, float _preco, int _id, Produto _produto) {
+	Anuncio novoAnuncio = Anuncio(_titulo, _disponibilidade, _preco, _id, _produto);
 	novoAnuncio.produto = *produto;
 	anuncios.push_back(novoAnuncio);
 	return novoAnuncio;
 }
 
-Usuario::Usuario(std::string& _login, std::string& _email, std::string& _telefone, std::string& _endereco, std::string& _cpf, std::string& _senha) {
+Usuario::Usuario(std::string _login, std::string _email, std::string _telefone, std::string _endereco, std::string _cpf, std::string _senha) {
 	email = _email;
 	login = _login;
 	telefone = _telefone;
