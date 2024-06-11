@@ -14,6 +14,7 @@ public:
 	std::string titulo;
 	int disponibilidade;
 	float preco;
+	int id;
 	Produto produto;
 };
 
