@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "Pesquisa.hpp"
 #include "Usuario.hpp"
 
 std::vector<Anuncio> pesquisar(std::vector<std::string> tags, std::vector<Usuario> usuarios, std::vector<std::string> userTipos) {
@@ -17,3 +18,6 @@ std::vector<Anuncio> pesquisar(std::vector<std::string> tags, std::vector<Usuari
 	}
 	return anunciosAchados;
 }
+
+
+

@@ -137,6 +137,7 @@
     <ClInclude Include="Admin.hpp" />
     <ClInclude Include="Anuncio.hpp" />
     <ClInclude Include="Compra.hpp" />
+    <ClInclude Include="Pesquisa.hpp" />
     <ClInclude Include="Produto.hpp" />
     <ClInclude Include="Usuario.hpp" />
   </ItemGroup>

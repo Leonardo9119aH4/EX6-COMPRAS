@@ -73,7 +73,7 @@ void Usuario::setSenha(std::string _senha) {
 	senha = _senha;
 }
 
-void setEndereco(std::string _endereco) {
+void Usuario::setEndereco(std::string _endereco) {
 	endereco = _endereco;
 }
 #endif
