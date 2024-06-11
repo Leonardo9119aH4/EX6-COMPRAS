@@ -5,8 +5,8 @@
 
 class Usuario {
 public:
-	Usuario(std::string& _login, std::string& _email, std::string& _telefone, std::string& _endereco, std::string& _cpf, std::string& _senha);
-	~Usuario() {};
+	Usuario(std::string _login, std::string _email, std::string _telefone, std::string _endereco, std::string _cpf, std::string _senha);
+	virtual ~Usuario() = default;
 	Anuncio criarAnuncio(Produto *produto);
 	bool deletarAnuncio(Anuncio *anuncioDeletar);
 	bool comprar(Compra *anuncioCompra, bool avista, char opc, int pagamento, int parcelas);
@@ -17,12 +17,8 @@ public:
 	std::string getEndereco();
 	std::string getCpf();
 	std::string getSenha();
-	void setSenha(std::string _senha) {
-		senha = _senha;
-	}
-	void setEndereco(std::string _endereco) {
-		endereco = _endereco;
-	}
+	void setSenha(std::string _senha);
+	void setEndereco(std::string _endereco);
 	std::string login;
 	std::vector<Anuncio> anuncios;
 	std::time_t tempoDeBanimento;
