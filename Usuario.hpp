@@ -5,8 +5,8 @@
 
 class Usuario {
 public:
-	Usuario(std::string& _login, std::string& _email, std::string& _telefone, std::string& _endereco, std::string& _cpf, std::string& _senha);
-	~Usuario() {};
+	Usuario(std::string _login, std::string _email, std::string _telefone, std::string _endereco, std::string _cpf, std::string _senha);
+	virtual ~Usuario() = default;
 	Anuncio criarAnuncio(Produto *produto);
 	bool deletarAnuncio(Anuncio *anuncioDeletar);
 	bool comprar(Compra *anuncioCompra, bool avista, char opc, int pagamento, int parcelas);

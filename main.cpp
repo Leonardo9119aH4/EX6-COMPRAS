@@ -46,7 +46,7 @@ void Cadastrar(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, bool 
 		}
 	}
 }
-void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins) {
+void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, std::vector<Anuncio>* anuncios) {
 	bool exito = false;
 	std::string login, senha;
 	std::cout << "Digite o seu login: ";
@@ -98,6 +98,10 @@ void OpcUsuario(Usuario* usuario, bool isAdmin) {
 			std::cin >> opc2;
 			switch (opc2) {
 			case 1:
+
+				break;
+			case 2:
+				usuario->favoritar();
 				break;
 			default:
 				std::cout << "Opcao invalida!" << std::endl;
