@@ -5,11 +5,14 @@
 #ifndef USUARIO_HPP_
 #define USUARIO_HPP_
 
-Anuncio Usuario::criarAnuncio(Produto _produto, std::string _titulo, int _disponibilidade, float _preco, int* _id, std::vector<std::string> _tipo) {
-	Anuncio novoAnuncio = Anuncio(_titulo, _disponibilidade, _preco, _id, _produto, _tipo);
+Anuncio* Usuario::criarAnuncio(Produto _produto, std::string _titulo, int _disponibilidade, float _preco, int* _id, std::vector<std::string> _tipo) {
+	Anuncio novoAnuncio = Anuncio(_titulo, _disponibilidade, _preco, _id, _produto);
 	novoAnuncio.produto = _produto;
 	anuncios.push_back(novoAnuncio);
-	return novoAnuncio;
+	auto i = std::find(anuncios.begin(), anuncios.end(), novoAnuncio);
+	int j = std::distance(anuncios.begin(), i);
+	Anuncio* novoNovoAnuncio = &anuncios.at(j);
+	return novoNovoAnuncio;
 }
 
 Usuario::Usuario(std::string _login, std::string _email, std::string _telefone, std::string _endereco, std::string _cpf, std::string _senha) {
@@ -22,14 +25,21 @@ Usuario::Usuario(std::string _login, std::string _email, std::string _telefone, 
 	tempoDeBanimento = 0;
 }
 
-bool Usuario::deletarAnuncio(Anuncio *anuncioDeletar) {
+bool Usuario::deletarAnuncio(int _id) {
 	for (int i = 0; i < anuncios.size(); i++) {
-		if (anuncioDeletar->operator==(anuncios.at(i))) {
-			anuncios.erase(anuncios.begin() + i);
+		if (anuncios.at(i).id == _id) {
 			return true;
 		}
 	}
 	return false;
+}
+
+std::vector<Anuncio>* Usuario::getAnuncios() {
+	return &anuncios;
+}
+
+std::vector<Compra>* Usuario::getCompras() {
+	return &compras;
 }
 
 bool Usuario::adicionarAoCarrinho(Compra* anuncioCompras) {
@@ -47,7 +57,8 @@ bool Usuario::desfavoritarAnuncio(Anuncio anuncioFavorito) {
 	if (i > favoritos.end()) {
 		return false;
 	}
-	//compras
+	favoritos.erase(favoritos.begin(), i);
+	return true;
 }
 
 bool Usuario::comprar(Compra *anuncioCompra, bool avista, char opc, int pagamento, int parcelas) {
