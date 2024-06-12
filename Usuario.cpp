@@ -1,12 +1,13 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "Usuario.hpp"
 #ifndef USUARIO_HPP_
 #define USUARIO_HPP_
 
-Anuncio Usuario::criarAnuncio(Produto *produto, std::string _titulo, int _disponibilidade, float _preco, int _id, Produto _produto) {
-	Anuncio novoAnuncio = Anuncio(_titulo, _disponibilidade, _preco, _id, _produto);
-	novoAnuncio.produto = *produto;
+Anuncio Usuario::criarAnuncio(Produto _produto, std::string _titulo, int _disponibilidade, float _preco, int* _id, std::vector<std::string> _tipo) {
+	Anuncio novoAnuncio = Anuncio(_titulo, _disponibilidade, _preco, _id, _produto, _tipo);
+	novoAnuncio.produto = _produto;
 	anuncios.push_back(novoAnuncio);
 	return novoAnuncio;
 }
@@ -29,6 +30,24 @@ bool Usuario::deletarAnuncio(Anuncio *anuncioDeletar) {
 		}
 	}
 	return false;
+}
+
+bool Usuario::adicionarAoCarrinho(Compra* anuncioCompras) {
+	auto i = std::find(compras.begin(), compras.end(), anuncioCompras);
+	if (i > compras.end()) {
+		return false;
+	}
+	anuncioCompras->setStatus(1);
+	compras.push_back(anuncioCompras);
+	return true;
+}
+
+bool Usuario::desfavoritarAnuncio(Anuncio anuncioFavorito) {
+	auto i = std::find(favoritos.begin(), favoritos.end(), anuncioFavorito);
+	if (i > favoritos.end()) {
+		return false;
+	}
+	//compras
 }
 
 bool Usuario::comprar(Compra *anuncioCompra, bool avista, char opc, int pagamento, int parcelas) {

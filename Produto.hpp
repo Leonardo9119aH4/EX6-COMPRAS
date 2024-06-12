@@ -4,6 +4,8 @@
 #define PRODUTO_HPP
 class Produto {
 public:
+	Produto();
+	~Produto();
 	std::string nome, descricao;
 	std::vector<std::string> tipos;
 };
