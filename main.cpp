@@ -94,13 +94,16 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 	do {
 		switch (opc1) {
 		case 1:
-			std::cout << "1- Buscar por categoria\n2- Favoritar um anuncio\n3- Desfavoritar um anuncio\n4- Listar favoritos\n5- Adicionar um produto ao carrinho\n6- Comprar\n7- Remover um produto do carrinho\n8- Ver compras\n9- Cancelar uma compra\n10- Devolver um produto";
+			std::cout << "1- Buscar por categoria\n2- Visualizar anuncio\n3- Favoritar um anuncio\n4- Desfavoritar um anuncio\n5- Listar favoritos\n6- Adicionar um produto ao carrinho\n7- Comprar\n8- Remover um produto do carrinho\n9- Ver compras\n10- Cancelar uma compra\n11- Devolver um produto";
 			std::cin >> opc2;
 			switch (opc2) {
 			case 1:
 
 				break;
 			case 2:
+				ViewAnuncio();
+				break;
+			case 3:
 				std::cout << "Digite o ID do anuncio a ser favoritado: ";
 				std::cin >> id;
 				for (int i = 0; i < anuncios->size(); i++) {
@@ -109,7 +112,7 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 					}
 				}
 				break;
-			case 3:
+			case 4:
 				std::cout << "Digite o ID do anuncio a ser desfavoritado: ";
 				std::cin >> id;
 				for (int i = 0; i < anuncios->size(); i++) {
@@ -118,13 +121,13 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 					}
 				}
 				break;
-			case 4:
-
-				break;
 			case 5:
 
 				break;
 			case 6:
+
+				break;
+			case 7:
 				for (int i = 0; i < 1; i++) {
 					//if(usuario.getCompras())
 				}
@@ -135,11 +138,28 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 			}
 			break;
 		case 2:
-			std::cout << "1- Criar anuncio\n2- Deletar um anuncio\nDigite uma opcao: ";
+			std::cout << "1- Criar anuncio\n2- Deletar um anuncio\n3- Listar anuncios\nDigite uma opcao: ";
 			std::cin >> opc2;
 			switch (opc2) {
 			case 1:
-				NovoAnuncio(usuario, countId);
+				NovoAnuncio(usuario, countId, anuncios);
+				break;
+			case 2:
+				std::cout << "Digite o ID do anuncio a ser deletado: ";
+				std::cin >> id;
+				//usuario->deletarAnuncio(countId);
+				for (int i = 0; i < anuncios->size(); i++) {
+					if (anuncios->at(i)->id == id) {
+						anuncios->erase(anuncios->begin()+i);
+					}
+				}
+				break;
+			case 3:
+				std::vector<Anuncio>* usuarioAnuncios;
+				//usuarioAnuncios = usuario->getAnuncios();
+				for (int i = 0; i < usuarioAnuncios->size(); i++) {
+					std::cout << "Anuncio " << usuarioAnuncios->at(i).titulo << ", sob ID" << usuarioAnuncios->at(i).id;
+				}
 				break;
 			default:
 				std::cout << "Opcao invalida!" << std::endl;
@@ -188,11 +208,12 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 		}
 	} while (opc1 != 6);
 }
-void NovoAnuncio(Usuario* usuario, int* countId) {
+void NovoAnuncio(Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios) {
 	int num;
 	float preco;
 	std::string str1, str2, str3, str4;
 	std::vector<std::string> strs;
+	Anuncio* anuncio;
 	std::cout << "Digite o nome do produto: ";
 	std::cin >> str1;
 	std::cout << "Digite a descricao do produto (sem espacos, use '_'): ";
@@ -245,7 +266,12 @@ void NovoAnuncio(Usuario* usuario, int* countId) {
 			std::cout << "Valor invalido!" << std::endl;
 		}
 	} while (preco < 0);
-	//usuario->criarAnuncio(produto, str1, num, preco, countId);
+	//anuncio = usuario->criarAnuncio(produto, str1, num, preco, countId);
+	anuncios->push_back(anuncio); //salva o ponteiro do anuncio dentro de usuario
+	std::cout << "Anuncio craido com exito!" << std::endl;
+}
+void ViewAnuncio() {
+
 }
 int main() {
 	int Opc;
