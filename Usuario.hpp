@@ -7,11 +7,13 @@ class Usuario {
 public:
 	Usuario(std::string _login, std::string _email, std::string _telefone, std::string _endereco, std::string _cpf, std::string _senha);
 	virtual ~Usuario() = default;
-	Anuncio criarAnuncio(Produto *produto, std::string _titulo, int _disponibilidade, float _preco, int _id, Produto _produto);
+	Anuncio criarAnuncio(Produto produto, std::string _titulo, int _disponibilidade, float _preco, int* _id, std::vector<std::string> _tipo);
 	bool deletarAnuncio(Anuncio *anuncioDeletar);
 	bool comprar(Compra *anuncioCompra, bool avista, char opc, int pagamento, int parcelas);
 	bool cancelarCompra(Compra *compraCancelar);
 	bool favoritar(Anuncio *anuncioFavoritar);
+	bool adicionarAoCarrinho(Compra *anuncioCompras);
+	bool desfavoritarAnuncio(Anuncio anuncioFavorito);
 	std::string getEmail();
 	std::string getTelefone();
 	std::string getEndereco();

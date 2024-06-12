@@ -132,6 +132,7 @@
     <ClCompile Include="Compra.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pesquisa.cpp" />
+    <ClCompile Include="Produto.cpp" />
     <ClCompile Include="Usuario.cpp" />
   </ItemGroup>
   <ItemGroup>
