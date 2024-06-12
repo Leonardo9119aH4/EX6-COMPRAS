@@ -8,5 +8,4 @@ public:
 	std::vector<std::string> tipos;
 };
 
-
-#endif // !PRODUTO_HPP
+#endif
