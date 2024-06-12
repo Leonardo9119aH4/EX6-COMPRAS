@@ -46,7 +46,7 @@ void Cadastrar(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, bool 
 		}
 	}
 }
-void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, std::vector<Anuncio>* anuncios) {
+void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* countId) {
 	bool exito = false;
 	std::string login, senha;
 	std::cout << "Digite o seu login: ";
@@ -57,7 +57,7 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, std::vect
 		if (usuarios->at(i).login == login && usuarios->at(i).getSenha() == senha) {
 			if (usuarios->at(i).tempoDeBanimento == 0) {
 				exito = true;
-				OpcUsuario(&usuarios->at(i), false);
+				OpcUsuario(usuarios, &usuarios->at(i), false, countId);
 				break;
 			}
 			else if (usuarios->at(i).tempoDeBanimento == std::numeric_limits<time_t>::max()) {
@@ -73,7 +73,7 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, std::vect
 	for (int i = 0; i < admins->size(); i++) {
 		if (admins->at(i).login == login && admins->at(i).getSenha() == senha) {
 			exito = true;
-			OpcUsuario(&admins->at(i), true);
+			OpcUsuario(usuarios, &admins->at(i), true, countId);
 			break;
 		}
 	}
@@ -81,8 +81,8 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, std::vect
 		std::cout << "Nome de usuario e/ou senha incorreto(s)!" << std::endl;
 	}
 }
-void OpcUsuario(Usuario* usuario, bool isAdmin) {
-	int opc1, opc2;
+void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, int* countId) {
+	int opc1, opc2, id;
 	std::string str;
 	if (isAdmin) {
 		std::cout << "1- Area do comprador\n2- Area do vendedor\n3- Area do admininstrador\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
@@ -101,7 +101,15 @@ void OpcUsuario(Usuario* usuario, bool isAdmin) {
 
 				break;
 			case 2:
-				usuario->favoritar();
+				std::cout << "Digite o ID do anuncio a ser favoritado: ";
+				std::cin >> id;
+				for (int i = 0; i < usuarios->size(); i++) {
+					for (int j = 0; j < usuarios->at(j).anuncios.size(); j++) {
+						if (id == usuarios->at(i).anuncios.at(j).id) {
+							usuario->favoritar(&usuarios->at(i).anuncios.at(j));
+						}
+					}
+				}
 				break;
 			default:
 				std::cout << "Opcao invalida!" << std::endl;
@@ -166,12 +174,13 @@ int main() {
 	std::vector<Usuario> usuarios;
 	std::vector<Admin> admins;
 	std::vector<std::string> tipos;
+	int countId = 0;
 	do {
 		std::cout << "1- Login\n2- Cadastrar\n3- Sair\nDigite a opcao: ";
 		std::cin >> Opc;
 		switch (Opc) {
 		case 1:
-			Login(&usuarios, &admins);
+			Login(&usuarios, &admins, &countId);
 			break;
 		case 2:
 			Cadastrar(&usuarios, &admins, false);
