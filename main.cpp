@@ -82,9 +82,8 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 	}
 }
 void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, int* countId, std::vector<Anuncio*>* anuncios) {
-	int opc1, opc2, id, num;
+	int opc1, opc2, id;
 	std::string str1, str2;
-	std::vector<std::string> strs;
 	if (isAdmin) {
 		std::cout << "1- Area do comprador\n2- Area do vendedor\n3- Area do admininstrador\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
 	}
@@ -140,11 +139,7 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 			std::cin >> opc2;
 			switch (opc2) {
 			case 1:
-				std::cout << "Digite o nome do produto: ";
-				std::cin >> str1;
-				std::cout << "Digite a descricao do produto (sem espacos, use '_'): ";
-				std::cin >> str2;
-				std::cout << "Digite quantos tipos (tagnames)";
+				NovoAnuncio(usuario, countId);
 				break;
 			default:
 				std::cout << "Opcao invalida!" << std::endl;
@@ -192,6 +187,65 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 			std::cout << "Opcao invalida!" << std::endl;
 		}
 	} while (opc1 != 6);
+}
+void NovoAnuncio(Usuario* usuario, int* countId) {
+	int num;
+	float preco;
+	std::string str1, str2, str3, str4;
+	std::vector<std::string> strs;
+	std::cout << "Digite o nome do produto: ";
+	std::cin >> str1;
+	std::cout << "Digite a descricao do produto (sem espacos, use '_'): ";
+	std::cin >> str2;
+	do {
+		std::cout << "Digite quantos tipos (tagnames) o seu produto vai ter: ";
+		std::cin >> num;
+		if (num <= 0) {
+			std::cout << "Opcao invalida!" << std::endl;
+			str4 = "n";
+		}
+		else {
+			for (int i = 0; i < num; i++) {
+				std::cout << "Digite um tipo: ";
+				std::cin >> str3;
+				strs.push_back(str3);
+			}
+			std::cout << "Tipos: " << std::endl;
+			for (int i = 0; i < strs.size(); i++) {
+				if (strs.at(i) == strs.back()) {
+					std::cout << strs.at(i) << std::endl;
+				}
+				else {
+					std::cout << strs.at(i) << " ,";
+				}
+			}
+			do {
+				std::cout << "Os tipos estao certos e digitados corretamente? (s/n): ";
+				std::cin >> str4;
+				if (str4 != "n" && str4 != "s") {
+					std::cout << "Opcao invalida!" << std::endl;
+				}
+			} while (str4 != "n" && str4 != "s");
+		}
+	} while (str4 == "n");
+	Produto produto;
+	std::cout << "Digite o titulo do anuncio: ";
+	std::cin >> str1;
+	do {
+		std::cout << "Digite quantos produtos voce tem disponivel: ";
+		std::cin >> num;
+		if (num < 0) {
+			std::cout << "Valor invalido!" << std::endl;
+		}
+	} while (num < 0);
+	do {
+		std::cout << "Digite o preco do produto (0 para gratuito): ";
+		std::cin >> preco;
+		if (preco < 0) {
+			std::cout << "Valor invalido!" << std::endl;
+		}
+	} while (preco < 0);
+	//usuario->criarAnuncio(produto, str1, num, preco, countId);
 }
 int main() {
 	int Opc;
