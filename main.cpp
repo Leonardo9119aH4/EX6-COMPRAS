@@ -340,7 +340,7 @@ void ViewAnuncio(std::vector<Anuncio*>* anuncios) {
 		std::cout << "Anuncio nao encontrado" << std::endl;
 	}
 }
-void VerCarrinho(Usuario* usuario) {
+void VerCarrinho(Usuario* usuario) { //parei aqui
 	std::vector<Compra>* compras = usuario->getCompras();
 	bool existe;
 	for (int i = 0; i < compras->size(); i++) {
