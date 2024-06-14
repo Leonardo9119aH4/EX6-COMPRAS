@@ -23,6 +23,7 @@ Usuario::Usuario(std::string _login, std::string _email, std::string _telefone, 
 	cpf = _cpf;
 	senha = _senha;
 	tempoDeBanimento = 0;
+	counterIdCompra = 0;
 }
 
 bool Usuario::deletarAnuncio(int _id) {
@@ -42,14 +43,23 @@ std::vector<Compra>* Usuario::getCompras() {
 	return &compras;
 }
 
-bool Usuario::adicionarAoCarrinho(Compra* anuncioCompras) {
-	auto i = std::find(compras.begin(), compras.end(), anuncioCompras);
-	if (i > compras.end()) {
+bool Usuario::adicionarAoCarrinho(Anuncio anuncioCompra, std::string endereco, int* counterIdcompra) {
+	Compra compra = Compra(endereco, &anuncioCompra, counterIdcompra);
+	++counterIdCompra;
+	compras.push_back(compra);
+	return true;
+}
+
+bool Usuario::removerDoCarrinho(Compra* compra) {
+	if (compra->getStatus() == 2 || compra->getStatus() == 5) {
 		return false;
 	}
-	anuncioCompras->setStatus(1);
-	compras.push_back(anuncioCompras);
-	return true;
+	else {
+		auto i = std::find(compras.begin(), compras.end(), compra);
+		int i2 = std::distance(compras.begin(), i);
+		compras.erase(compras.begin(), i);
+		return true;
+	}
 }
 
 bool Usuario::desfavoritarAnuncio(Anuncio anuncioFavorito) {
@@ -61,13 +71,8 @@ bool Usuario::desfavoritarAnuncio(Anuncio anuncioFavorito) {
 	return true;
 }
 
-bool Usuario::comprar(Compra *anuncioCompra, bool avista, char opc, int pagamento, int parcelas) {
-	char opc;
-	int pagamento;
-	int parcelas;
-	bool avista;
-	compras.push_back(anuncioCompra);
-	anuncioCompra->setStatus(1);
+bool Usuario::comprar(Compra* compra, bool avista, char opc, int pagamento, int parcelas) {
+	compra->setStatus(2);
 	return true;
 }
 
@@ -106,6 +111,11 @@ void Usuario::setSenha(std::string _senha) {
 void Usuario::setEndereco(std::string _endereco) {
 	endereco = _endereco;
 }
+
+std::vector<Anuncio*> Usuario::getFavoritos() {
+	return favoritos;
+}
+
 #endif
 
 /*
