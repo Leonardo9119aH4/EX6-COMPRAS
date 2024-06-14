@@ -9,10 +9,11 @@ public:
 	virtual ~Usuario() = default;
 	Anuncio* criarAnuncio(Produto produto, std::string _titulo, int _disponibilidade, float _preco, int* _id, std::vector<std::string> _tipo);
 	bool deletarAnuncio(int _id);
-	bool comprar(Compra *anuncioCompra, bool avista, char opc, int pagamento, int parcelas);
+	bool comprar(Compra* compra, bool avista, char opc, int pagamento, int parcelas);
 	bool cancelarCompra(Compra *compraCancelar);
 	bool favoritar(Anuncio *anuncioFavoritar);
-	bool adicionarAoCarrinho(Compra *anuncioCompras);
+	bool adicionarAoCarrinho(Anuncio anuncioComrpa, std::string endereco, int* counterIdCompra);
+	bool removerDoCarrinho(Compra* compra);
 	bool desfavoritarAnuncio(Anuncio anuncioFavorito);
 	std::vector<Compra>* getCompras();
 	std::string getEmail();
@@ -20,6 +21,7 @@ public:
 	std::string getEndereco();
 	std::string getCpf();
 	std::string getSenha();
+	std::vector<Anuncio*> getFavoritos();
 	std::vector<Anuncio>* getAnuncios();
 	void setSenha(std::string _senha);
 	void setEndereco(std::string _endereco);
@@ -33,6 +35,7 @@ protected:
 	std::string cpf;
 	std::vector<Anuncio*> favoritos;
 	std::vector<Compra> compras;
+	int counterIdCompra;
 private:
 	std::string senha;
 };

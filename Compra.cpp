@@ -1,11 +1,13 @@
 #include <iostream>
 #include <vector>
 #include "Compra.hpp"
-Compra::Compra(std::string _entrega, Anuncio* _anuncio) {
+Compra::Compra(std::string _entrega, Anuncio* _anuncio, int* counter) {
 	entrega = _entrega;
 	anuncio = _anuncio;
 	valor = anuncio->preco + 20; //sao 20 reais de frete
 	status = 1;
+	id = *counter;
+	counter++;
 	dataCompra = std::time(nullptr);
 	dataEntrega = dataCompra + 60 * 60 * 24 * 5;
 }
