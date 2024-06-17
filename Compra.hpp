@@ -16,6 +16,7 @@ public:
 	void setStatus(int Status);
 	int getPagamento();
 	float getValor();
+	int getId();
 	float Parcelar(int vezes);
 	void Pagar(int _pagamento);
 	bool Cancelar();

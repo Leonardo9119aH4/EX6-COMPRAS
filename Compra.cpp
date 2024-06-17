@@ -17,6 +17,9 @@ Anuncio* Compra::getAnuncio(){
 std::string Compra::getEntrega() {
 	return entrega;
 }
+int Compra::getId() {
+	return id;
+}
 void Compra::setEntrega(std::string _entrega) {
 	entrega = _entrega;
 }
