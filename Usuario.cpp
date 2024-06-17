@@ -43,8 +43,8 @@ std::vector<Compra>* Usuario::getCompras() {
 	return &compras;
 }
 
-bool Usuario::adicionarAoCarrinho(Anuncio anuncioCompra, std::string endereco) {
-	Compra compra = Compra(endereco, &anuncioCompra, counterIdCompra);
+bool Usuario::adicionarAoCarrinho(Anuncio* anuncioCompra, std::string endereco) {
+	Compra compra(endereco, anuncioCompra, counterIdCompra);
 	++counterIdCompra;
 	compras.push_back(compra);
 	return true;
@@ -71,13 +71,16 @@ bool Usuario::desfavoritar(Anuncio* anuncioFavorito) {
 	return true;
 }
 
-bool Usuario::comprar(bool avista, char opc, int pagamento, int parcelas) {
+bool Usuario::comprar(int pagamento, int parcelas) {
 	if (compras.size() == 0) {
 		return false;
 	}
 	for (int i = 0; i < compras.size(); i++) {
 		compras.at(i).setStatus(2);
-		compras.at(i).set
+		compras.at(i).setPagamento(pagamento);
+		if (pagamento == 5 || pagamento == 6) {
+			compras.at(i).setParcelas(parcelas);
+		}
 	}
 	return true;
 }
