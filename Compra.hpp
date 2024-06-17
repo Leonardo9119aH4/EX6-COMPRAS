@@ -7,15 +7,15 @@
 #define COMPRA_HPP
 class Compra {
 public:
-	Compra(std::string entrega, Anuncio* _anuncio, int* counter);
+	Compra(std::string entrega, Anuncio* _anuncio, int counter) {};
 	~Compra() {};
 	Anuncio* getAnuncio();
 	std::string getEntrega();
 	void setEntrega(std::string _entrega);
 	int getStatus();
 	void setStatus(int Status);
-	void setParcelas(int parcelas);
-	void setPagamento
+	void setParcelas(int _parcelas);
+	void setPagamento(int _pagamento);
 	int getPagamento();
 	float getValor();
 	int getId();

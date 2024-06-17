@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "Compra.hpp"
+
 Compra::Compra(std::string _entrega, Anuncio* _anuncio, int* counter) {
 	entrega = _entrega;
 	anuncio = _anuncio;
@@ -11,30 +12,39 @@ Compra::Compra(std::string _entrega, Anuncio* _anuncio, int* counter) {
 	dataCompra = std::time(nullptr);
 	dataEntrega = dataCompra + 60 * 60 * 24 * 5;
 }
+
 Anuncio* Compra::getAnuncio(){
 	return anuncio;
 }
+
 std::string Compra::getEntrega() {
 	return entrega;
 }
+
 int Compra::getId() {
 	return id;
 }
+
 void Compra::setEntrega(std::string _entrega) {
 	entrega = _entrega;
 }
+
 int Compra::getStatus() {
 	return status;
 }
+
 void Compra::setStatus(int _status) {
 	status = _status;
 }
+
 int Compra::getPagamento() {
 	return pagamento;
 }
+
 float Compra::getValor() {
 	return valor;
 }
+
 float Compra::Parcelar(int vezes) {
 	float parcela = valor / vezes;
 	parcela += parcela * 0.03;
@@ -45,6 +55,7 @@ void Compra::Pagar(int _pagamento) {
 	pagamento = _pagamento;
 	status = 2;
 }
+
 bool Compra::Cancelar() {
 	if (status == 1 || status == 2) {
 		status == 4;
@@ -52,6 +63,7 @@ bool Compra::Cancelar() {
 	}
 	return false;
 }
+
 bool Compra::Devolver(std::string _entrega) {
 	if (status == 3) {
 		entrega = _entrega;
@@ -61,7 +73,11 @@ bool Compra::Devolver(std::string _entrega) {
 	}
 	return false;
 }
+
 void Compra::setParcelas(int _parcelas) {
 	parcelas = _parcelas;
 }
-void Compra::set
+
+void Compra::setPagamento(int _pagamento) {
+	pagamento = _pagamento;
+}
