@@ -351,8 +351,11 @@ void VerCarrinho(Usuario* usuario) {
 		}
 	}
 }
-void Comprar(Usuario* usuario) {
+void ComprarTudo(Usuario* usuario) {
+	std::vector<Compra>* compras = usuario->getCompras();
 	std::string str1;
+	float valorCount=0;
+	int opc, parcelas;
 	do {
 		std::cout << "ATENCAO! Todos os itens no carrinho serao comprados. Certo? (s/n): ";
 		std::cin >> str1;
@@ -363,7 +366,44 @@ void Comprar(Usuario* usuario) {
 			std::cout << "Opcao invalida" << std::endl;
 		}
 	} while (str1 != "s" && str1 != "n");
-	
+	do {
+		std::cout << "1- Boleto a vista\n2- Pix a vista\n3- Credito a vista\n4- Debito a vista\n5- Credito a prazo\n6- Debito a prazo\nQual forma de pagamento? ";
+		std::cin >> opc;
+		if (opc != 1 && opc != 2 && opc != 3 && opc != 4 && opc != 5 && opc != 6) {
+			std::cout << "Opcao invalida!" << std::endl;
+		}
+	} while (opc != 1 && opc != 2 && opc != 3 && opc != 4 && opc != 5 && opc != 6);
+	if (opc == 5 || opc == 6) {
+		do {
+			std::cout << "Digite em quantas vezes voce quer parcelar: ";
+			std::cin >> parcelas;
+			if (parcelas == 1) {
+				std::cout << "Voce eh burro? Por que vai parcelar em uma vez em vez de pagar a vista?" << std::endl;
+			}
+			if (parcelas <= 0) {
+				std::cout << "Valor invalido!" << std::endl;
+			}
+		} while (parcelas < 2);
+		for (int i = 0; i < compras->size(); i++) {
+			valorCount = +compras->at(i).Parcelar(parcelas);
+		}
+		do {
+			std::cout << "Cada parcelar custara R$" << valorCount << ", prossegue? (s/n): ";
+			std::cin >> str1;
+			if (str1 == "n") {
+				return;
+			}
+			if (str1 != "n" && str1 != "s") {
+				std::cout << "Opcao invalida" << std::endl;
+			}
+		} while (str1 != "s" && str1 != "n");
+		usuario->comprar();
+	}
+	else {
+		for (int i = 0; i < compras->size(); i++) {
+			valorCount += compras->at(i).getValor();
+		}
+	}
 	
 }
 int main() {
