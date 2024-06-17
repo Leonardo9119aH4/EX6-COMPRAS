@@ -8,7 +8,7 @@ public:
 	Anuncio(std::string _titulo, int _disponibilidade, float _preco, int* _id, Produto _produto);
 	~Anuncio() {};
 	bool operator==(Anuncio other) {
-		bool isEqual = (this->titulo == other.titulo) && (this->disponibilidade == other.disponibilidade) && (this->preco == other.preco) && (this->produto == other.produto);
+		bool isEqual = (this->titulo == other.titulo) && (this->disponibilidade == other.disponibilidade) && (this->preco == other.preco) && produto.operator==(other.produto);
 		return isEqual;
 	};
 	std::string titulo;
