@@ -101,7 +101,7 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 	do {
 		switch (opc1) {
 		case 1:
-			std::cout << "1- Buscar por categoria\n2- Visualizar anuncio\n3- Favoritar um anuncio\n4- Desfavoritar um anuncio\n5- Listar favoritos\n6- Adicionar um produto ao carrinho\n7- Comprar\n8- Remover um produto do carrinho\n9- Ver compras\n10- Cancelar uma compra\n11- Devolver um produto";
+			std::cout << "1- Buscar por categoria\n2- Visualizar anuncio\n3- Favoritar um anuncio\n4- Desfavoritar um anuncio\n5- Listar favoritos\n6- Adicionar um produto ao carrinho\n7- Ver carrinho\n8- Comprar\n9- Remover um produto do carrinho\n10- Ver compras\n11- Cancelar uma compra\n12- Devolver um produto";
 			std::cin >> opc2;
 			switch (opc2) {
 			case 1:
@@ -170,7 +170,7 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 				}
 				break;
 			case 7:
-
+				VerCarrinho(usuario);
 				break;
 			case 8:
 				break;
@@ -338,6 +338,15 @@ void ViewAnuncio(std::vector<Anuncio*>* anuncios) {
 	}
 	if (!existe) {
 		std::cout << "Anuncio nao encontrado" << std::endl;
+	}
+}
+void VerCarrinho(Usuario* usuario) { //parei aqui
+	std::vector<Compra>* compras = usuario->getCompras();
+	bool existe;
+	for (int i = 0; i < compras->size(); i++) {
+		if (compras->at(i).getStatus() == 1) {
+			std::cout << "Compra do produto: " << compras->at(i).getAnuncio()->produto.nome << ", ID de anuncio: " << compras->at(i).getAnuncio()->id << ", ID da compra: " << compras->at(i).getId() << std::endl;
+		}
 	}
 }
 int main() {
