@@ -134,8 +134,7 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 				boolAux = false;
 				for (int i = 0; i < anuncios->size(); i++) {
 					if (anuncios->at(i)->id == id) {
-						//usuario->desfavoritar(anuncios->at(i));
-						boolAux = true;
+						boolAux = usuario->desfavoritar(anuncios->at(i));
 						break;
 					}
 				}
@@ -143,11 +142,13 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 					std::cout << "Anuncio desfavoritado com exito" << std::endl;
 				}
 				else {
-					std::cout << "Anuncio nao encontrado" << std::endl;
+					std::cout << "Anuncio inexistente ou nao favoritado" << std::endl;
 				}
 				break;
 			case 5:
-				//for(int i=0; i<usuario->getFavoritos().size(); i++)
+				for (int i = 0; i < usuario->getFavoritos().size(); i++) {
+					std::cout << "Titulo do anuncio: " << usuario->getFavoritos().at(i)->titulo << ", comprando o produto: " << usuario->getFavoritos().at(i)->produto.nome << ", ID de anuncio: " << usuario->getFavoritos().at(i)->id << std::endl;
+				}
 				break;
 			case 6:
 				std::cout << "Digite o ID do anuncio a ser adicionado no carrinho: ";
@@ -157,7 +158,7 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 					if (anuncios->at(i)->id == id) {
 						std::cout << "Digite o endereco de entrega: ";
 						std::cin >> str1;
-						//usuario->adicionarAoCarrinho()
+						usuario->adicionarAoCarrinho(anuncios->at(i), str1);
 						boolAux = true;
 						break;
 					}
@@ -173,6 +174,7 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 				VerCarrinho(usuario);
 				break;
 			case 8:
+				
 				break;
 			case 9:
 				break;
@@ -293,7 +295,7 @@ void NovoAnuncio(Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios
 			} while (str4 != "n" && str4 != "s");
 		}
 	} while (str4 == "n");
-	Produto produto;
+	Produto produto(str1, str2, strs);
 	std::cout << "Digite o titulo do anuncio: ";
 	std::cin >> str1;
 	do {
@@ -310,7 +312,7 @@ void NovoAnuncio(Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios
 			std::cout << "Valor invalido!" << std::endl;
 		}
 	} while (preco < 0);
-	//anuncio = usuario->criarAnuncio(produto, str1, num, preco, countId);
+	anuncio = usuario->criarAnuncio(produto, str1, num, preco, countId);
 	anuncios->push_back(anuncio); //salva o ponteiro do anuncio dentro de usuario
 	std::cout << "Anuncio craido com exito!" << std::endl;
 }
@@ -340,7 +342,7 @@ void ViewAnuncio(std::vector<Anuncio*>* anuncios) {
 		std::cout << "Anuncio nao encontrado" << std::endl;
 	}
 }
-void VerCarrinho(Usuario* usuario) { //parei aqui
+void VerCarrinho(Usuario* usuario) { 
 	std::vector<Compra>* compras = usuario->getCompras();
 	bool existe;
 	for (int i = 0; i < compras->size(); i++) {
@@ -348,6 +350,21 @@ void VerCarrinho(Usuario* usuario) { //parei aqui
 			std::cout << "Compra do produto: " << compras->at(i).getAnuncio()->produto.nome << ", ID de anuncio: " << compras->at(i).getAnuncio()->id << ", ID da compra: " << compras->at(i).getId() << std::endl;
 		}
 	}
+}
+void Comprar(Usuario* usuario) {
+	std::string str1;
+	do {
+		std::cout << "ATENCAO! Todos os itens no carrinho serao comprados. Certo? (s/n): ";
+		std::cin >> str1;
+		if (str1 == "n") {
+			return;
+		}
+		if (str1 != "n" && str1 != "s") {
+			std::cout << "Opcao invalida" << std::endl;
+		}
+	} while (str1 != "s" && str1 != "n");
+	
+	
 }
 int main() {
 	int Opc;

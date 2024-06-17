@@ -62,7 +62,7 @@ bool Usuario::removerDoCarrinho(Compra* compra) {
 	}
 }
 
-bool Usuario::desfavoritarAnuncio(Anuncio anuncioFavorito) {
+bool Usuario::desfavoritar(Anuncio* anuncioFavorito) {
 	auto i = std::find(favoritos.begin(), favoritos.end(), anuncioFavorito);
 	if (i > favoritos.end()) {
 		return false;

@@ -14,7 +14,7 @@ public:
 	bool favoritar(Anuncio *anuncioFavoritar);
 	bool adicionarAoCarrinho(Anuncio anuncioComrpa, std::string endereco, int* counterIdCompra);
 	bool removerDoCarrinho(Compra* compra);
-	bool desfavoritarAnuncio(Anuncio anuncioFavorito);
+	bool desfavoritar(Anuncio* anuncioFavorito);
 	std::vector<Compra>* getCompras();
 	std::string getEmail();
 	std::string getTelefone();
