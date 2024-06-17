@@ -61,3 +61,7 @@ bool Compra::Devolver(std::string _entrega) {
 	}
 	return false;
 }
+void Compra::setParcelas(int _parcelas) {
+	parcelas = _parcelas;
+}
+void Compra::set
