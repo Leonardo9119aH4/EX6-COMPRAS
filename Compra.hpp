@@ -14,6 +14,8 @@ public:
 	void setEntrega(std::string _entrega);
 	int getStatus();
 	void setStatus(int Status);
+	void setParcelas(int parcelas);
+	void setPagamento
 	int getPagamento();
 	float getValor();
 	int getId();
