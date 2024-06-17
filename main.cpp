@@ -105,7 +105,7 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 			std::cin >> opc2;
 			switch (opc2) {
 			case 1:
-
+				pesquisar(anuncios);
 				break;
 			case 2:
 				ViewAnuncio(anuncios);
@@ -174,7 +174,7 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 				VerCarrinho(usuario);
 				break;
 			case 8:
-				
+				ComprarTudo(usuario);
 				break;
 			case 9:
 				break;
@@ -193,7 +193,7 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 			case 2:
 				std::cout << "Digite o ID do anuncio a ser deletado: ";
 				std::cin >> id;
-				//usuario->deletarAnuncio(countId);
+				usuario->deletarAnuncio(id);
 				for (int i = 0; i < anuncios->size(); i++) {
 					if (anuncios->at(i)->id == id) {
 						anuncios->erase(anuncios->begin()+i);
@@ -201,10 +201,8 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 				}
 				break;
 			case 3:
-				std::vector<Anuncio>* usuarioAnuncios;
-				//usuarioAnuncios = usuario->getAnuncios();
-				for (int i = 0; i < usuarioAnuncios->size(); i++) {
-					std::cout << "Anuncio " << usuarioAnuncios->at(i).titulo << ", sob ID" << usuarioAnuncios->at(i).id;
+				for (int i = 0; i < usuario->getAnuncios()->size(); i++) {
+					std::cout << "Anuncio " << usuario->getAnuncios()->at(i).titulo << ", sob ID" << usuario->getAnuncios()->at(i).id << "Com o produto " << usuario->getAnuncios()->at(i).produto.nome << std::endl;
 				}
 				break;
 			default:
@@ -241,7 +239,7 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 			if (usuario->getSenha() == str1) {
 				std::cout << "Digite a nova senha: ";
 				std::cin >> str1;
-				//usuario->setSenha(str);
+				usuario->setSenha(str);
 			}
 			else {
 				std::cout << "Senha incorreta!" << std::endl;
@@ -397,12 +395,23 @@ void ComprarTudo(Usuario* usuario) {
 				std::cout << "Opcao invalida" << std::endl;
 			}
 		} while (str1 != "s" && str1 != "n");
-		usuario->comprar();
+		usuario->comprar(opc, parcelas);
 	}
 	else {
 		for (int i = 0; i < compras->size(); i++) {
 			valorCount += compras->at(i).getValor();
 		}
+		do {
+			std::cout << "Voce pagara " << valorCount << ", prossegue? (s/n): ";
+			std::cin >> str1;
+			if (str1 == "n") {
+				return;
+			}
+			if (str1 != "n" && str1 != "s") {
+				std::cout << "Opcao invalida" << std::endl;
+			}
+		} while (str1 != "s" && str1 != "n");
+		usuario->comprar(opc, -1); //o pagamento eh a vista
 	}
 	
 }
