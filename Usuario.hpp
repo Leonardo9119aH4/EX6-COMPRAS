@@ -2,10 +2,12 @@
 #include <vector>
 #include "Anuncio.hpp"
 #include "Compra.hpp"
+#ifndef USUARIO_HPP_
+#define USUARIO_HPP_
 
 class Usuario {
 public:
-	Usuario(std::string _login, std::string _email, std::string _telefone, std::string _endereco, std::string _cpf, std::string _senha);
+	Usuario(std::string _login, std::string _email, std::string _telefone, std::string _endereco, std::string _cpf, std::string _senha) {};
 	virtual ~Usuario() = default;
 	Anuncio* criarAnuncio(Produto produto, std::string _titulo, int _disponibilidade, float _preco, int* _id, std::vector<std::string> _tipo);
 	bool deletarAnuncio(int _id);
@@ -38,3 +40,4 @@ protected:
 	int counterIdCompra;
 	std::string senha;
 };
+#endif
