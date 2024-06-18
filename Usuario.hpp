@@ -2,6 +2,8 @@
 #include <vector>
 #include "Anuncio.hpp"
 #include "Compra.hpp"
+#ifndef USUARIO_HPP_
+#define USUARIO_HPP_
 
 class Usuario {
 public:
@@ -38,3 +40,4 @@ protected:
 	int counterIdCompra;
 	std::string senha;
 };
+#endif
