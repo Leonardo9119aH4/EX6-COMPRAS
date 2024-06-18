@@ -4,6 +4,7 @@
 #define PRODUTO_HPP
 class Produto {
 public:
+	Produto();
 	Produto(std::string _nome, std::string _descricao, std::vector<std::string> _tipos);
 	~Produto();
 	bool operator==(Produto _produto) {
