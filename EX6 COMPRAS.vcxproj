@@ -131,7 +131,7 @@
     <ClCompile Include="Anuncio.cpp" />
     <ClCompile Include="Compra.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Pesquisa.cpp" />
+    <ClCompile Include="Operacoes.cpp" />
     <ClCompile Include="Produto.cpp" />
     <ClCompile Include="Usuario.cpp" />
   </ItemGroup>
@@ -139,7 +139,7 @@
     <ClInclude Include="Admin.hpp" />
     <ClInclude Include="Anuncio.hpp" />
     <ClInclude Include="Compra.hpp" />
-    <ClInclude Include="Pesquisa.hpp" />
+    <ClInclude Include="Operacoes.hpp" />
     <ClInclude Include="Produto.hpp" />
     <ClInclude Include="Usuario.hpp" />
   </ItemGroup>
