@@ -1,5 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <chrono>
+#include <ctime>
+#include "Anuncio.hpp"
 #include "Compra.hpp"
 
 Compra::Compra(std::string _entrega, Anuncio* _anuncio, int* counter) {
@@ -58,7 +61,7 @@ void Compra::Pagar(int _pagamento) {
 
 bool Compra::Cancelar() {
 	if (status == 1 || status == 2) {
-		status == 4;
+		status = 4;
 		return true;
 	}
 	return false;
