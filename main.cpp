@@ -12,6 +12,8 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, int* countId, std::vector<Anuncio*>* anuncios);
 void NovoAnuncio(Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios);
 void ViewAnuncio(std::vector<Anuncio*>* anuncios);
+void VerCarrinho(Usuario* usuario);
+void ComprarTudo(Usuario* usuario);
 
 void Cadastrar(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, bool cadAdmin) {
 	bool conflito=false;
@@ -239,7 +241,7 @@ void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, 
 			if (usuario->getSenha() == str1) {
 				std::cout << "Digite a nova senha: ";
 				std::cin >> str1;
-				usuario->setSenha(str);
+				usuario->setSenha(str1);
 			}
 			else {
 				std::cout << "Senha incorreta!" << std::endl;
@@ -310,7 +312,7 @@ void NovoAnuncio(Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios
 			std::cout << "Valor invalido!" << std::endl;
 		}
 	} while (preco < 0);
-	anuncio = usuario->criarAnuncio(produto, str1, num, preco, countId);
+	anuncio = usuario->criarAnuncio(produto, str1, num, preco, countId, strs);
 	anuncios->push_back(anuncio); //salva o ponteiro do anuncio dentro de usuario
 	std::cout << "Anuncio craido com exito!" << std::endl;
 }
