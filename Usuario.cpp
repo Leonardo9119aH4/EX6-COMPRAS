@@ -44,8 +44,7 @@ std::vector<Compra>* Usuario::getCompras() {
 }
 
 bool Usuario::adicionarAoCarrinho(Anuncio* anuncioCompra, std::string endereco) {
-	Compra compra(endereco, anuncioCompra, counterIdCompra);
-	++counterIdCompra;
+	Compra compra(endereco, anuncioCompra, &counterIdCompra);
 	compras.push_back(compra);
 	return true;
 }
