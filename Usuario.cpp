@@ -2,8 +2,6 @@
 #include <vector>
 #include <algorithm>
 #include "Usuario.hpp"
-#ifndef USUARIO_HPP_
-#define USUARIO_HPP_
 
 Anuncio* Usuario::criarAnuncio(Produto _produto, std::string _titulo, int _disponibilidade, float _preco, int* _id, std::vector<std::string> _tipo) {
 	Anuncio novoAnuncio = Anuncio(_titulo, _disponibilidade, _preco, _id, _produto);
@@ -123,8 +121,6 @@ void Usuario::setEndereco(std::string _endereco) {
 std::vector<Anuncio*> Usuario::getFavoritos() {
 	return favoritos;
 }
-
-#endif
 
 /*
 1 - boleto vista
