@@ -2,7 +2,8 @@
 #include <vector>
 #include <chrono>
 #include "Usuario.hpp"
-
+#ifndef ADMIN_HPP
+#define ADMIN_HPP
 
 class Admin : public Usuario {
 public:
@@ -12,3 +13,4 @@ public:
 	bool unbanUsuario(Usuario* usuarioDesbanir);
 	bool excluirAnuncio(Anuncio* anuncioDeletar);
 };
+#endif
