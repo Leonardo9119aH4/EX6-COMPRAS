@@ -7,10 +7,12 @@ Anuncio* Usuario::criarAnuncio(Produto _produto, std::string _titulo, int _dispo
 	Anuncio novoAnuncio = Anuncio(_titulo, _disponibilidade, _preco, _id, _produto);
 	novoAnuncio.produto = _produto;
 	anuncios.push_back(novoAnuncio);
-	auto i = std::find(anuncios.begin(), anuncios.end(), novoAnuncio);
-	int j = std::distance(anuncios.begin(), i);
-	Anuncio* novoNovoAnuncio = &anuncios.at(j);
-	return novoNovoAnuncio;
+	for (int i = 0; i <= anuncios.size(); i++) {
+		if (anuncios.at(i).operator==(&novoAnuncio)) {
+			Anuncio* novoNovoAnuncio = &anuncios.at(i);
+			return novoNovoAnuncio;
+		}
+	}
 }
 
 Usuario::Usuario(std::string _login, std::string _email, std::string _telefone, std::string _endereco, std::string _cpf, std::string _senha) {
@@ -52,10 +54,13 @@ bool Usuario::removerDoCarrinho(Compra* compra) {
 		return false;
 	}
 	else {
-		auto i = std::find(compras.begin(), compras.end(), compra);
-		int i2 = std::distance(compras.begin(), i);
-		compras.erase(compras.begin(), i);
-		return true;
+		for (int i = 0; i < compras.size(); i++) {
+			if (compras.at(i).operator==(*compra)) {
+				compras.erase(compras.begin() + i);
+				return true;
+			}
+		}
+		return false;
 	}
 }
 
@@ -72,7 +77,7 @@ bool Usuario::comprar(int pagamento, int parcelas) {
 	if (compras.size() == 0) {
 		return false;
 	}
-	for (int i = 0; i < compras.size(); i++) {
+	for (int i = 0; i <= compras.size(); i++) {
 		compras.at(i).setStatus(2);
 		compras.at(i).setPagamento(pagamento);
 		if (pagamento == 5 || pagamento == 6) {
@@ -84,10 +89,12 @@ bool Usuario::comprar(int pagamento, int parcelas) {
 
 bool Usuario::cancelarCompra(Compra* compraCancelar) {
 	compraCancelar->setStatus(4);
+	return true;
 }
 
 bool Usuario::favoritar(Anuncio* anuncioFavoritar) {
 	favoritos.push_back(anuncioFavoritar);
+	return true;
 }
 
 std::string Usuario::getEmail() {
