@@ -151,7 +151,7 @@ void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, boo
 		case 5:
 			std::cout << "Digite o seu novo endereco: ";
 			std::cin >> str1;
-			//usuario->setEndereco(str1);
+			usuario->setEndereco(str1);
 			break;
 		case 6:
 			std::cout << "Digite a sua senha atual: ";
@@ -303,7 +303,7 @@ void Operacoes::ComprarTudo(Usuario* usuario) {
 			}
 		} while (parcelas < 2);
 		for (int i = 0; i < compras->size(); i++) {
-			valorCount = +compras->at(i).Parcelar(parcelas);
+			valorCount += compras->at(i).Parcelar(parcelas);
 		}
 		do {
 			std::cout << "Cada parcelar custara R$" << valorCount << ", prossegue? (s/n): ";

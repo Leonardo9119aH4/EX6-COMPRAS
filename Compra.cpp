@@ -48,6 +48,22 @@ float Compra::getValor() {
 	return valor;
 }
 
+int Compra::getParcelas() {
+	return parcelas;
+}
+
+time_t Compra::getDataCompra() {
+	return dataCompra;
+}
+
+time_t Compra::getDataEntrega() {
+	return dataEntrega;
+}
+
+time_t Compra::getDataDevolucao() {
+	return dataDevolucao;
+}
+
 float Compra::Parcelar(int vezes) {
 	float parcela = valor / vezes;
 	parcela += parcela * 0.03;
