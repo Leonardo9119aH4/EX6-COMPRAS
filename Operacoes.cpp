@@ -142,6 +142,17 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 		ComprarTudo(usuario);
 		break;
 	case 9:
+		std::cout << "Digite o ID da compra a ser deletada: ";
+		std::cin >> id;
+		for (int i = 0; i < usuario->getCompras()->size(); i++) {
+			if (usuario->getCompras()->at(i).getId() == id) {
+				usuario->removerDoCarrinho(&usuario->getCompras()->at(i));
+				break; //aqui
+			}
+		}
+		std::cout << "ID de compra nao encontrada!" << std::endl; //early break
+		break;
+	case 10:
 		break;
 	default:
 		std::cout << "Opcao invalida!" << std::endl;
@@ -333,6 +344,7 @@ void Operacoes::ComprarTudo(Usuario* usuario) {
 			}
 		} while (str1 != "s" && str1 != "n");
 		usuario->comprar(opc, parcelas);
+		std::cout << "Compra realizada com exito" << std::endl;
 	}
 	else {
 		for (int i = 0; i < compras->size(); i++) {
@@ -349,6 +361,7 @@ void Operacoes::ComprarTudo(Usuario* usuario) {
 			}
 		} while (str1 != "s" && str1 != "n");
 		usuario->comprar(opc, -1); //o pagamento eh a vista
+		std::cout << "Compra realizada com exito" << std::endl;
 	}
 
 }
@@ -381,5 +394,15 @@ void Operacoes::pesquisar(std::vector<Anuncio*>* anuncios) {
 				}
 			}
 		}
+	}
+}
+void Operacoes::ViewCompras(Usuario* usuario) {
+	std::vector<Compra>* compras = usuario->getCompras();
+	for (int i = 0; i < compras->size(); i++) {
+		switch(compras->at(i).getStatus())
+		case 2:
+			std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << compras->at(i).getDataCompra() << ", com data de entrega prevista "; //PAREI AQUI
+			break;
+
 	}
 }
