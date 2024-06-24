@@ -89,6 +89,7 @@ int main() {
 	std::vector<std::string> tipos;
 	std::vector<Anuncio*> anuncios;
 	int countIdAds = 0;
+	admins.push_back(Admin("ADMIN", "adm", "adm", "adm", "adm", "ADMIN"));
 	do {
 		std::cout << "1- Login\n2- Cadastrar\n3- Sair\nDigite a opcao: ";
 		std::cin >> Opc;

@@ -11,14 +11,14 @@ void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, boo
 	int opc1, opc2, id;
 	std::string str1, str2;
 	bool boolAux;
-	if (isAdmin) {
-		std::cout << "1- Area do comprador\n2- Area do vendedor\n3- Area do admininstrador\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
-	}
-	else {
-		std::cout << "1- Area do comprador\n2- Area do vendedor\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
-	}
-	std::cin >> opc1;
 	do {
+		if (isAdmin) {
+			std::cout << "1- Area do comprador\n2- Area do vendedor\n3- Area do admininstrador\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
+		}
+		else {
+			std::cout << "1- Area do comprador\n2- Area do vendedor\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
+		}
+		std::cin >> opc1;
 		switch (opc1) {
 		case 1:
 			std::cout << "1- Buscar por categoria\n2- Visualizar anuncio\n3- Favoritar um anuncio\n4- Desfavoritar um anuncio\n5- Listar favoritos\n6- Adicionar um produto ao carrinho\n7- Ver carrinho\n8- Comprar\n9- Remover um produto do carrinho\n10- Ver compras\n11- Cancelar uma compra\n12- Devolver um produto";
@@ -122,7 +122,7 @@ void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, boo
 				break;
 			case 3:
 				for (int i = 0; i < usuario->getAnuncios()->size(); i++) {
-					std::cout << "Anuncio " << usuario->getAnuncios()->at(i).titulo << ", sob ID" << usuario->getAnuncios()->at(i).id << "Com o produto " << usuario->getAnuncios()->at(i).produto.nome << std::endl;
+					std::cout << "Anuncio " << usuario->getAnuncios()->at(i).titulo << ", sob ID " << usuario->getAnuncios()->at(i).id << ", com o produto " << usuario->getAnuncios()->at(i).produto.nome << std::endl;
 				}
 				break;
 			default:
@@ -231,7 +231,7 @@ void Operacoes::NovoAnuncio(Usuario* usuario, int* countId, std::vector<Anuncio*
 		}
 	} while (preco < 0);
 	anuncio = usuario->criarAnuncio(produto, str1, num, preco, countId, strs);
-	anuncios->push_back(anuncio); //salva o ponteiro do anuncio dentro de usuario
+	anuncios->push_back(anuncio); //salva o ponteiro do anuncio no vetor global de ponteiros
 	std::cout << "Anuncio craido com exito!" << std::endl;
 }
 void Operacoes::ViewAnuncio(std::vector<Anuncio*>* anuncios) {

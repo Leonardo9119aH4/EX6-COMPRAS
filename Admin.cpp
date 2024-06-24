@@ -1,7 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <chrono>
-#include <ctime>
 #include "Admin.hpp"
 
 bool Admin::banirUsuario(Usuario* usuarioBanir, std::time_t _tempoDeBanimento) {
