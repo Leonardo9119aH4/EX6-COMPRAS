@@ -1,8 +1,7 @@
 #include "Usuario.hpp"
 
 Anuncio* Usuario::criarAnuncio(Produto _produto, std::string _titulo, int _disponibilidade, float _preco, int* _id, std::vector<std::string> _tipo) {
-	Anuncio novoAnuncio = Anuncio(_titulo, _disponibilidade, _preco, _id, _produto);
-	novoAnuncio.produto = _produto;
+	Anuncio novoAnuncio(_titulo, _disponibilidade, _preco, _id, _produto);
 	anuncios.push_back(novoAnuncio);
 	for (int i = 0; i <= anuncios.size(); i++) {
 		if (anuncios.at(i).operator==(&novoAnuncio)) {
