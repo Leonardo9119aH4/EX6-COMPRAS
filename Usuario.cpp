@@ -66,7 +66,8 @@ bool Usuario::desfavoritar(Anuncio* anuncioFavorito) {
 	if (i > favoritos.end()) {
 		return false;
 	}
-	favoritos.erase(favoritos.begin(), i);
+	int z = std::distance(favoritos.begin(), i);
+	favoritos.erase(favoritos.begin(), z);
 	return true;
 }
 
@@ -74,7 +75,7 @@ bool Usuario::comprar(int pagamento, int parcelas) {
 	if (compras.size() == 0) {
 		return false;
 	}
-	for (int i = 0; i <= compras.size(); i++) {
+	for (int i = 0; i < compras.size(); i++) {
 		compras.at(i).setStatus(2);
 		compras.at(i).setPagamento(pagamento);
 		if (pagamento == 5 || pagamento == 6) {
