@@ -8,9 +8,8 @@
 #include "Admin.hpp"
 #include "Operacoes.hpp"
 void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, int* countId, std::vector<Anuncio*>* anuncios) {
-	int opc1, opc2, id;
-	std::string str1, str2;
-	bool boolAux;
+	int opc;
+	std::string str;
 	do {
 		if (isAdmin) {
 			std::cout << "1- Area do comprador\n2- Area do vendedor\n3- Area do admininstrador\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
@@ -18,128 +17,17 @@ void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, boo
 		else {
 			std::cout << "1- Area do comprador\n2- Area do vendedor\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
 		}
-		std::cin >> opc1;
-		switch (opc1) {
+		std::cin >> opc;
+		switch (opc) {
 		case 1:
-			std::cout << "1- Buscar por categoria\n2- Visualizar anuncio\n3- Favoritar um anuncio\n4- Desfavoritar um anuncio\n5- Listar favoritos\n6- Adicionar um produto ao carrinho\n7- Ver carrinho\n8- Comprar\n9- Remover um produto do carrinho\n10- Ver compras\n11- Cancelar uma compra\n12- Devolver um produto";
-			std::cin >> opc2;
-			switch (opc2) {
-			case 1:
-				pesquisar(anuncios);
-				break;
-			case 2:
-				ViewAnuncio(anuncios);
-				break;
-			case 3:
-				std::cout << "Digite o ID do anuncio a ser favoritado: ";
-				std::cin >> id;
-				boolAux = false;
-				for (int i = 0; i < anuncios->size(); i++) {
-					if (anuncios->at(i)->id == id) {
-						usuario->favoritar(anuncios->at(i));
-						boolAux = true;
-						break;
-					}
-				}
-				if (boolAux) {
-					std::cout << "Anuncio favoritado com exito" << std::endl;
-				}
-				else {
-					std::cout << "Anuncio nao encontrado" << std::endl;
-				}
-				break;
-			case 4:
-				std::cout << "Digite o ID do anuncio a ser desfavoritado: ";
-				std::cin >> id;
-				boolAux = false;
-				for (int i = 0; i < anuncios->size(); i++) {
-					if (anuncios->at(i)->id == id) {
-						boolAux = usuario->desfavoritar(anuncios->at(i));
-						break;
-					}
-				}
-				if (boolAux) {
-					std::cout << "Anuncio desfavoritado com exito" << std::endl;
-				}
-				else {
-					std::cout << "Anuncio inexistente ou nao favoritado" << std::endl;
-				}
-				break;
-			case 5:
-				for (int i = 0; i < usuario->getFavoritos().size(); i++) {
-					std::cout << "Titulo do anuncio: " << usuario->getFavoritos().at(i)->titulo << ", comprando o produto: " << usuario->getFavoritos().at(i)->produto.nome << ", ID de anuncio: " << usuario->getFavoritos().at(i)->id << std::endl;
-				}
-				break;
-			case 6:
-				std::cout << "Digite o ID do anuncio a ser adicionado no carrinho: ";
-				std::cin >> id;
-				boolAux = false;
-				for (int i = 0; i < anuncios->size(); i++) {
-					if (anuncios->at(i)->id == id) {
-						std::cout << "Digite o endereco de entrega: ";
-						std::cin >> str1;
-						usuario->adicionarAoCarrinho(anuncios->at(i), str1);
-						boolAux = true;
-						break;
-					}
-				}
-				if (boolAux) {
-					std::cout << "Anuncio adicionado ao carrinho com exito" << std::endl;
-				}
-				else {
-					std::cout << "Anuncio nao entregado" << std::endl;
-				}
-				break;
-			case 7:
-				VerCarrinho(usuario);
-				break;
-			case 8:
-				ComprarTudo(usuario);
-				break;
-			case 9:
-				break;
-			default:
-				std::cout << "Opcao invalida!" << std::endl;
-				break;
-			}
+			AreaComprador(usuarios, usuario, countId, anuncios);
 			break;
 		case 2:
-			std::cout << "1- Criar anuncio\n2- Deletar um anuncio\n3- Listar anuncios\nDigite uma opcao: ";
-			std::cin >> opc2;
-			switch (opc2) {
-			case 1:
-				NovoAnuncio(usuario, countId, anuncios);
-				break;
-			case 2:
-				std::cout << "Digite o ID do anuncio a ser deletado: ";
-				std::cin >> id;
-				usuario->deletarAnuncio(id);
-				for (int i = 0; i < anuncios->size(); i++) {
-					if (anuncios->at(i)->id == id) {
-						anuncios->erase(anuncios->begin() + i);
-					}
-				}
-				break;
-			case 3:
-				for (int i = 0; i < usuario->getAnuncios()->size(); i++) {
-					std::cout << "Anuncio " << usuario->getAnuncios()->at(i).titulo << ", sob ID " << usuario->getAnuncios()->at(i).id << ", com o produto " << usuario->getAnuncios()->at(i).produto.nome << std::endl;
-				}
-				break;
-			default:
-				std::cout << "Opcao invalida!" << std::endl;
-			}
+			AreaVendedor(usuarios, usuario, countId, anuncios);
 			break;
 		case 3:
 			if (isAdmin) {
-				std::cout << "1- Listar usuarios\n2- Banir um usuario\n3- Desbanir um usuario\n4- Cadastrar um admininistrador\n5- Deletar um anuncio\nDigite uma opcao: ";
-				std::cin >> opc2;
-				switch (opc2) {
-				case 1:
-					break;
-				default:
-					std::cout << "Opcao invalida!" << std::endl;
-					break;
-				}
+				AreaAdmin(usuarios, usuario, countId, anuncios);
 			}
 			else {
 				std::cout << "Acesso negado" << std::endl;
@@ -150,16 +38,16 @@ void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, boo
 			break;
 		case 5:
 			std::cout << "Digite o seu novo endereco: ";
-			std::cin >> str1;
-			usuario->setEndereco(str1);
+			std::cin >> str;
+			usuario->setEndereco(str);
 			break;
 		case 6:
 			std::cout << "Digite a sua senha atual: ";
-			std::cin >> str1;
-			if (usuario->getSenha() == str1) {
+			std::cin >> str;
+			if (usuario->getSenha() == str) {
 				std::cout << "Digite a nova senha: ";
-				std::cin >> str1;
-				usuario->setSenha(str1);
+				std::cin >> str;
+				usuario->setSenha(str);
 			}
 			else {
 				std::cout << "Senha incorreta!" << std::endl;
@@ -167,11 +55,140 @@ void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, boo
 			break;
 		case 7:
 			std::cout << "Logout!" << std::endl;
+			break;
 		default:
 			std::cout << "Opcao invalida!" << std::endl;
+			break;
 		}
-	} while (opc1 != 6);
+	} while (opc != 7);
 }
+void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios) {
+	std::string str1, str2;
+	int opc, id;
+	bool boolAux;
+	std::cout << "1- Buscar por categoria\n2- Visualizar anuncio\n3- Favoritar um anuncio\n4- Desfavoritar um anuncio\n5- Listar favoritos\n6- Adicionar um produto ao carrinho\n7- Ver carrinho\n8- Comprar\n9- Remover um produto do carrinho\n10- Ver compras\n11- Cancelar uma compra\n12- Devolver um produto\nDigite uma opcao: ";
+	std::cin >> opc;
+	switch (opc) {
+	case 1:
+		pesquisar(anuncios);
+		break;
+	case 2:
+		ViewAnuncio(anuncios);
+		break;
+	case 3:
+		std::cout << "Digite o ID do anuncio a ser favoritado: ";
+		std::cin >> id;
+		boolAux = false;
+		for (int i = 0; i < anuncios->size(); i++) {
+			if (anuncios->at(i)->id == id) {
+				usuario->favoritar(anuncios->at(i));
+				boolAux = true;
+				break;
+			}
+		}
+		if (boolAux) {
+			std::cout << "Anuncio favoritado com exito" << std::endl;
+		}
+		else {
+			std::cout << "Anuncio nao encontrado" << std::endl;
+		}
+		break;
+	case 4:
+		std::cout << "Digite o ID do anuncio a ser desfavoritado: ";
+		std::cin >> id;
+		boolAux = false;
+		for (int i = 0; i < anuncios->size(); i++) {
+			if (anuncios->at(i)->id == id) {
+				boolAux = usuario->desfavoritar(anuncios->at(i));
+				break;
+			}
+		}
+		if (boolAux) {
+			std::cout << "Anuncio desfavoritado com exito" << std::endl;
+		}
+		else {
+			std::cout << "Anuncio inexistente ou nao favoritado" << std::endl;
+		}
+		break;
+	case 5:
+		for (int i = 0; i < usuario->getFavoritos().size(); i++) {
+			std::cout << "Titulo do anuncio: " << usuario->getFavoritos().at(i)->titulo << ", comprando o produto: " << usuario->getFavoritos().at(i)->produto.nome << ", ID de anuncio: " << usuario->getFavoritos().at(i)->id << std::endl;
+		}
+		break;
+	case 6:
+		std::cout << "Digite o ID do anuncio a ser adicionado no carrinho: ";
+		std::cin >> id;
+		boolAux = false;
+		for (int i = 0; i < anuncios->size(); i++) {
+			if (anuncios->at(i)->id == id) {
+				std::cout << "Digite o endereco de entrega: ";
+				std::cin >> str1;
+				usuario->adicionarAoCarrinho(anuncios->at(i), str1);
+				boolAux = true;
+				break;
+			}
+		}
+		if (boolAux) {
+			std::cout << "Anuncio adicionado ao carrinho com exito" << std::endl;
+		}
+		else {
+			std::cout << "Anuncio nao entregado" << std::endl;
+		}
+		break;
+	case 7:
+		VerCarrinho(usuario);
+		break;
+	case 8:
+		ComprarTudo(usuario);
+		break;
+	case 9:
+		break;
+	default:
+		std::cout << "Opcao invalida!" << std::endl;
+		break;
+	}
+}
+void Operacoes::AreaVendedor(std::vector<Usuario>* usuarios, Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios) {
+	int opc, id;
+	std::cout << "1- Criar anuncio\n2- Deletar um anuncio\n3- Listar anuncios\nDigite uma opcao: ";
+	std::cin >> opc;
+	switch (opc) {
+	case 1:
+		NovoAnuncio(usuario, countId, anuncios);
+		break;
+	case 2:
+		std::cout << "Digite o ID do anuncio a ser deletado: ";
+		std::cin >> id;
+		usuario->deletarAnuncio(id);
+		for (int i = 0; i < anuncios->size(); i++) {
+			if (anuncios->at(i)->id == id) {
+				anuncios->erase(anuncios->begin() + i);
+			}
+		}
+		break;
+	case 3:
+		for (int i = 0; i < usuario->getAnuncios()->size(); i++) {
+			std::cout << "Anuncio " << usuario->getAnuncios()->at(i).titulo << ", sob ID " << usuario->getAnuncios()->at(i).id << ", com o produto " << usuario->getAnuncios()->at(i).produto.nome << std::endl;
+		}
+		break;
+	default:
+		std::cout << "Opcao invalida!" << std::endl;
+		break;
+	}
+}
+void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios) {
+	int opc;
+	std::cout << "1- Listar usuarios\n2- Banir um usuario\n3- Desbanir um usuario\n4- Cadastrar um admininistrador\n5- Deletar um anuncio\nDigite uma opcao: ";
+	std::cin >> opc;
+	switch (opc) {
+	case 1:
+		break;
+	default:
+		std::cout << "Opcao invalida!" << std::endl;
+		break;
+	}
+}
+
 void Operacoes::NovoAnuncio(Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios) {
 	int num;
 	float preco;
@@ -237,7 +254,7 @@ void Operacoes::NovoAnuncio(Usuario* usuario, int* countId, std::vector<Anuncio*
 void Operacoes::ViewAnuncio(std::vector<Anuncio*>* anuncios) {
 	int id;
 	bool existe = false;
-	std::cout << "Digite o anuncio a ser exibido: ";
+	std::cout << "Digite o ID do anuncio a ser exibido: ";
 	std::cin >> id;
 	for (int i = 0; i < anuncios->size(); i++) {
 		if (anuncios->at(i)->id == id) {
@@ -338,7 +355,7 @@ void Operacoes::ComprarTudo(Usuario* usuario) {
 void Operacoes::pesquisar(std::vector<Anuncio*>* anuncios) {
 	char opc;
 	bool opcbool = false;
-	std::cout << "Voce deseja pesquisar por mais de uma tag? ";
+	std::cout << "Voce deseja pesquisar por mais de uma tag? (s/n):  ";
 	std::cin >> opc;
 	if (opc == 's' || opc == 'S') {
 		opcbool = true;
