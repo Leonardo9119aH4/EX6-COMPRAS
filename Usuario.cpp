@@ -67,7 +67,7 @@ bool Usuario::desfavoritar(Anuncio* anuncioFavorito) {
 		return false;
 	}
 	int z = std::distance(favoritos.begin(), i);
-	favoritos.erase(favoritos.begin(), z);
+	favoritos.erase(favoritos.begin() + z);
 	return true;
 }
 

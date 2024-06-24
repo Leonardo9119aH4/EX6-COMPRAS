@@ -18,5 +18,6 @@ namespace Operacoes {
 	void VerCarrinho(Usuario* usuario);
 	void ComprarTudo(Usuario* usuario);
 	void pesquisar(std::vector<Anuncio*>* anuncios);
+	void ViewCompras(Usuario* usuario);
 }
 #endif // !OPERACOES_HPP
