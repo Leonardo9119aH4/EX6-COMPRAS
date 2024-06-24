@@ -7,9 +7,8 @@
 #define COMPRA_HPP
 class Compra {
 public:
-
 	Compra(std::string entrega, Anuncio* _anuncio, int* counter);
-	~Compra();
+	~Compra() {};
 	bool operator==(Compra _compra) {
 		bool isEqual = (parcelas == _compra.getParcelas()) && (status == _compra.getStatus()) && (entrega == _compra.getEntrega()) && (pagamento == _compra.getPagamento()) && (valor == _compra.getValor()) && (id == _compra.getId()) && (dataCompra == _compra.getDataCompra()) && (anuncio->operator==(_compra.anuncio));
 		return isEqual;

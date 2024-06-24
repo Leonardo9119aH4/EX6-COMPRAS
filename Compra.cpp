@@ -1,7 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <chrono>
-#include <ctime>
 #include "Anuncio.hpp"
 #include "Compra.hpp"
 
