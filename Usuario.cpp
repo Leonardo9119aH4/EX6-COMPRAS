@@ -67,7 +67,7 @@ bool Usuario::desfavoritar(Anuncio* anuncioFavorito) {
 		return false;
 	}
 	int z = std::distance(favoritos.begin(), i);
-	favoritos.erase(favoritos.begin(), z);
+	favoritos.erase(favoritos.begin() + z);
 	return true;
 }
 
@@ -86,11 +86,19 @@ bool Usuario::comprar(int pagamento, int parcelas) {
 }
 
 bool Usuario::cancelarCompra(Compra* compraCancelar) {
-	compraCancelar->setStatus(4);
+	if (compraCancelar->getStatus() == 1 || compraCancelar->getStatus() == 2) {
+		compraCancelar->setStatus(4);
+		return true;
+	}
 	return true;
 }
 
 bool Usuario::favoritar(Anuncio* anuncioFavoritar) {
+	//for (int i = 0; i < favoritos.size(); i++) {
+	//	if (favoritos.at(i)->operator=(*anuncioFavoritar)) {
+	//		
+	//	};
+	//}
 	favoritos.push_back(anuncioFavoritar);
 	return true;
 }
