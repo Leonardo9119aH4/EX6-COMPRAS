@@ -11,6 +11,9 @@ public:
 		bool isEqual = (nome == _produto.nome) && (descricao == _produto.descricao) && (tipos == _produto.tipos);
 		return isEqual;
 	}
+	std::string getNome();
+	std::string getDescricao();
+	std::vector<std::string> getTipos();
 	std::string nome, descricao;
 	std::vector<std::string> tipos;
 };
