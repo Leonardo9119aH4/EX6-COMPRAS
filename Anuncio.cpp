@@ -6,5 +6,5 @@ Anuncio::Anuncio(std::string _titulo, int _disponibilidade, float _preco, int* _
 	preco = _preco;
 	id = *_id;
 	produto = _produto;
-	*_id++;
+	*_id += 1;
 }
