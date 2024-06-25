@@ -1,13 +1,16 @@
 #include <iostream>
 #include <vector>
 #include <limits>
+#include <ctime>
+#include <chrono>
 #include "Anuncio.hpp"
 #include "Compra.hpp"
 #include "Produto.hpp"
 #include "Usuario.hpp"
 #include "Admin.hpp"
 #include "Operacoes.hpp"
-void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, int* countId, std::vector<Anuncio*>* anuncios) {
+#include "Contas.hpp"
+void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* admins ,Usuario* usuario, bool isAdmin, int* countId, std::vector<Anuncio*>* anuncios) {
 	int opc;
 	std::string str;
 	do {
@@ -27,7 +30,7 @@ void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, boo
 			break;
 		case 3:
 			if (isAdmin) {
-				AreaAdmin(usuarios, usuario, countId, anuncios);
+				AreaAdmin(usuarios, admins, usuario, anuncios);
 			}
 			else {
 				std::cout << "Acesso negado" << std::endl;
@@ -146,13 +149,41 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 		std::cin >> id;
 		for (int i = 0; i < usuario->getCompras()->size(); i++) {
 			if (usuario->getCompras()->at(i).getId() == id) {
-				usuario->removerDoCarrinho(&usuario->getCompras()->at(i));
+				boolAux = usuario->removerDoCarrinho(&usuario->getCompras()->at(i));
+				if (boolAux) {
+					std::cout << "Compra removida com exito" << std::endl;
+				}
+				else {
+					std::cout << "Voce nao pode remover uma compra ja efetuada/entregue" << std::endl;
+				}
 				break; //aqui
 			}
 		}
 		std::cout << "ID de compra nao encontrada!" << std::endl; //early break
 		break;
 	case 10:
+		ViewCompras(usuario);
+		break;
+	case 11:
+		std::cout << "Digite o ID da compra a ser cancelada: ";
+		std::cin >> id;
+		for (int i = 0; i < usuario->getCompras()->size(); i++) {
+			if (usuario->getCompras()->at(i).getId() == id) {
+				boolAux = usuario->cancelarCompra(&usuario->getCompras()->at(i));
+				if (boolAux) {
+					std::cout << "Compra cancelada com exito" << std::endl;
+				}
+				else {
+					std::cout << "Compra ja entregue ou nao efetuada" << std::endl;
+				}
+				break; //aqui
+			}
+		}
+		break;
+	case 12:
+		std::cout << "Digite o ID da compra a ser devolvida: ";
+		std::cin >> id;
+		//devolver
 		break;
 	default:
 		std::cout << "Opcao invalida!" << std::endl;
@@ -187,12 +218,68 @@ void Operacoes::AreaVendedor(std::vector<Usuario>* usuarios, Usuario* usuario, i
 		break;
 	}
 }
-void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios) {
-	int opc;
+void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, Usuario* usuario, std::vector<Anuncio*>* anuncios) {
+	bool existe, boolAux;
+	int opc, ban, id;
+	std::string str;
 	std::cout << "1- Listar usuarios\n2- Banir um usuario\n3- Desbanir um usuario\n4- Cadastrar um admininistrador\n5- Deletar um anuncio\nDigite uma opcao: ";
 	std::cin >> opc;
 	switch (opc) {
-	case 1:
+	case 1: 
+		listarUsuarios(usuarios, admins);
+		break;
+	case 2: //banir usuario
+		existe = false;
+		std::cout << "Digite o nome de usuario a ser banido: ";
+		std::cin >> str;
+		std::cout << "Digite o tempo em dias de banimento (0 para banimento permanente): ";
+		std::cin >> ban;
+		for (int i = 0; i < usuarios->size(); i++) {
+			if (usuarios->at(i).login == str) {
+				//usuarios->at(i).banir(ban);
+				existe = true;
+			}
+		}
+		for (int i = 0; i < admins->size(); i++) {
+			if (admins->at(i).login == str) {
+				//admins->at(i).banir(ban);
+				existe = true;
+			}
+		}
+		if (!existe) {
+			std::cout << "Nome de usuario nao encontrado" << std::endl;
+		}
+		break;
+	case 3: //desbanir usuario
+		std::cout << "Digite o nome de usuario a ser desbanido: ";
+		std::cin >> str;
+		for (int i = 0; i < usuarios->size(); i++) {
+			if (usuarios->at(i).login == str) {
+				//boolAux = usuarios->at(i).desbanir(); //boolAux retorna se o usuario estava banido ou nao
+				existe = true; //verifica existencia do usuario
+			}
+		}
+		for (int i = 0; i < admins->size(); i++) {
+			if (admins->at(i).login == str) {
+				//boolAux = admins->at(i).desbanir(); //boolAux retorna se o usuario estava banido ou nao
+				existe = true; //verifica existencia do usuario
+			}
+		}
+		if (!existe) {
+			std::cout << "Nome de usuario nao encontrado" << std::endl;
+		}
+		/*if (!boolAux) {
+			std::cout << "O usuario nao estava banido" << std::endl;
+		}*/
+	case 4: //cadastrar admin
+		Cadastrar(usuarios, admins, true);
+		break;
+	case 5: //deletar anuncio
+		std::cout << "Digite o ID do anuncio a ser deletado: ";
+		std::cin >> id;
+		for (int i = 0; i < anuncios->size(); i++) {
+
+		}
 		break;
 	default:
 		std::cout << "Opcao invalida!" << std::endl;
@@ -398,11 +485,73 @@ void Operacoes::pesquisar(std::vector<Anuncio*>* anuncios) {
 }
 void Operacoes::ViewCompras(Usuario* usuario) {
 	std::vector<Compra>* compras = usuario->getCompras();
+	struct tm dataCompra;
+	struct tm dataEntrega;
+	struct tm dataDev;
+	time_t dtaCompr;
+	time_t dtaEntr;
+	time_t dtaDev; //Visual Studio eh retardado e eu tive que fazer isso
 	for (int i = 0; i < compras->size(); i++) {
-		switch(compras->at(i).getStatus())
-		case 2:
-			std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << compras->at(i).getDataCompra() << ", com data de entrega prevista "; //PAREI AQUI
-			break;
-
+		switch (compras->at(i).getStatus()) {
+			case 2:
+				dtaCompr = compras->at(i).getDataCompra();
+				dtaEntr = compras->at(i).getDataEntrega();
+				localtime_s(&dataCompra, &dtaCompr);
+				localtime_s(&dataEntrega, &dtaEntr);
+				std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << dataCompra.tm_mday << "/" << dataCompra.tm_mon << ", com data de entrega prevista " << dataEntrega.tm_mday << "/" << dataEntrega.tm_mon << "\nProduto: " << compras->at(i).getAnuncio()->produto.nome << ", do anuncio " << compras->at(i).getAnuncio()->titulo << ", com ID " << compras->at(i).getAnuncio()->id << std::endl;
+				break;
+			case 3:
+				dtaCompr = compras->at(i).getDataCompra();
+				dtaEntr = compras->at(i).getDataEntrega();
+				localtime_s(&dataCompra, &dtaCompr);
+				localtime_s(&dataEntrega, &dtaEntr);
+				std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << dataCompra.tm_mday << "/" << dataCompra.tm_mon << ", entregue em " << dataEntrega.tm_mday << "/" << dataEntrega.tm_mon << "\nProduto: " << compras->at(i).getAnuncio()->produto.nome << ", do anuncio " << compras->at(i).getAnuncio()->titulo << ", com ID " << compras->at(i).getAnuncio()->id << std::endl;
+				break;
+			case 4:
+				std::cout << "Compra ID " << compras->at(i).getId() << ", cancelada" << std::endl;
+				break;
+			case 5:
+				dtaCompr = compras->at(i).getDataCompra();
+				dtaEntr = compras->at(i).getDataEntrega();
+				localtime_s(&dataCompra, &dtaCompr);
+				localtime_s(&dataEntrega, &dtaEntr);
+				std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << dataCompra.tm_mday << "/" << dataCompra.tm_mon << ", entregue em " << dataEntrega.tm_mday << "/" << dataEntrega.tm_mon << ", está aguardando devolucao\nProduto: " << compras->at(i).getAnuncio()->produto.nome << ", do anuncio " << compras->at(i).getAnuncio()->titulo << ", com ID " << compras->at(i).getAnuncio()->id << std::endl;
+				break;
+			case 6:
+				dtaCompr = compras->at(i).getDataCompra();
+				dtaEntr = compras->at(i).getDataEntrega();
+				dtaDev = compras->at(i).getDataDevolucao();
+				localtime_s(&dataCompra, &dtaCompr);
+				localtime_s(&dataEntrega, &dtaEntr);
+				localtime_s(&dataDev, &dtaDev);
+				std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << dataCompra.tm_mday << "/" << dataCompra.tm_mon << "entregue em " << dataEntrega.tm_mday << "/" << dataEntrega.tm_mon << ", devolvida em " << dataDev.tm_mday << "/" << dataDev.tm_mon << "\nProduto: " << compras->at(i).getAnuncio()->produto.nome << ", do anuncio " << compras->at(i).getAnuncio()->titulo << ", com ID " << compras->at(i).getAnuncio()->id << std::endl;
+				break;
+		}
+	}
+}
+void Operacoes::listarUsuarios(std::vector<Usuario>* usuarios, std::vector<Admin>* admins) {
+	time_t tempoBanido;
+	struct tm tempoBan;
+	std::cout << "Usuarios comuns: " << std::endl;
+	for (int i = 0; i < usuarios->size(); i++) {
+		if (usuarios->at(i).tempoDeBanimento == 0) {
+			std::cout << "Usuario: " << usuarios->at(i).login << ", sob CPF " << usuarios->at(i).getCpf() << ", com email " << usuarios->at(i).getEmail() << ", com telefone " << usuarios->at(i).getTelefone() << ", nao esta banido" << std::endl;
+		}
+		else {
+			tempoBanido = usuarios->at(i).tempoDeBanimento;
+			localtime_s(&tempoBan, &tempoBanido);
+			std::cout << "Usuario: " << usuarios->at(i).login << ", sob CPF " << usuarios->at(i).getCpf() << ", com email " << usuarios->at(i).getEmail() << ", com telefone " << usuarios->at(i).getTelefone() << ", esta banido por " << tempoBan.tm_mday << " dias" << std::endl;
+		}
+	}
+	std::cout << "Admins: " << std::endl;
+	for (int i = 0; i < admins->size(); i++) {
+		if (admins->at(i).tempoDeBanimento == 0) {
+			std::cout << "Admin: " << admins->at(i).login << ", sob CPF " << admins->at(i).getCpf() << ", com email " << admins->at(i).getEmail() << ", com telefone " << admins->at(i).getTelefone() << ", nao esta banido" << std::endl;
+		}
+		else {
+			tempoBanido = admins->at(i).tempoDeBanimento;
+			localtime_s(&tempoBan, &tempoBanido);
+			std::cout << "Admin: " << admins->at(i).login << ", sob CPF " << admins->at(i).getCpf() << ", com email " << admins->at(i).getEmail() << ", com telefone " << admins->at(i).getTelefone() << ", esta banido por " << tempoBan.tm_mday << " dias" << std::endl;
+		}
 	}
 }

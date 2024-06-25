@@ -9,15 +9,16 @@
 #ifndef OPERACOES_HPP
 #define OPERACOES_HPP
 namespace Operacoes {
-	void OpcUsuario(std::vector<Usuario>* usuarios, Usuario* usuario, bool isAdmin, int* countId, std::vector<Anuncio*>* anuncios);
+	void OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* admins,Usuario* usuario, bool isAdmin, int* countId, std::vector<Anuncio*>* anuncios);
 	void AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios);
 	void AreaVendedor(std::vector<Usuario>* usuarios, Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios);
-	void AreaAdmin(std::vector<Usuario>* usuarios, Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios);
+	void AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, Usuario* usuario, std::vector<Anuncio*>* anuncios);
 	void NovoAnuncio(Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios);
 	void ViewAnuncio(std::vector<Anuncio*>* anuncios);
 	void VerCarrinho(Usuario* usuario);
 	void ComprarTudo(Usuario* usuario);
 	void pesquisar(std::vector<Anuncio*>* anuncios);
 	void ViewCompras(Usuario* usuario);
+	void listarUsuarios(std::vector<Usuario>* usuarios, std::vector<Admin>* admins);
 }
 #endif // !OPERACOES_HPP
