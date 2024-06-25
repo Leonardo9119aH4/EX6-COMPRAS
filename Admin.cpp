@@ -1,6 +1,11 @@
+#include <limits>
 #include "Admin.hpp"
 
-bool Admin::banirUsuario(Usuario* usuarioBanir, std::time_t _tempoDeBanimento) {
+bool Admin::banirUsuario(Usuario* usuarioBanir, int _tempoDeBanimento) {
+	if (_tempoDeBanimento == 0) {
+		usuarioBanir->tempoDeBanimento = std::numeric_limits
+	}
+	time_t tempo = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()) + _tempoDeBanimento * 60 * 60 * 24;
 	usuarioBanir->tempoDeBanimento = _tempoDeBanimento;
 	return true;
 }
