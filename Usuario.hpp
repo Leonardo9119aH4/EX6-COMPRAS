@@ -12,12 +12,14 @@ public:
 	Anuncio* criarAnuncio(Produto _produto, std::string _titulo, int _disponibilidade, float _preco, int* _id, std::vector<std::string> _tipo);
 	bool deletarAnuncio(int _id);
 	bool comprar(int pagamento, int parcelas);
-	bool cancelarCompra(Compra *compraCancelar);
-	bool favoritar(Anuncio *anuncioFavoritar);
+	bool cancelarCompra(Compra* compraCancelar);
+	bool favoritar(Anuncio* anuncioFavoritar);
 	bool adicionarAoCarrinho(Anuncio* anuncioComrpa, std::string endereco);
 	bool removerDoCarrinho(Compra* compra);
+	bool devolverCompra(Compra* compraDevolver, int _diasDevolucao);
 	bool desfavoritar(Anuncio* anuncioFavorito);
 	void calcEntrega();
+	void calcDevolucao();
 	std::vector<Compra>* getCompras();
 	std::string getEmail();
 	std::string getTelefone();
