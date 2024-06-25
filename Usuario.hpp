@@ -17,6 +17,7 @@ public:
 	bool adicionarAoCarrinho(Anuncio* anuncioComrpa, std::string endereco);
 	bool removerDoCarrinho(Compra* compra);
 	bool desfavoritar(Anuncio* anuncioFavorito);
+	void calcEntrega();
 	std::vector<Compra>* getCompras();
 	std::string getEmail();
 	std::string getTelefone();
@@ -27,6 +28,8 @@ public:
 	std::vector<Anuncio>* getAnuncios();
 	void setSenha(std::string _senha);
 	void setEndereco(std::string _endereco);
+	bool devolverCompra(int idCompra);
+	int getTempoDeBanimento();
 	std::string login;
 	std::vector<Anuncio> anuncios;
 	std::time_t tempoDeBanimento;
