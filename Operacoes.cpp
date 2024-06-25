@@ -183,7 +183,10 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 	case 12:
 		std::cout << "Digite o ID da compra a ser devolvida: ";
 		std::cin >> id;
-		//devolver
+		boolAux = usuario->devolverCompra(id); //exito ao devolver?
+		if (!boolAux) {
+			std::cout << "Compra nao encontrada ou fora do status 'recebida'." << std::endl;
+		}
 		break;
 	default:
 		std::cout << "Opcao invalida!" << std::endl;
