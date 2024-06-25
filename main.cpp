@@ -36,4 +36,3 @@ int main() {
 		}
 	} while (Opc != 3);
 	return 0;
-}
