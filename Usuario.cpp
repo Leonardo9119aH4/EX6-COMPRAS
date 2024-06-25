@@ -1,3 +1,5 @@
+#include <ctime>
+#include <chrono>
 #include "Usuario.hpp"
 
 Anuncio* Usuario::criarAnuncio(Produto _produto, std::string _titulo, int _disponibilidade, float _preco, int* _id, std::vector<std::string> _tipo) {
@@ -41,9 +43,12 @@ std::vector<Compra>* Usuario::getCompras() {
 }
 
 bool Usuario::adicionarAoCarrinho(Anuncio* anuncioCompra, std::string endereco) {
-	Compra compra(endereco, anuncioCompra, &counterIdCompra);
-	compras.push_back(compra);
-	return true;
+	if (anuncioCompra->disponibilidade == 0) {
+		Compra compra(endereco, anuncioCompra, &counterIdCompra);
+		compras.push_back(compra);
+		return true;
+	}
+	return false;
 }
 
 bool Usuario::removerDoCarrinho(Compra* compra) {
@@ -71,6 +76,14 @@ bool Usuario::desfavoritar(Anuncio* anuncioFavorito) {
 	return true;
 }
 
+void Usuario::calcEntrega() {
+	for (int i = 0; i < compras.size(); i++) {
+		if (compras.at(i).getDataEntrega() >= std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())) {
+			compras.at(i).setStatus(3);
+		}
+	}
+}
+
 bool Usuario::comprar(int pagamento, int parcelas) {
 	if (compras.size() == 0) {
 		return false;
@@ -94,13 +107,13 @@ bool Usuario::cancelarCompra(Compra* compraCancelar) {
 }
 
 bool Usuario::favoritar(Anuncio* anuncioFavoritar) {
-	//for (int i = 0; i < favoritos.size(); i++) {
-	//	if (favoritos.at(i)->operator=(*anuncioFavoritar)) {
-	//		
-	//	};
-	//}
-	favoritos.push_back(anuncioFavoritar);
-	return true;
+	for (int i = 0; i < favoritos.size(); i++) {
+		if (favoritos.at(i)->operator==(anuncioFavoritar)) {
+			favoritos.push_back(anuncioFavoritar);
+			return true;
+		};
+	}
+	return false;
 }
 
 std::string Usuario::getEmail() {
@@ -129,6 +142,29 @@ void Usuario::setSenha(std::string _senha) {
 
 void Usuario::setEndereco(std::string _endereco) {
 	endereco = _endereco;
+}
+
+bool Usuario::devolverCompra(int idCompra) {
+	for (int i = 0; i < compras.size(); i++) {
+		if (compras.at(i).getId() == idCompra) {
+			compras.at(i).setStatus(6);
+			return true;
+		}
+	}
+	return false;
+}
+
+int Usuario::getTempoDeBanimento() {
+	if (tempoDeBanimento < std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())) {
+		return 0;
+	}
+	std::time_t banTime = tempoDeBanimento - std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+	struct tm stTime;
+	localtime_s(&stTime, &banTime);
+	int stDia = stTime.tm_mday;
+	int stMes = stTime.tm_mon;
+	int stAno = stTime.tm_year;
+	return stDia * stMes * stAno;
 }
 
 std::vector<Anuncio*> Usuario::getFavoritos() {

@@ -6,13 +6,3 @@ Produto::Produto(std::string _nome, std::string _descricao, std::vector<std::str
 	descricao = _descricao;
 	tipos = _tipos;
 }
-
-std::string Produto::getNome() {
-	return nome;
-}
-std::string Produto::getDescricao() {
-	return descricao;
-}
-std::vector<std::string> Produto::getTipos() {
-	return tipos;
-}

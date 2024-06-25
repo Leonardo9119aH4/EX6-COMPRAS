@@ -15,7 +15,7 @@ public:
 	int disponibilidade;
 	float preco;
 	int id;
+	Usuario dono;
 	Produto produto;
 };
-
 #endif
