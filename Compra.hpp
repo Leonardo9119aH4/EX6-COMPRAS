@@ -20,6 +20,7 @@ public:
 	void setStatus(int Status);
 	void setParcelas(int _parcelas);
 	void setPagamento(int _pagamento);
+	void setDataDevolucao(time_t data);
 	int getPagamento();
 	float getValor();
 	int getId();

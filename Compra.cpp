@@ -36,6 +36,10 @@ void Compra::setStatus(int _status) {
 	status = _status;
 }
 
+void Compra::setDataDevolucao(time_t data) {
+	dataDevolucao = data;
+}
+
 int Compra::getPagamento() {
 	return pagamento;
 }
