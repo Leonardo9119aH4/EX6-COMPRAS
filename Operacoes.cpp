@@ -191,6 +191,7 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 	}
 }
 void Operacoes::AreaVendedor(std::vector<Usuario>* usuarios, Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios) {
+	bool existe;
 	int opc, id;
 	std::cout << "1- Criar anuncio\n2- Deletar um anuncio\n3- Listar anuncios\nDigite uma opcao: ";
 	std::cin >> opc;
@@ -201,12 +202,18 @@ void Operacoes::AreaVendedor(std::vector<Usuario>* usuarios, Usuario* usuario, i
 	case 2:
 		std::cout << "Digite o ID do anuncio a ser deletado: ";
 		std::cin >> id;
-		usuario->deletarAnuncio(id);
-		for (int i = 0; i < anuncios->size(); i++) {
-			if (anuncios->at(i)->id == id) {
-				anuncios->erase(anuncios->begin() + i);
+		existe = usuario->deletarAnuncio(id);
+		if (existe) {
+			for (int i = 0; i < anuncios->size(); i++) {
+				if (anuncios->at(i)->id == id) {
+					anuncios->erase(anuncios->begin() + i);
+				}
 			}
 		}
+		else {
+			std::cout << "Nao existe anuncio no seu usuario com ID especificado." << std::endl;
+		}
+		
 		break;
 	case 3:
 		for (int i = 0; i < usuario->getAnuncios()->size(); i++) {
@@ -275,10 +282,19 @@ void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* ad
 		Cadastrar(usuarios, admins, true);
 		break;
 	case 5: //deletar anuncio
+		existe = false;
 		std::cout << "Digite o ID do anuncio a ser deletado: ";
 		std::cin >> id;
 		for (int i = 0; i < anuncios->size(); i++) {
-
+			if (anuncios->at(i)->id == id) {
+				//Usuario* donoAds = anuncios->at(i)->getDono();
+				//donoAds->deletarAnuncio(id);
+				anuncios->erase(anuncios->begin() + i);
+				existe = true;
+			}
+		}
+		if (!existe) {
+			std::cout << "Anuncio nao encontrado." << std::endl;
 		}
 		break;
 	default:
@@ -530,28 +546,28 @@ void Operacoes::ViewCompras(Usuario* usuario) {
 	}
 }
 void Operacoes::listarUsuarios(std::vector<Usuario>* usuarios, std::vector<Admin>* admins) {
-	time_t tempoBanido;
-	struct tm tempoBan;
 	std::cout << "Usuarios comuns: " << std::endl;
 	for (int i = 0; i < usuarios->size(); i++) {
-		if (usuarios->at(i).tempoDeBanimento == 0) {
+		if (usuarios->at(i).tempoDeBanimento == std::numeric_limits<time_t>::max()) {
+			std::cout << "Usuario: " << usuarios->at(i).login << ", sob CPF " << usuarios->at(i).getCpf() << ", com email " << usuarios->at(i).getEmail() << ", com telefone " << usuarios->at(i).getTelefone() << ", esta banido permanentemente" << std::endl;
+		}
+		else if (usuarios->at(i).getTempoDeBanimento() == 0) {
 			std::cout << "Usuario: " << usuarios->at(i).login << ", sob CPF " << usuarios->at(i).getCpf() << ", com email " << usuarios->at(i).getEmail() << ", com telefone " << usuarios->at(i).getTelefone() << ", nao esta banido" << std::endl;
 		}
 		else {
-			tempoBanido = usuarios->at(i).tempoDeBanimento;
-			localtime_s(&tempoBan, &tempoBanido);
-			std::cout << "Usuario: " << usuarios->at(i).login << ", sob CPF " << usuarios->at(i).getCpf() << ", com email " << usuarios->at(i).getEmail() << ", com telefone " << usuarios->at(i).getTelefone() << ", esta banido por " << tempoBan.tm_mday << " dias" << std::endl;
+			std::cout << "Usuario: " << usuarios->at(i).login << ", sob CPF " << usuarios->at(i).getCpf() << ", com email " << usuarios->at(i).getEmail() << ", com telefone " << usuarios->at(i).getTelefone() << ", esta banido por " << usuarios->at(i).getTempoDeBanimento() << " dias" << std::endl;
 		}
 	}
 	std::cout << "Admins: " << std::endl;
 	for (int i = 0; i < admins->size(); i++) {
-		if (admins->at(i).tempoDeBanimento == 0) {
+		if (admins->at(i).tempoDeBanimento == std::numeric_limits<time_t>::max()) {
+			std::cout << "Admin: " << admins->at(i).login << ", sob CPF " << admins->at(i).getCpf() << ", com email " << admins->at(i).getEmail() << ", com telefone " << admins->at(i).getTelefone() << ", esta banido permanentemente" << std::endl;
+		}
+		else if (admins->at(i).getTempoDeBanimento() == 0) {
 			std::cout << "Admin: " << admins->at(i).login << ", sob CPF " << admins->at(i).getCpf() << ", com email " << admins->at(i).getEmail() << ", com telefone " << admins->at(i).getTelefone() << ", nao esta banido" << std::endl;
 		}
 		else {
-			tempoBanido = admins->at(i).tempoDeBanimento;
-			localtime_s(&tempoBan, &tempoBanido);
-			std::cout << "Admin: " << admins->at(i).login << ", sob CPF " << admins->at(i).getCpf() << ", com email " << admins->at(i).getEmail() << ", com telefone " << admins->at(i).getTelefone() << ", esta banido por " << tempoBan.tm_mday << " dias" << std::endl;
+			std::cout << "Admin: " << admins->at(i).login << ", sob CPF " << admins->at(i).getCpf() << ", com email " << admins->at(i).getEmail() << ", com telefone " << admins->at(i).getTelefone() << ", esta banido por " << admins->at(i).getTempoDeBanimento() << " dias" << std::endl;
 		}
 	}
 }

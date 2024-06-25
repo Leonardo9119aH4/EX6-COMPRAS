@@ -51,18 +51,16 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 	std::cin >> senha;
 	for (int i = 0; i < usuarios->size(); i++) {
 		if (usuarios->at(i).login == login && usuarios->at(i).getSenha() == senha) {
-			if (usuarios->at(i).tempoDeBanimento == 0) {
+			if (usuarios->at(i).getTempoDeBanimento() == 0) { //a funcao obtem o tempo em dias (int)
 				exito = true;
 				Operacoes::OpcUsuario(usuarios, admins, &usuarios->at(i), false, countId, anuncios);
 				break;
 			}
-			else if (usuarios->at(i).tempoDeBanimento == std::numeric_limits<time_t>::max()) {
+			else if (usuarios->at(i).tempoDeBanimento == std::numeric_limits<time_t>::max()) { //obtem a variavel time_t direto com valor limite
 				std::cout << "A sua conta foi banida permanentemente. Contate um admininstrador do sistema." << std::endl;
 			}
 			else {
-				struct tm diaTm;
-				localtime_s(&diaTm, &usuarios->at(i).tempoDeBanimento);
-				std::cout << "A sua conta foi banida por" << diaTm.tm_mday << " dias" << std::endl;
+				std::cout << "A sua conta foi banida por" << usuarios->at(i).getTempoDeBanimento() << " dias" << std::endl;
 			}
 		}
 	}
