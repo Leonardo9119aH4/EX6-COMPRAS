@@ -3,14 +3,17 @@
 
 bool Admin::banirUsuario(Usuario* usuarioBanir, int _tempoDeBanimento) {
 	if (_tempoDeBanimento == 0) {
-		usuarioBanir->tempoDeBanimento = std::numeric_limits<int>::max();
+		usuarioBanir->setTempoDeBanimento(std::numeric_limits<int>::max());
 	}
 	time_t tempo = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()) + _tempoDeBanimento * 60 * 60 * 24;
-	usuarioBanir->tempoDeBanimento = _tempoDeBanimento;
+	usuarioBanir->setTempoDeBanimento(tempoDeBanimento);
 	return true;
 }
 
 bool Admin::unbanUsuario(Usuario* usuarioDesbanir) {
+	if (tempoDeBanimento == 0) {
+		return false;
+	}
 	tempoDeBanimento = 0;
 	return true;
 }

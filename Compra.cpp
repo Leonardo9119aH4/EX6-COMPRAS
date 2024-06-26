@@ -28,7 +28,7 @@ void Compra::setEntrega(std::string _entrega) {
 	entrega = _entrega;
 }
 
-int Compra::getStatus() {
+int Compra::getStatus() {,
 	return status;
 }
 

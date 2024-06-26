@@ -171,6 +171,10 @@ bool Usuario::devolverCompra(int idCompra) {
 	return false;
 }
 
+void Usuario::setTempoDeBanimento(int dias) {
+	tempoDeBanimento = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()) + dias * 24 * 60 * 60;
+}
+
 int Usuario::getTempoDeBanimento() {
 	if (tempoDeBanimento < std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())) {
 		return 0;
