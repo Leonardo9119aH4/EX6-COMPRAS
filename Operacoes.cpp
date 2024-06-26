@@ -10,16 +10,11 @@
 #include "Admin.hpp"
 #include "Operacoes.hpp"
 #include "Contas.hpp"
-void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* admins ,Usuario* usuario, bool isAdmin, int* countId, std::vector<Anuncio*>* anuncios) {
+void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* admins ,Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios) {
 	int opc;
 	std::string str;
 	do {
-		if (isAdmin) {
-			std::cout << "1- Area do comprador\n2- Area do vendedor\n3- Area do admininstrador\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
-		}
-		else {
-			std::cout << "1- Area do comprador\n2- Area do vendedor\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
-		}
+		std::cout << "1- Area do comprador\n2- Area do vendedor\n3- Verificar dados cadastrais\n4- Alterar o endereco de residencia\n5- Alterar a senha\n6- Logout\nDigite a opcao: ";
 		std::cin >> opc;
 		switch (opc) {
 		case 1:
@@ -29,28 +24,65 @@ void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* a
 			AreaVendedor(usuarios, usuario, countId, anuncios);
 			break;
 		case 3:
-			if (isAdmin) {
-				AreaAdmin(usuarios, admins, usuario, anuncios);
-			}
-			else {
-				std::cout << "Acesso negado" << std::endl;
-			}
-			break;
-		case 4:
 			std::cout << "O seu login eh " << usuario->login << "\nO seu endereco de residencia eh " << usuario->getEndereco() << "\nO seu email eh " << usuario->getEmail() << "\nO seu telefone eh " << usuario->getTelefone() << "\nO seu CPF eh" << usuario->getCpf() << std::endl;
 			break;
-		case 5:
+		case 4:
 			std::cout << "Digite o seu novo endereco: ";
 			std::cin >> str;
 			usuario->setEndereco(str);
 			break;
-		case 6:
+		case 5:
 			std::cout << "Digite a sua senha atual: ";
 			std::cin >> str;
 			if (usuario->getSenha() == str) {
 				std::cout << "Digite a nova senha: ";
 				std::cin >> str;
 				usuario->setSenha(str);
+			}
+			else {
+				std::cout << "Senha incorreta!" << std::endl;
+			}
+			break;
+		case 6:
+			std::cout << "Logout!" << std::endl;
+			break;
+		default:
+			std::cout << "Opcao invalida!" << std::endl;
+			break;
+		}
+	} while (opc != 6);
+}
+void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, Admin* admin, int* countId, std::vector<Anuncio*>* anuncios) {
+	int opc;
+	std::string str;
+	do {
+		std::cout << "1- Area do comprador\n2- Area do vendedor\n3- Area do admininstrador\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
+		std::cin >> opc;
+		switch (opc) {
+		case 1:
+			AreaComprador(usuarios, admin, countId, anuncios);
+			break;
+		case 2:
+			AreaVendedor(usuarios, admin, countId, anuncios);
+			break;
+		case 3:
+			AreaAdmin(usuarios, admins, admin, anuncios);
+			break;
+		case 4:
+			std::cout << "O seu login eh " << admin->login << "\nO seu endereco de residencia eh " << admin->getEndereco() << "\nO seu email eh " << admin->getEmail() << "\nO seu telefone eh " << admin->getTelefone() << "\nO seu CPF eh" << admin->getCpf() << std::endl;
+			break;
+		case 5:
+			std::cout << "Digite o seu novo endereco: ";
+			std::cin >> str;
+			admin->setEndereco(str);
+			break;
+		case 6:
+			std::cout << "Digite a sua senha atual: ";
+			std::cin >> str;
+			if (admin->getSenha() == str) {
+				std::cout << "Digite a nova senha: ";
+				std::cin >> str;
+				admin->setSenha(str);
 			}
 			else {
 				std::cout << "Senha incorreta!" << std::endl;
@@ -167,8 +199,8 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 	case 11:
 		std::cout << "Digite o ID da compra a ser cancelada: ";
 		std::cin >> id;
-		for (int i = 0; i < usuario->getCompras()->size(); i++) {
-			if (usuario->getCompras()->at(i).getId() == id) {
+		for (int i = 0; i < usuario->getCompras()->size(); i++) { 
+			if (usuario->getCompras()->at(i).getId() == id) { //early break
 				boolAux = usuario->cancelarCompra(&usuario->getCompras()->at(i));
 				if (boolAux) {
 					std::cout << "Compra cancelada com exito" << std::endl;
@@ -228,8 +260,8 @@ void Operacoes::AreaVendedor(std::vector<Usuario>* usuarios, Usuario* usuario, i
 		break;
 	}
 }
-void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, Usuario* usuario, std::vector<Anuncio*>* anuncios) {
-	bool existe, boolAux;
+void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, Admin* admin, std::vector<Anuncio*>* anuncios) {
+	bool existe, estavaBanido;
 	int opc, ban, id;
 	std::string str;
 	std::cout << "1- Listar usuarios\n2- Banir um usuario\n3- Desbanir um usuario\n4- Cadastrar um admininistrador\n5- Deletar um anuncio\nDigite uma opcao: ";
@@ -246,13 +278,13 @@ void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* ad
 		std::cin >> ban;
 		for (int i = 0; i < usuarios->size(); i++) {
 			if (usuarios->at(i).login == str) {
-				//usuarios->at(i).banir(ban);
+				admin->banirUsuario(&usuarios->at(i), ban);
 				existe = true;
 			}
 		}
 		for (int i = 0; i < admins->size(); i++) {
 			if (admins->at(i).login == str) {
-				//admins->at(i).banir(ban);
+				admin->banirUsuario(&admins->at(i), ban);
 				existe = true;
 			}
 		}
@@ -265,22 +297,22 @@ void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* ad
 		std::cin >> str;
 		for (int i = 0; i < usuarios->size(); i++) {
 			if (usuarios->at(i).login == str) {
-				//boolAux = usuarios->at(i).desbanir(); //boolAux retorna se o usuario estava banido ou nao
+				estavaBanido = admin->unbanUsuario(&usuarios->at(i));
 				existe = true; //verifica existencia do usuario
 			}
 		}
 		for (int i = 0; i < admins->size(); i++) {
 			if (admins->at(i).login == str) {
-				//boolAux = admins->at(i).desbanir(); //boolAux retorna se o usuario estava banido ou nao
+				estavaBanido = admin->unbanUsuario(&admins->at(i));
 				existe = true; //verifica existencia do usuario
 			}
 		}
 		if (!existe) {
 			std::cout << "Nome de usuario nao encontrado" << std::endl;
 		}
-		/*if (!boolAux) {
+		if (!estavaBanido) {
 			std::cout << "O usuario nao estava banido" << std::endl;
-		}*/
+		}
 	case 4: //cadastrar admin
 		Cadastrar(usuarios, admins, true);
 		break;
@@ -290,10 +322,11 @@ void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* ad
 		std::cin >> id;
 		for (int i = 0; i < anuncios->size(); i++) {
 			if (anuncios->at(i)->id == id) {
-				//Usuario* donoAds = anuncios->at(i)->getDono();
-				//donoAds->deletarAnuncio(id);
+				Usuario* donoAds = anuncios->at(i)->dono;
+				donoAds->deletarAnuncio(id);
 				anuncios->erase(anuncios->begin() + i);
 				existe = true;
+				break;
 			}
 		}
 		if (!existe) {
