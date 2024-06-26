@@ -9,10 +9,11 @@
 #ifndef OPERACOES_HPP
 #define OPERACOES_HPP
 namespace Operacoes {
-	void OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* admins,Usuario* usuario, bool isAdmin, int* countId, std::vector<Anuncio*>* anuncios);
+	void OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* admins,Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios);
+	void OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, Admin* admin, int* countId, std::vector<Anuncio*>* anuncios);
 	void AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios);
 	void AreaVendedor(std::vector<Usuario>* usuarios, Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios);
-	void AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, Usuario* usuario, std::vector<Anuncio*>* anuncios);
+	void AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, Admin* admin, std::vector<Anuncio*>* anuncios);
 	void NovoAnuncio(Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios);
 	void ViewAnuncio(std::vector<Anuncio*>* anuncios);
 	void VerCarrinho(Usuario* usuario);
