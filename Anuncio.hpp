@@ -5,7 +5,7 @@
 #define ANUNCIO_HPP
 class Anuncio {
 public:
-	Anuncio(std::string _titulo, int _disponibilidade, float _preco, int* _id, Produto _produto, std::string loginDono);
+	Anuncio(std::string _titulo, int _disponibilidade, float _preco, int* _id, Produto _produto, std::string _loginDono);
 	~Anuncio() {};
 	bool operator==(Anuncio* other) {
 		bool isEqual = (this->titulo == other->titulo) && (this->disponibilidade == other->disponibilidade) && (this->preco == other->preco) && produto.operator==(other->produto);
@@ -15,7 +15,7 @@ public:
 	int disponibilidade;
 	float preco;
 	int id;
-	std::string loginDono;
+	std::string Dono;
 	Produto produto;
 };
 #endif
