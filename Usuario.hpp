@@ -13,11 +13,11 @@ public:
 	bool deletarAnuncio(int _id);
 	bool comprar(int pagamento, int parcelas);
 	bool cancelarCompra(Compra* compraCancelar);
-	bool favoritar(Anuncio* anuncioFavoritar);
+	void favoritar(Anuncio* anuncioFavoritar);
 	bool adicionarAoCarrinho(Anuncio* anuncioComrpa, std::string endereco);
 	bool removerDoCarrinho(Compra* compra);
 	bool devolverCompra(Compra* compraDevolver, int _diasDevolucao);
-	bool desfavoritar(Anuncio* anuncioFavorito);
+	void desfavoritar(Anuncio* anuncioFavorito);
 	void verificarCompras();
 	std::vector<Compra>* getCompras();
 	std::string getEmail();
