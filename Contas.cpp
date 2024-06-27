@@ -66,11 +66,11 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 		}
 	}
 	for (int i = 0; i < admins->size(); i++) {
-		if (admins->at(i).login == login && usuarios->at(i).getSenha() == senha) {
+		if (admins->at(i).login == login && admins->at(i).getSenha() == senha) {
 			if (admins->at(i).getTempoDeBanimento() == 0) { //a funcao obtem o tempo em dias (int)
 				exito = true;
 				admins->at(i).verificarCompras(); //verifica se alguma compra chegou
-				Operacoes::OpcUsuario(usuarios, admins, &usuarios->at(i), countId, anuncios);
+				Operacoes::OpcUsuario(usuarios, admins, &admins->at(i), countId, anuncios);
 				break;
 			}
 			else if (admins->at(i).getTempoDeBanimento() == std::numeric_limits<time_t>::max()) { //obtem a variavel time_t direto com valor limite
