@@ -129,20 +129,18 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 		}
 		break;
 	case 4: //desfavoritar ad
+		boolAux = false; //existe?
 		std::cout << "Digite o ID do anuncio a ser desfavoritado: ";
 		std::cin >> id;
-		boolAux = false;
-		for (int i = 0; i < anuncios->size(); i++) {
-			if (anuncios->at(i)->id == id) {
-				boolAux = usuario->desfavoritar(anuncios->at(i));
+		for (int i = 0; i < usuario->getAnuncios()->size(); i++) {
+			if (usuario->getAnuncios()->at(i).id == id) {
+				usuario->desfavoritar(i);
+				boolAux = true;
 				break;
 			}
 		}
-		if (boolAux) {
-			std::cout << "Anuncio desfavoritado com exito" << std::endl;
-		}
-		else {
-			std::cout << "Anuncio inexistente ou nao favoritado" << std::endl;
+		if (!boolAux) {
+			std::cout << "Esse anuncio nao existe ou nao consta nos seus favoritos" << std::endl;
 		}
 		break;
 	case 5: //listar favoritos
