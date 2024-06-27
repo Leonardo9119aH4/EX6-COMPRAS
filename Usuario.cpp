@@ -3,7 +3,7 @@
 #include "Usuario.hpp"
 
 Anuncio* Usuario::criarAnuncio(Produto _produto, std::string _titulo, int _disponibilidade, float _preco, int* _id, std::vector<std::string> _tipo) {
-	Anuncio novoAnuncio(_titulo, _disponibilidade, _preco, _id, _produto, login);
+	Anuncio novoAnuncio(_titulo, _disponibilidade, _preco, _id, _produto, user);
 	anuncios.push_back(novoAnuncio);
 	for (int i = 0; i <= anuncios.size(); i++) {
 		if (anuncios.at(i).operator==(&novoAnuncio)) {
@@ -23,6 +23,7 @@ Usuario::Usuario(std::string _login, std::string _email, std::string _telefone, 
 	senha = _senha;
 	tempoDeBanimento = 0;
 	counterIdCompra = 0;
+	user = this;
 }
 
 bool Usuario::deletarAnuncio(int _id) {

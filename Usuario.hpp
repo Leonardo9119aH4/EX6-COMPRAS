@@ -45,5 +45,6 @@ protected:
 	std::vector<Compra> compras;
 	int counterIdCompra;
 	std::string senha;
+	Usuario* user;
 };
 #endif
