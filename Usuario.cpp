@@ -28,6 +28,7 @@ Usuario::Usuario(std::string _login, std::string _email, std::string _telefone, 
 bool Usuario::deletarAnuncio(int _id) {
 	for (int i = 0; i < anuncios.size(); i++) {
 		if (anuncios.at(i).id == _id) {
+			anuncios.erase(anuncios.begin() + i);
 			return true;
 		}
 	}
@@ -76,14 +77,8 @@ bool Usuario::devolverCompra(Compra* compraDevolver, int _diasDevolucao) {
 	return false;
 }
 
-bool Usuario::desfavoritar(Anuncio* anuncioFavorito) {
-	auto i = std::find(favoritos.begin(), favoritos.end(), anuncioFavorito);
-	if (i > favoritos.end()) {
-		return false;
-	}
-	int z = std::distance(favoritos.begin(), i);
+void Usuario::desfavoritar(Anuncio* anuncioFavorito) {
 	favoritos.erase(favoritos.begin() + z);
-	return true;
 }
 
 void Usuario::verificarCompras() {
@@ -119,14 +114,8 @@ bool Usuario::cancelarCompra(Compra* compraCancelar) {
 	return true;
 }
 
-bool Usuario::favoritar(Anuncio* anuncioFavoritar) {
-	for (int i = 0; i < favoritos.size(); i++) {
-		if (favoritos.at(i)->operator==(anuncioFavoritar)) {
-			favoritos.push_back(anuncioFavoritar);
-			return true;
-		};
-	}
-	return false;
+void Usuario::favoritar(Anuncio* anuncioFavoritar) {
+	favoritos.push_back(anuncioFavoritar);
 }
 
 std::string Usuario::getEmail() {
@@ -168,20 +157,15 @@ bool Usuario::devolverCompra(int idCompra) {
 }
 
 void Usuario::setTempoDeBanimento(time_t dias) {
-	tempoDeBanimento = std::time(nullptr) + dias;
+	tempoDeBanimento = dias;
 }
 
 int Usuario::getTempoDeBanimento() {
 	if (tempoDeBanimento < std::time(nullptr)) {
 		return 0;
 	}
-	std::time_t banTime = tempoDeBanimento - std::time(nullptr);
-	struct tm stTime;
-	localtime_s(&stTime, &banTime);
-	int stDia = stTime.tm_mday;
-	int stMes = stTime.tm_mon;
-	int stAno = stTime.tm_year;
-	return stDia * stMes * stAno;
+	int banTime = tempoDeBanimento - std::time(nullptr);
+	return banTime / (60 * 60 * 24);
 }
 
 std::vector<Anuncio*> Usuario::getFavoritos() {
