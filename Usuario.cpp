@@ -46,6 +46,7 @@ bool Usuario::adicionarAoCarrinho(Anuncio* anuncioCompra, std::string endereco) 
 	if (anuncioCompra->disponibilidade != 0) {
 		Compra compra(endereco, anuncioCompra, &counterIdCompra);
 		compras.push_back(compra);
+		anuncioCompra->disponibilidade--;
 		return true;
 	}
 	return false;
