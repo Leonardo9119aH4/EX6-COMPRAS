@@ -570,7 +570,7 @@ void Operacoes::ViewCompras(Usuario* usuario) {
 void Operacoes::listarUsuarios(std::vector<Usuario>* usuarios, std::vector<Admin>* admins) {
 	std::cout << "Usuarios comuns: " << std::endl;
 	for (int i = 0; i < usuarios->size(); i++) {
-		if (usuarios->at(i).tempoDeBanimento == std::numeric_limits<time_t>::max()) {
+		if (usuarios->at(i).getTempoDeBanimento() == std::numeric_limits<time_t>::max()) {
 			std::cout << "Usuario: " << usuarios->at(i).login << ", sob CPF " << usuarios->at(i).getCpf() << ", com email " << usuarios->at(i).getEmail() << ", com telefone " << usuarios->at(i).getTelefone() << ", esta banido permanentemente" << std::endl;
 		}
 		else if (usuarios->at(i).getTempoDeBanimento() == 0) {
@@ -582,7 +582,7 @@ void Operacoes::listarUsuarios(std::vector<Usuario>* usuarios, std::vector<Admin
 	}
 	std::cout << "Admins: " << std::endl;
 	for (int i = 0; i < admins->size(); i++) {
-		if (admins->at(i).tempoDeBanimento == std::numeric_limits<time_t>::max()) {
+		if (admins->at(i).getTempoDeBanimento() == std::numeric_limits<time_t>::max()) {
 			std::cout << "Admin: " << admins->at(i).login << ", sob CPF " << admins->at(i).getCpf() << ", com email " << admins->at(i).getEmail() << ", com telefone " << admins->at(i).getTelefone() << ", esta banido permanentemente" << std::endl;
 		}
 		else if (admins->at(i).getTempoDeBanimento() == 0) {
