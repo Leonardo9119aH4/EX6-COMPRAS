@@ -511,8 +511,7 @@ void Operacoes::pesquisar(std::vector<Anuncio*>* anuncios) {
 	for (int y = 0; y < anuncios->size(); y++) {
 		for (int i = 0; i < userTipos.size(); i++) {
 			auto c = std::find(anuncios->at(y)->produto.tipos.begin(), anuncios->at(y)->produto.tipos.end(), userTipos.at(i));
-			int z = std::distance(anuncios->at(y)->produto.tipos.begin(), c);
-			if (!(z > anuncios->at(y)->produto.tipos.size())) {
+			if (!(c > anuncios->at(y)->produto.tipos.end())) {
 				std::cout << "Titulo: " << anuncios->at(y)->titulo << std::endl << "Preco: R$" << anuncios->at(y)->preco << std::endl << "Disponibilidade: " << anuncios->at(y)->disponibilidade << std::endl << "ID: " << anuncios->at(y)->id << std::endl << "Nome do produto: " << anuncios->at(y)->produto.nome << std::endl << "Descricao do produto" << anuncios->at(y)->produto.descricao << std::endl << "Tags: ";
 				for (int w = 0; w < anuncios->at(y)->produto.tipos.size(); w++) {
 					std::cout << anuncios->at(y)->produto.tipos.at(w) << std::endl;

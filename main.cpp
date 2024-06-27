@@ -19,7 +19,7 @@ int main() {
 	Admin admin("admin", "adm", "adm", "adm", "adm", "admin");
 	std::vector<std::string> testeStr = { "A", "B", "C"};
 	Produto produto("depurador", "descricao_generica", testeStr);
-	admin.criarAnuncio(produto, "depuracao", 3, 100, &countIdAds);
+	anuncios.push_back(admin.criarAnuncio(produto, "depuracao", 3, 100, &countIdAds));
 	admins.push_back(admin);
 	Usuario usuario("user", "user", "user", "user", "user", "123");
 	usuarios.push_back(usuario);
