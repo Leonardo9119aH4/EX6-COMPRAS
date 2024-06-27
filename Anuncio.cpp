@@ -1,6 +1,6 @@
 #include "Anuncio.hpp"
 
-Anuncio::Anuncio(std::string _titulo, int _disponibilidade, float _preco, int* _id, Produto _produto, Usuario* _dono) {
+Anuncio::Anuncio(std::string _titulo, int _disponibilidade, float _preco, int* _id, Produto _produto, std::string _dono) {
 	titulo = _titulo;
 	disponibilidade = _disponibilidade;
 	preco = _preco;

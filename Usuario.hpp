@@ -18,8 +18,7 @@ public:
 	bool removerDoCarrinho(Compra* compra);
 	bool devolverCompra(Compra* compraDevolver, int _diasDevolucao);
 	bool desfavoritar(Anuncio* anuncioFavorito);
-	void calcEntrega();
-	void calcDevolucao();
+	void verificarCompras();
 	std::vector<Compra>* getCompras();
 	std::string getEmail();
 	std::string getTelefone();
@@ -45,6 +44,5 @@ protected:
 	std::vector<Compra> compras;
 	int counterIdCompra;
 	std::string senha;
-	Usuario* user;
 };
 #endif
