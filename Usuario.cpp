@@ -70,7 +70,7 @@ bool Usuario::removerDoCarrinho(Compra* compra) {
 bool Usuario::devolverCompra(Compra* compraDevolver, int _diasDevolucao) {
 	if (compraDevolver->getStatus() == 3) {
 		compraDevolver->setStatus(5);
-		compraDevolver->setDataDevolucao(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()) + _diasDevolucao * 60 * 60 * 24);
+		compraDevolver->setDataDevolucao(std::time(nullptr) + _diasDevolucao * 60 * 60 * 24);
 		return true;
 	}
 	return false;
@@ -88,10 +88,10 @@ bool Usuario::desfavoritar(Anuncio* anuncioFavorito) {
 
 void Usuario::verificarCompras() {
 	for (int i = 0; i < compras.size(); i++) {
-		if (compras.at(i).getStatus() == 2 && compras.at(i).getDataEntrega() >= std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())) {
+		if (compras.at(i).getStatus() == 2 && compras.at(i).getDataEntrega() >= std::time(nullptr)) {
 			compras.at(i).setStatus(3);
 		}
-		if (compras.at(i).getStatus() == 5 && compras.at(i).getDataDevolucao() >= std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())) {
+		if (compras.at(i).getStatus() == 5 && compras.at(i).getDataDevolucao() >= std::time(nullptr)) {
 			compras.at(i).setStatus(6);
 		}
 	}
@@ -167,15 +167,15 @@ bool Usuario::devolverCompra(int idCompra) {
 	return false;
 }
 
-void Usuario::setTempoDeBanimento(int dias) {
-	tempoDeBanimento = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()) + dias * 24 * 60 * 60;
+void Usuario::setTempoDeBanimento(time_t dias) {
+	tempoDeBanimento = std::time(nullptr) + dias;
 }
 
 int Usuario::getTempoDeBanimento() {
-	if (tempoDeBanimento < std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())) {
+	if (tempoDeBanimento < std::time(nullptr)) {
 		return 0;
 	}
-	std::time_t banTime = tempoDeBanimento - std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+	std::time_t banTime = tempoDeBanimento - std::time(nullptr);
 	struct tm stTime;
 	localtime_s(&stTime, &banTime);
 	int stDia = stTime.tm_mday;
