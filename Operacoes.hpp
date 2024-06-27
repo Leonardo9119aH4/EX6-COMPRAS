@@ -21,5 +21,6 @@ namespace Operacoes {
 	void pesquisar(std::vector<Anuncio*>* anuncios);
 	void ViewCompras(Usuario* usuario);
 	void listarUsuarios(std::vector<Usuario>* usuarios, std::vector<Admin>* admins);
+	void deletarAds(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, std::vector<Anuncio*>* anuncios);
 }
 #endif // !OPERACOES_HPP

@@ -317,21 +317,7 @@ void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* ad
 		Cadastrar(usuarios, admins, true);
 		break;
 	case 5: //deletar anuncio
-		existe = false;
-		std::cout << "Digite o ID do anuncio a ser deletado: ";
-		std::cin >> id;
-		for (int i = 0; i < anuncios->size(); i++) {
-			if (anuncios->at(i)->id == id) {
-				Usuario* donoAds = anuncios->at(i)->dono;
-				donoAds->deletarAnuncio(id);
-				anuncios->erase(anuncios->begin() + i);
-				existe = true;
-				break;
-			}
-		}
-		if (!existe) {
-			std::cout << "Anuncio nao encontrado." << std::endl;
-		}
+		deletarAds(usuarios, admins, anuncios);
 		break;
 	default:
 		std::cout << "Opcao invalida!" << std::endl;
@@ -606,4 +592,36 @@ void Operacoes::listarUsuarios(std::vector<Usuario>* usuarios, std::vector<Admin
 			std::cout << "Admin: " << admins->at(i).login << ", sob CPF " << admins->at(i).getCpf() << ", com email " << admins->at(i).getEmail() << ", com telefone " << admins->at(i).getTelefone() << ", esta banido por " << admins->at(i).getTempoDeBanimento() << " dias" << std::endl;
 		}
 	}
+}
+void Operacoes::deletarAds(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, std::vector<Anuncio*>* anuncios) {
+	int id;
+	std::cout << "Digite o ID do anuncio a ser deletado: ";
+	std::cin >> id;
+	for (int x = 0; x < usuarios->size(); x++) {
+		for (int y = 0; y < usuarios->at(x).getAnuncios()->size(); y++) {
+			if (usuarios->at(x).getAnuncios()->at(y).id == id) {
+				usuarios->at(x).deletarAnuncio(id);
+				for (int z = 0; z < anuncios->size(); z++) {
+					if (anuncios->at(z)->id == id) {
+						anuncios->erase(anuncios->begin() + z);
+						return;
+					}
+				}
+			}
+		}
+	}
+	for (int x = 0; x < admins->size(); x++) {
+		for (int y = 0; y < admins->at(x).getAnuncios()->size(); y++) {
+			if (admins->at(x).getAnuncios()->at(y).id == id) {
+				admins->at(x).deletarAnuncio(id);
+				for (int z = 0; z < admins->size(); z++) {
+					if (anuncios->at(z)->id == id) {
+						anuncios->erase(anuncios->begin() + z);
+						return;
+					}
+				}
+			}
+		}
+	}
+	std::cout << "Anuncio nao encontrado." << std::endl;
 }
