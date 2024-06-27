@@ -77,7 +77,7 @@ bool Usuario::devolverCompra(Compra* compraDevolver, int _diasDevolucao) {
 	return false;
 }
 
-void Usuario::desfavoritar(Anuncio* anuncioFavorito) {
+void Usuario::desfavoritar(int z) {
 	favoritos.erase(favoritos.begin() + z);
 }
 

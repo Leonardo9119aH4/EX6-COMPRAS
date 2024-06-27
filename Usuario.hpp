@@ -17,7 +17,7 @@ public:
 	bool adicionarAoCarrinho(Anuncio* anuncioComrpa, std::string endereco);
 	bool removerDoCarrinho(Compra* compra);
 	bool devolverCompra(Compra* compraDevolver, int _diasDevolucao);
-	void desfavoritar(Anuncio* anuncioFavorito);
+	void desfavoritar(int z);
 	void verificarCompras();
 	std::vector<Compra>* getCompras();
 	std::string getEmail();
