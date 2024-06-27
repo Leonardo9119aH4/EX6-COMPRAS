@@ -29,7 +29,7 @@ public:
 	std::vector<Anuncio>* getAnuncios();
 	void setSenha(std::string _senha);
 	void setEndereco(std::string _endereco);
-	void setTempoDeBanimento(int dias);
+	void setTempoDeBanimento(time_t dias);
 	bool devolverCompra(int idCompra);
 	int getTempoDeBanimento();
 	std::string login;
