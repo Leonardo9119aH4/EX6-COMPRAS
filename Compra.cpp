@@ -1,5 +1,6 @@
 #include "Anuncio.hpp"
 #include "Compra.hpp"
+#include "Produto.hpp"
 
 Compra::Compra(std::string _entrega, Anuncio* _anuncio, int* counter) {
 	entrega = _entrega;
@@ -28,7 +29,7 @@ void Compra::setEntrega(std::string _entrega) {
 	entrega = _entrega;
 }
 
-int Compra::getStatus() {,
+int Compra::getStatus() {
 	return status;
 }
 

@@ -17,7 +17,7 @@ int main() {
 	int countIdAds = 0;
 	admins.push_back(Admin("admin", "adm", "adm", "adm", "adm", "admin"));
 	Produto produto("sla", "sla", { "sla", "sla" });
-	admins.at(0).criarAnuncio(produto, "sla", 5, 10, &countIdAds, {"sla", "sla"});
+	admins.at(0).criarAnuncio(produto, "sla", 5, 10, &countIdAds, { "sla", "sla" });
 	do {
 		std::cout << "1- Login\n2- Cadastrar\n3- Sair\nDigite a opcao: ";
 		std::cin >> Opc;
@@ -36,3 +36,4 @@ int main() {
 		}
 	} while (Opc != 3);
 	return 0;
+}

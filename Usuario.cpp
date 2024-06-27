@@ -3,7 +3,7 @@
 #include "Usuario.hpp"
 
 Anuncio* Usuario::criarAnuncio(Produto _produto, std::string _titulo, int _disponibilidade, float _preco, int* _id, std::vector<std::string> _tipo) {
-	Anuncio novoAnuncio(_titulo, _disponibilidade, _preco, _id, _produto, user);
+	Anuncio novoAnuncio(_titulo, _disponibilidade, _preco, _id, _produto, login);
 	anuncios.push_back(novoAnuncio);
 	for (int i = 0; i <= anuncios.size(); i++) {
 		if (anuncios.at(i).operator==(&novoAnuncio)) {
@@ -23,7 +23,6 @@ Usuario::Usuario(std::string _login, std::string _email, std::string _telefone, 
 	senha = _senha;
 	tempoDeBanimento = 0;
 	counterIdCompra = 0;
-	user = this;
 }
 
 bool Usuario::deletarAnuncio(int _id) {
@@ -86,16 +85,11 @@ bool Usuario::desfavoritar(Anuncio* anuncioFavorito) {
 	return true;
 }
 
-void Usuario::calcEntrega() {
+void Usuario::verificarCompras() {
 	for (int i = 0; i < compras.size(); i++) {
 		if (compras.at(i).getStatus() == 2 && compras.at(i).getDataEntrega() >= std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())) {
 			compras.at(i).setStatus(3);
 		}
-	}
-}
-
-void Usuario::calcDevolucao() {
-	for (int i = 0; i < compras.size(); i++) {
 		if (compras.at(i).getStatus() == 5 && compras.at(i).getDataDevolucao() >= std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())) {
 			compras.at(i).setStatus(6);
 		}
