@@ -383,7 +383,7 @@ void Operacoes::NovoAnuncio(Usuario* usuario, int* countId, std::vector<Anuncio*
 			std::cout << "Valor invalido!" << std::endl;
 		}
 	} while (preco < 0);
-	anuncio = usuario->criarAnuncio(produto, str1, num, preco, countId, strs);
+	anuncio = usuario->criarAnuncio(produto, str1, num, preco, countId);
 	anuncios->push_back(anuncio); //salva o ponteiro do anuncio no vetor global de ponteiros
 	std::cout << "Anuncio craido com exito!" << std::endl;
 }

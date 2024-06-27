@@ -15,9 +15,15 @@ int main() {
 	std::vector<std::string> tipos;
 	std::vector<Anuncio*> anuncios;
 	int countIdAds = 0;
-	admins.push_back(Admin("admin", "adm", "adm", "adm", "adm", "admin"));
-	Produto produto("sla", "sla", { "sla", "sla" });
-	admins.at(0).criarAnuncio(produto, "sla", 5, 10, &countIdAds, { "sla", "sla" });
+	//debug
+	Admin admin("admin", "adm", "adm", "adm", "adm", "admin");
+	std::vector<std::string> testeStr = { "A", "B", "C"};
+	Produto produto("depurador", "descricao_generica", testeStr);
+	admin.criarAnuncio(produto, "depuracao", 3, 100, &countIdAds);
+	admins.push_back(admin);
+	Usuario usuario("user", "user", "user", "user", "user", "123");
+	usuarios.push_back(usuario);
+	//endDebug
 	do {
 		std::cout << "1- Login\n2- Cadastrar\n3- Sair\nDigite a opcao: ";
 		std::cin >> Opc;
