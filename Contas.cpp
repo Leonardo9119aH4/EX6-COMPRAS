@@ -53,10 +53,11 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 		if (usuarios->at(i).login == login && usuarios->at(i).getSenha() == senha) {
 			if (usuarios->at(i).getTempoDeBanimento() == 0) { //a funcao obtem o tempo em dias (int)
 				exito = true;
+				usuarios->at(i).verificarCompras(); //verifica se alguma compra chegou
 				Operacoes::OpcUsuario(usuarios, admins, &usuarios->at(i), countId, anuncios);
 				break;
 			}
-			else if (usuarios->at(i).tempoDeBanimento == std::numeric_limits<time_t>::max()) { //obtem a variavel time_t direto com valor limite
+			else if (usuarios->at(i).getTempoDeBanimento() == std::numeric_limits<time_t>::max()) { //obtem a variavel time_t direto com valor limite
 				std::cout << "A sua conta foi banida permanentemente. Contate um admininstrador do sistema." << std::endl;
 			}
 			else {
@@ -65,11 +66,19 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 		}
 	}
 	for (int i = 0; i < admins->size(); i++) {
-		if (admins->at(i).login == login && admins->at(i).getSenha() == senha) {
-			exito = true;
-			//usuario->verificarCompras();
-			Operacoes::OpcUsuario(usuarios, admins, &admins->at(i), countId, anuncios);
-			break;
+		if (admins->at(i).login == login && usuarios->at(i).getSenha() == senha) {
+			if (admins->at(i).getTempoDeBanimento() == 0) { //a funcao obtem o tempo em dias (int)
+				exito = true;
+				admins->at(i).verificarCompras(); //verifica se alguma compra chegou
+				Operacoes::OpcUsuario(usuarios, admins, &usuarios->at(i), countId, anuncios);
+				break;
+			}
+			else if (admins->at(i).getTempoDeBanimento() == std::numeric_limits<time_t>::max()) { //obtem a variavel time_t direto com valor limite
+				std::cout << "A sua conta foi banida permanentemente. Contate um admininstrador do sistema." << std::endl;
+			}
+			else {
+				std::cout << "A sua conta foi banida por" << admins->at(i).getTempoDeBanimento() << " dias" << std::endl;
+			}
 		}
 	}
 	if (!exito) {
