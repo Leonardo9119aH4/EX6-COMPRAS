@@ -54,7 +54,6 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 			if (usuarios->at(i).getTempoDeBanimento() == 0) { //a funcao obtem o tempo em dias (int)
 				usuarios->at(i).verificarCompras(); //verifica se alguma compra chegou
 				Operacoes::OpcUsuario(usuarios, admins, &usuarios->at(i), countId, anuncios);
-				break;
 			}
 			else if (usuarios->at(i).getTempoDeBanimento() == std::numeric_limits<time_t>::max()) { //obtem a variavel time_t direto com valor limite
 				std::cout << "A sua conta foi banida permanentemente. Contate um admininstrador do sistema." << std::endl;
@@ -70,7 +69,6 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 			if (admins->at(i).getTempoDeBanimento() == 0) { //a funcao obtem o tempo em dias (int)
 				admins->at(i).verificarCompras(); //verifica se alguma compra chegou
 				Operacoes::OpcUsuario(usuarios, admins, &admins->at(i), countId, anuncios);
-				break;
 			}
 			else if (admins->at(i).getTempoDeBanimento() == std::numeric_limits<time_t>::max()) { //obtem a variavel time_t direto com valor limite
 				std::cout << "A sua conta foi banida permanentemente. Contate um admininstrador do sistema." << std::endl;
