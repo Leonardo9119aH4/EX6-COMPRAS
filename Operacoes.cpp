@@ -134,7 +134,7 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 		boolAux = false;
 		for (int i = 0; i < anuncios->size(); i++) {
 			if (anuncios->at(i)->id == id) {
-				boolAux = usuario->desfavoritar(anuncios->at(i));
+				boolAux = usuario->desfavoritar(anuncios->at(i), i);
 				break;
 			}
 		}
