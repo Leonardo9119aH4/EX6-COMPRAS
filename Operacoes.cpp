@@ -104,13 +104,13 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 	std::cout << "1- Buscar por categoria\n2- Visualizar anuncio\n3- Favoritar um anuncio\n4- Desfavoritar um anuncio\n5- Listar favoritos\n6- Adicionar um produto ao carrinho\n7- Ver carrinho\n8- Comprar\n9- Remover um produto do carrinho\n10- Ver compras\n11- Cancelar uma compra\n12- Devolver um produto\nDigite uma opcao: ";
 	std::cin >> opc;
 	switch (opc) {
-	case 1:
+	case 1: //pesquisar
 		pesquisar(anuncios);
 		break;
-	case 2:
+	case 2: //ver anuncio
 		ViewAnuncio(anuncios);
 		break;
-	case 3:
+	case 3: //favoritar ad
 		std::cout << "Digite o ID do anuncio a ser favoritado: ";
 		std::cin >> id;
 		boolAux = false;
@@ -128,7 +128,7 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 			std::cout << "Anuncio nao encontrado" << std::endl;
 		}
 		break;
-	case 4:
+	case 4: //desfavoritar ad
 		std::cout << "Digite o ID do anuncio a ser desfavoritado: ";
 		std::cin >> id;
 		boolAux = false;
@@ -145,12 +145,12 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 			std::cout << "Anuncio inexistente ou nao favoritado" << std::endl;
 		}
 		break;
-	case 5:
+	case 5: //listar favoritos
 		for (int i = 0; i < usuario->getFavoritos().size(); i++) {
 			std::cout << "Titulo do anuncio: " << usuario->getFavoritos().at(i)->titulo << ", comprando o produto: " << usuario->getFavoritos().at(i)->produto.nome << ", ID de anuncio: " << usuario->getFavoritos().at(i)->id << std::endl;
 		}
 		break;
-	case 6:
+	case 6: //add ao carrinho
 		std::cout << "Digite o ID do anuncio a ser adicionado no carrinho: ";
 		std::cin >> id;
 		boolAux = false;
@@ -167,17 +167,17 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 			std::cout << "Anuncio adicionado ao carrinho com exito" << std::endl;
 		}
 		else {
-			std::cout << "Anuncio nao entregado" << std::endl;
+			std::cout << "Anuncio nao encontrado" << std::endl;
 		}
 		break;
-	case 7:
+	case 7: //ver carrinho
 		VerCarrinho(usuario);
 		break;
-	case 8:
+	case 8: //comprar tudo do carrinho
 		ComprarTudo(usuario);
 		break;
-	case 9:
-		std::cout << "Digite o ID da compra a ser deletada: ";
+	case 9: //remover do carrinho
+		std::cout << "Digite o ID da compra a ser removida: ";
 		std::cin >> id;
 		for (int i = 0; i < usuario->getCompras()->size(); i++) {
 			if (usuario->getCompras()->at(i).getId() == id) {
@@ -193,10 +193,10 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 		}
 		std::cout << "ID de compra nao encontrada!" << std::endl; //early break
 		break;
-	case 10:
+	case 10: //ver compras
 		ViewCompras(usuario);
 		break;
-	case 11:
+	case 11: //cancelar uma compra
 		std::cout << "Digite o ID da compra a ser cancelada: ";
 		std::cin >> id;
 		for (int i = 0; i < usuario->getCompras()->size(); i++) { 
@@ -212,7 +212,7 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 			}
 		}
 		break;
-	case 12:
+	case 12: //devolver um produto
 		std::cout << "Digite o ID da compra a ser devolvida: ";
 		std::cin >> id;
 		boolAux = usuario->devolverCompra(id); //exito ao devolver?
@@ -231,10 +231,10 @@ void Operacoes::AreaVendedor(std::vector<Usuario>* usuarios, Usuario* usuario, i
 	std::cout << "1- Criar anuncio\n2- Deletar um anuncio\n3- Listar anuncios\nDigite uma opcao: ";
 	std::cin >> opc;
 	switch (opc) {
-	case 1:
+	case 1: //criar ad
 		NovoAnuncio(usuario, countId, anuncios);
 		break;
-	case 2:
+	case 2: //deletar ad
 		std::cout << "Digite o ID do anuncio a ser deletado: ";
 		std::cin >> id;
 		existe = usuario->deletarAnuncio(id);
@@ -250,7 +250,7 @@ void Operacoes::AreaVendedor(std::vector<Usuario>* usuarios, Usuario* usuario, i
 		}
 		
 		break;
-	case 3:
+	case 3: //listar ad
 		for (int i = 0; i < usuario->getAnuncios()->size(); i++) {
 			std::cout << "Anuncio " << usuario->getAnuncios()->at(i).titulo << ", sob ID " << usuario->getAnuncios()->at(i).id << ", com o produto " << usuario->getAnuncios()->at(i).produto.nome << std::endl;
 		}
@@ -267,7 +267,7 @@ void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* ad
 	std::cout << "1- Listar usuarios\n2- Banir um usuario\n3- Desbanir um usuario\n4- Cadastrar um admininistrador\n5- Deletar um anuncio\nDigite uma opcao: ";
 	std::cin >> opc;
 	switch (opc) {
-	case 1: 
+	case 1: //listar usuarios
 		listarUsuarios(usuarios, admins);
 		break;
 	case 2: //banir usuario
@@ -313,10 +313,11 @@ void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* ad
 		if (!estavaBanido) {
 			std::cout << "O usuario nao estava banido" << std::endl;
 		}
+		break;
 	case 4: //cadastrar admin
 		Cadastrar(usuarios, admins, true);
 		break;
-	case 5: //deletar anuncio
+	case 5: //deletar anuncio de outro usuario
 		deletarAds(usuarios, admins, anuncios);
 		break;
 	default:
@@ -603,6 +604,7 @@ void Operacoes::deletarAds(std::vector<Usuario>* usuarios, std::vector<Admin>* a
 				for (int z = 0; z < anuncios->size(); z++) {
 					if (anuncios->at(z)->id == id) {
 						anuncios->erase(anuncios->begin() + z);
+						std::cout << "Anuncio deletado com exito" << std::endl;
 						return;
 					}
 				}
@@ -616,6 +618,7 @@ void Operacoes::deletarAds(std::vector<Usuario>* usuarios, std::vector<Admin>* a
 				for (int z = 0; z < admins->size(); z++) {
 					if (anuncios->at(z)->id == id) {
 						anuncios->erase(anuncios->begin() + z);
+						std::cout << "Anuncio deletado com exito" << std::endl;
 						return;
 					}
 				}
