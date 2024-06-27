@@ -2,7 +2,7 @@
 #include <chrono>
 #include "Usuario.hpp"
 
-Anuncio* Usuario::criarAnuncio(Produto _produto, std::string _titulo, int _disponibilidade, float _preco, int* _id, std::vector<std::string> _tipo) {
+Anuncio* Usuario::criarAnuncio(Produto _produto, std::string _titulo, int _disponibilidade, float _preco, int* _id) {
 	Anuncio novoAnuncio(_titulo, _disponibilidade, _preco, _id, _produto, login);
 	anuncios.push_back(novoAnuncio);
 	for (int i = 0; i <= anuncios.size(); i++) {
@@ -43,9 +43,10 @@ std::vector<Compra>* Usuario::getCompras() {
 }
 
 bool Usuario::adicionarAoCarrinho(Anuncio* anuncioCompra, std::string endereco) {
-	if (anuncioCompra->disponibilidade == 0) {
+	if (anuncioCompra->disponibilidade != 0) {
 		Compra compra(endereco, anuncioCompra, &counterIdCompra);
 		compras.push_back(compra);
+		anuncioCompra->disponibilidade--;
 		return true;
 	}
 	return false;

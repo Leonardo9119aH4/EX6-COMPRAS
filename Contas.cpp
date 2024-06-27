@@ -66,7 +66,7 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 		}
 	}
 	for (int i = 0; i < admins->size(); i++) {
-		if (admins->at(i).login == login && usuarios->at(i).getSenha() == senha) {
+		if (admins->at(i).login == login && admins->at(i).getSenha() == senha) {
 			if (admins->at(i).getTempoDeBanimento() == 0) { //a funcao obtem o tempo em dias (int)
 				exito = true;
 				admins->at(i).verificarCompras(); //verifica se alguma compra chegou
