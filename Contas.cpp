@@ -43,7 +43,7 @@ void Cadastrar(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, bool 
 	}
 }
 void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* countId, std::vector<Anuncio*>* anuncios) {
-	bool exito = false;
+	bool existe = false;
 	std::string login, senha;
 	std::cout << "Digite o seu login: ";
 	std::cin >> login;
@@ -52,7 +52,6 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 	for (int i = 0; i < usuarios->size(); i++) {
 		if (usuarios->at(i).login == login && usuarios->at(i).getSenha() == senha) {
 			if (usuarios->at(i).getTempoDeBanimento() == 0) { //a funcao obtem o tempo em dias (int)
-				exito = true;
 				usuarios->at(i).verificarCompras(); //verifica se alguma compra chegou
 				Operacoes::OpcUsuario(usuarios, admins, &usuarios->at(i), countId, anuncios);
 				break;
@@ -61,14 +60,14 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 				std::cout << "A sua conta foi banida permanentemente. Contate um admininstrador do sistema." << std::endl;
 			}
 			else {
-				std::cout << "A sua conta foi banida por" << usuarios->at(i).getTempoDeBanimento() << " dias" << std::endl;
+				std::cout << "A sua conta foi banida por " << usuarios->at(i).getTempoDeBanimento() << " dias" << std::endl;
 			}
+			existe = true;
 		}
 	}
 	for (int i = 0; i < admins->size(); i++) {
 		if (admins->at(i).login == login && admins->at(i).getSenha() == senha) {
 			if (admins->at(i).getTempoDeBanimento() == 0) { //a funcao obtem o tempo em dias (int)
-				exito = true;
 				admins->at(i).verificarCompras(); //verifica se alguma compra chegou
 				Operacoes::OpcUsuario(usuarios, admins, &admins->at(i), countId, anuncios);
 				break;
@@ -77,11 +76,12 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 				std::cout << "A sua conta foi banida permanentemente. Contate um admininstrador do sistema." << std::endl;
 			}
 			else {
-				std::cout << "A sua conta foi banida por" << admins->at(i).getTempoDeBanimento() << " dias" << std::endl;
+				std::cout << "A sua conta foi banida por " << admins->at(i).getTempoDeBanimento() << " dias" << std::endl;
 			}
+			existe = true;
 		}
 	}
-	if (!exito) {
+	if (!existe) {
 		std::cout << "Nome de usuario e/ou senha incorreto(s)!" << std::endl;
 	}
 }
