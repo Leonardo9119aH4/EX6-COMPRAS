@@ -18,7 +18,7 @@ public:
 	bool removerDoCarrinho(Compra* compra);
 	bool devolverCompra(Compra* compraDevolver, int _diasDevolucao);
 	void desfavoritar(int z);
-	void verificarCompras();
+	void verificarCompras(); 
 	std::vector<Compra>* getCompras();
 	std::string getEmail();
 	std::string getTelefone();
@@ -36,6 +36,7 @@ public:
 	std::vector<Anuncio> anuncios;
 protected:
 	std::time_t tempoDeBanimento;
+	//tempoDeBanimento é a data de até quando o usuário está banido
 	std::string email;
 	std::string telefone;
 	std::string endereco;

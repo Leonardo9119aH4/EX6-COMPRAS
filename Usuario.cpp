@@ -6,7 +6,7 @@ Anuncio* Usuario::criarAnuncio(Produto _produto, std::string _titulo, int _dispo
 	Anuncio novoAnuncio(_titulo, _disponibilidade, _preco, _id, _produto, login);
 	anuncios.push_back(novoAnuncio);
 	for (int i = 0; i <= anuncios.size(); i++) {
-		if (anuncios.at(i).operator==(&novoAnuncio)) {
+		if (anuncios.at(i).operator==(&novoAnuncio)) { //encontra esse novo anuncio no vetor (por algum caralho de motivo esse é o único jeito que funciona)
 			Anuncio* novoNovoAnuncio = &anuncios.at(i);
 			return novoNovoAnuncio;
 		}
@@ -47,14 +47,13 @@ bool Usuario::adicionarAoCarrinho(Anuncio* anuncioCompra, std::string endereco) 
 	if (anuncioCompra->disponibilidade != 0) {
 		Compra compra(endereco, anuncioCompra, &counterIdCompra);
 		compras.push_back(compra);
-		anuncioCompra->disponibilidade--;
 		return true;
 	}
 	return false;
 }
 
 bool Usuario::removerDoCarrinho(Compra* compra) {
-	if (compra->getStatus() == 2 || compra->getStatus() == 5) {
+	if (compra->getStatus() == 2 || compra->getStatus() == 5) { // 2 = efetuada (não entregue), 5 = em devolução
 		return false;
 	}
 	else {
@@ -69,8 +68,8 @@ bool Usuario::removerDoCarrinho(Compra* compra) {
 }
 
 bool Usuario::devolverCompra(Compra* compraDevolver, int _diasDevolucao) {
-	if (compraDevolver->getStatus() == 3) {
-		compraDevolver->setStatus(5);
+	if (compraDevolver->getStatus() == 3) { // 3 = entregue
+		compraDevolver->setStatus(5); // 5 = em devolução
 		compraDevolver->setDataDevolucao(std::time(nullptr) + _diasDevolucao * 60 * 60 * 24);
 		return true;
 	}
@@ -83,10 +82,10 @@ void Usuario::desfavoritar(int z) {
 
 void Usuario::verificarCompras() {
 	for (int i = 0; i < compras.size(); i++) {
-		if (compras.at(i).getStatus() == 2 && compras.at(i).getDataEntrega() >= std::time(nullptr)) {
+		if (compras.at(i).getStatus() == 2 && compras.at(i).getDataEntrega() <= std::time(nullptr)) {
 			compras.at(i).setStatus(3);
 		}
-		if (compras.at(i).getStatus() == 5 && compras.at(i).getDataDevolucao() >= std::time(nullptr)) {
+		if (compras.at(i).getStatus() == 5 && compras.at(i).getDataDevolucao() <= std::time(nullptr)) {
 			compras.at(i).setStatus(6);
 		}
 	}
@@ -97,17 +96,23 @@ bool Usuario::comprar(int pagamento, int parcelas) {
 		return false;
 	}
 	for (int i = 0; i < compras.size(); i++) {
-		compras.at(i).setStatus(2);
-		compras.at(i).setPagamento(pagamento);
-		if (pagamento == 5 || pagamento == 6) {
-			compras.at(i).setParcelas(parcelas);
+		if (compras.at(i).getStatus() == 1) {
+			if (compras.at(i).getAnuncio()->disponibilidade == 0) {
+				return false;
+			}
+			compras.at(i).setStatus(2);
+			compras.at(i).getAnuncio()->disponibilidade--;
+			compras.at(i).setPagamento(pagamento);
+			if (pagamento == 5 || pagamento == 6) {
+				compras.at(i).setParcelas(parcelas);
+			}
 		}
 	}
 	return true;
 }
 
 bool Usuario::cancelarCompra(Compra* compraCancelar) {
-	if (compraCancelar->getStatus() == 1 || compraCancelar->getStatus() == 2) {
+	if (compraCancelar->getStatus() == 2) {
 		compraCancelar->setStatus(4);
 		return true;
 	}
@@ -148,7 +153,7 @@ void Usuario::setEndereco(std::string _endereco) {
 
 bool Usuario::devolverCompra(int idCompra) {
 	for (int i = 0; i < compras.size(); i++) {
-		if (compras.at(i).getId() == idCompra) {
+		if (compras.at(i).getId() == idCompra && compras.at(i).getStatus() == 3) { // só devolve a compra se ela for entregue
 			compras.at(i).setStatus(6);
 			return true;
 		}
@@ -164,8 +169,8 @@ int Usuario::getTempoDeBanimento() {
 	if (tempoDeBanimento < std::time(nullptr)) {
 		return 0;
 	}
-	int banTime = tempoDeBanimento - std::time(nullptr);
-	return banTime / (60 * 60 * 24);
+	int banTime = tempoDeBanimento - std::time(nullptr); // calcula quanto tempo ele está banido
+	return banTime / (60 * 60 * 24); // converte em dias
 }
 
 std::vector<Anuncio*> Usuario::getFavoritos() {
