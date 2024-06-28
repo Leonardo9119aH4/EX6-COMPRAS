@@ -9,13 +9,12 @@
 #include "Contas.hpp"
 
 int main() {
-	int Opc;
-	std::vector<Usuario> usuarios;
-	std::vector<Admin> admins;
-	std::vector<std::string> tipos;
-	std::vector<Anuncio*> anuncios;
-	int countIdAds = 0;
-	//debug
+	int opc; //opcao inserida
+	std::vector<Usuario> usuarios; //vetor de usuarios cadastrados
+	std::vector<Admin> admins; //vetor de admins cadastrados
+	std::vector<Anuncio*> anuncios; //vetor de referencia aos ads de todos os usuarios (facilita na busca)
+	int countIdAds = 0; //contador de id para criacao de ads (evita conflitos)
+	//beginDebug 
 	Admin admin("admin", "adm", "adm", "adm", "adm", "admin");
 	std::vector<std::string> testeStr = { "A", "B", "C"};
 	Produto produto("depurador", "descricao_generica", testeStr);
@@ -26,20 +25,20 @@ int main() {
 	//endDebug
 	do {
 		std::cout << "1- Login\n2- Cadastrar\n3- Sair\nDigite a opcao: ";
-		std::cin >> Opc;
-		switch (Opc) {
+		std::cin >> opc;
+		switch (opc) {
 		case 1:
 			Login(&usuarios, &admins, &countIdAds, &anuncios);
 			break;
 		case 2:
-			Cadastrar(&usuarios, &admins, false);
+			Cadastrar(&usuarios, &admins, false); //booleano verifica se esta cadastrando admin ou usuario
 			break;
 		case 3:
 			std::cout << "Saindo do programa..." << std::endl;
 			break;
-		default:
+		default: //se o usuario for retardado
 			std::cout << "Opcao invalida!" << std::endl;
 		}
-	} while (Opc != 3);
+	} while (opc != 3);
 	return 0;
 }
