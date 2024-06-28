@@ -11,7 +11,7 @@
 #include "Operacoes.hpp"
 #include "Contas.hpp"
 void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* admins ,Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios) {
-	int opc;
+	int opc; //area do usuario (polimorfismo)
 	std::string str;
 	do {
 		std::cout << "1- Area do comprador\n2- Area do vendedor\n3- Verificar dados cadastrais\n4- Alterar o endereco de residencia\n5- Alterar a senha\n6- Logout\nDigite a opcao: ";
@@ -23,15 +23,15 @@ void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* a
 		case 2:
 			AreaVendedor(usuarios, usuario, countId, anuncios);
 			break;
-		case 3:
+		case 3: //verificar dados cadastrais
 			std::cout << "O seu login eh " << usuario->login << "\nO seu endereco de residencia eh " << usuario->getEndereco() << "\nO seu email eh " << usuario->getEmail() << "\nO seu telefone eh " << usuario->getTelefone() << "\nO seu CPF eh" << usuario->getCpf() << std::endl;
 			break;
-		case 4:
+		case 4: //mudar endereco
 			std::cout << "Digite o seu novo endereco: ";
 			std::cin >> str;
-			usuario->setEndereco(str);
+			usuario->setEndereco(str); 
 			break;
-		case 5:
+		case 5: //mudar senha
 			std::cout << "Digite a sua senha atual: ";
 			std::cin >> str;
 			if (usuario->getSenha() == str) {
@@ -43,17 +43,17 @@ void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* a
 				std::cout << "Senha incorreta!" << std::endl;
 			}
 			break;
-		case 6:
+		case 6: //logout
 			std::cout << "Logout!" << std::endl;
 			break;
-		default:
+		default: //se o usuario for burro
 			std::cout << "Opcao invalida!" << std::endl;
 			break;
 		}
 	} while (opc != 6);
 }
 void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, Admin* admin, int* countId, std::vector<Anuncio*>* anuncios) {
-	int opc;
+	int opc; //area do admin (polimorfismo)
 	std::string str;
 	do {
 		std::cout << "1- Area do comprador\n2- Area do vendedor\n3- Area do admininstrador\n4- Verificar dados cadastrais\n5- Alterar o endereco de residencia\n6- Alterar a senha\n7- Logout\nDigite a opcao: ";
@@ -68,15 +68,15 @@ void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* a
 		case 3:
 			AreaAdmin(usuarios, admins, admin, anuncios);
 			break;
-		case 4:
+		case 4: //ver dados cadastrais
 			std::cout << "O seu login eh " << admin->login << "\nO seu endereco de residencia eh " << admin->getEndereco() << "\nO seu email eh " << admin->getEmail() << "\nO seu telefone eh " << admin->getTelefone() << "\nO seu CPF eh" << admin->getCpf() << std::endl;
 			break;
-		case 5:
+		case 5: //mudar endereco
 			std::cout << "Digite o seu novo endereco: ";
 			std::cin >> str;
 			admin->setEndereco(str);
 			break;
-		case 6:
+		case 6: //mudar senha
 			std::cout << "Digite a sua senha atual: ";
 			std::cin >> str;
 			if (admin->getSenha() == str) {
@@ -88,19 +88,19 @@ void Operacoes::OpcUsuario(std::vector<Usuario>* usuarios, std::vector<Admin>* a
 				std::cout << "Senha incorreta!" << std::endl;
 			}
 			break;
-		case 7:
+		case 7: //logout
 			std::cout << "Logout!" << std::endl;
 			break;
-		default:
+		default: //se o admin dar uma de usuario
 			std::cout << "Opcao invalida!" << std::endl;
 			break;
 		}
 	} while (opc != 7);
 }
 void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios) {
-	std::string str1, str2;
-	int opc, id;
-	bool boolAux;
+	std::string str1, str2; //strings auxiliares (varias funcoes)
+	int opc, id; //seletor de opcoes
+	bool boolAux; //booleano auxiliar
 	std::cout << "1- Buscar por categoria\n2- Visualizar anuncio\n3- Favoritar um anuncio\n4- Desfavoritar um anuncio\n5- Listar favoritos\n6- Adicionar um produto ao carrinho\n7- Ver carrinho\n8- Comprar\n9- Remover um produto do carrinho\n10- Ver compras\n11- Cancelar uma compra\n12- Devolver um produto\nDigite uma opcao: ";
 	std::cin >> opc;
 	switch (opc) {
@@ -113,7 +113,7 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 	case 3: //favoritar ad
 		std::cout << "Digite o ID do anuncio a ser favoritado: ";
 		std::cin >> id;
-		boolAux = false;
+		boolAux = false; //anuncio existe?
 		for (int i = 0; i < anuncios->size(); i++) {
 			if (anuncios->at(i)->id == id) {
 				usuario->favoritar(anuncios->at(i));
@@ -151,7 +151,7 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 	case 6: //add ao carrinho
 		std::cout << "Digite o ID do anuncio a ser adicionado no carrinho: ";
 		std::cin >> id;
-		boolAux = false;
+		boolAux = false; //existe?
 		for (int i = 0; i < anuncios->size(); i++) {
 			if (anuncios->at(i)->id == id) {
 				std::cout << "Digite o endereco de entrega: ";
@@ -261,7 +261,7 @@ void Operacoes::AreaVendedor(std::vector<Usuario>* usuarios, Usuario* usuario, i
 void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, Admin* admin, std::vector<Anuncio*>* anuncios) {
 	bool existe, estavaBanido;
 	int opc, ban, id;
-	std::string str;
+	std::string str; //string auxiliar
 	std::cout << "1- Listar usuarios\n2- Banir um usuario\n3- Desbanir um usuario\n4- Cadastrar um admininistrador\n5- Deletar um anuncio\nDigite uma opcao: ";
 	std::cin >> opc;
 	switch (opc) {
@@ -325,56 +325,55 @@ void Operacoes::AreaAdmin(std::vector<Usuario>* usuarios, std::vector<Admin>* ad
 }
 
 void Operacoes::NovoAnuncio(Usuario* usuario, int* countId, std::vector<Anuncio*>* anuncios) {
-	int num;
+	int quantTipos;
 	float preco;
-	std::string str1, str2, str3, str4;
-	std::vector<std::string> strs;
-	Anuncio* anuncio;
+	std::string nome, descricao, tipo, resp;
+	std::vector<std::string> tipos;
 	std::cout << "Digite o nome do produto: ";
-	std::cin >> str1;
+	std::cin >> nome;
 	std::cout << "Digite a descricao do produto (sem espacos, use '_'): ";
-	std::cin >> str2;
+	std::cin >> descricao;
 	do {
 		std::cout << "Digite quantos tipos (tagnames) o seu produto vai ter: ";
-		std::cin >> num;
-		if (num <= 0) {
+		std::cin >> quantTipos;
+		if (quantTipos <= 0) {
 			std::cout << "Opcao invalida!" << std::endl;
-			str4 = "n";
+			resp = "n";
 		}
 		else {
-			for (int i = 0; i < num; i++) {
+			for (int i = 0; i < quantTipos; i++) {
 				std::cout << "Digite um tipo: ";
-				std::cin >> str3;
-				strs.push_back(str3);
+				std::cin >> tipo;
+				tipos.push_back(tipo);
 			}
 			std::cout << "Tipos: " << std::endl;
-			for (int i = 0; i < strs.size(); i++) {
-				if (strs.at(i) == strs.back()) {
-					std::cout << strs.at(i) << std::endl;
+			for (int i = 0; i < tipos.size(); i++) {
+				if (tipos.at(i) == tipos.back()) {
+					std::cout << tipos.at(i) << std::endl;
 				}
 				else {
-					std::cout << strs.at(i) << " ,";
+					std::cout << tipos.at(i) << " ,";
 				}
 			}
 			do {
 				std::cout << "Os tipos estao certos e digitados corretamente? (s/n): ";
-				std::cin >> str4;
-				if (str4 != "n" && str4 != "s") {
+				std::cin >> resp;
+				if (resp != "n" && resp != "s") {
 					std::cout << "Opcao invalida!" << std::endl;
 				}
-			} while (str4 != "n" && str4 != "s");
+			} while (resp != "n" && resp != "s");
 		}
-	} while (str4 == "n");
-	Produto produto(str1, str2, strs);
+	} while (resp == "n");
+	Produto produto(nome, descricao, tipos);
 	std::cout << "Digite o titulo do anuncio: ";
-	std::cin >> str1;
+	std::cin >> nome;
 	do {
 		std::cout << "Digite quantos produtos voce tem disponivel: ";
-		std::cin >> num;
-		if (num < 0) {
+		std::cin >> quantTipos;
+		if (quantTipos < 0) {
 			std::cout << "Valor invalido!" << std::endl;
 		}
-	} while (num < 0);
+	} while (quantTipos < 0);
 	do {
 		std::cout << "Digite o preco do produto (0 para gratuito): ";
 		std::cin >> preco;
@@ -382,7 +381,7 @@ void Operacoes::NovoAnuncio(Usuario* usuario, int* countId, std::vector<Anuncio*
 			std::cout << "Valor invalido!" << std::endl;
 		}
 	} while (preco < 0);
-	anuncio = usuario->criarAnuncio(produto, str1, num, preco, countId);
+	Anuncio* anuncio = usuario->criarAnuncio(produto, nome, quantTipos, preco, countId); 
 	anuncios->push_back(anuncio); //salva o ponteiro do anuncio no vetor global de ponteiros
 	std::cout << "Anuncio craido com exito!" << std::endl;
 }
@@ -423,19 +422,19 @@ void Operacoes::VerCarrinho(Usuario* usuario) {
 }
 void Operacoes::ComprarTudo(Usuario* usuario) {
 	std::vector<Compra>* compras = usuario->getCompras();
-	std::string str1;
+	std::string resposta;
 	float valorCount = 0;
 	int opc, parcelas;
 	do {
 		std::cout << "ATENCAO! Todos os itens no carrinho serao comprados. Certo? (s/n): ";
-		std::cin >> str1;
-		if (str1 == "n") {
+		std::cin >> resposta;
+		if (resposta == "n") {
 			return;
 		}
-		if (str1 != "n" && str1 != "s") {
+		if (resposta != "n" && resposta != "s") {
 			std::cout << "Opcao invalida" << std::endl;
 		}
-	} while (str1 != "s" && str1 != "n");
+	} while (resposta != "s" && resposta != "n");
 	do {
 		std::cout << "1- Boleto a vista\n2- Pix a vista\n3- Credito a vista\n4- Debito a vista\n5- Credito a prazo\n6- Debito a prazo\nQual forma de pagamento? ";
 		std::cin >> opc;
@@ -459,14 +458,14 @@ void Operacoes::ComprarTudo(Usuario* usuario) {
 		}
 		do {
 			std::cout << "Cada parcelar custara R$" << valorCount << ", prossegue? (s/n): ";
-			std::cin >> str1;
-			if (str1 == "n") {
+			std::cin >> resposta;
+			if (resposta == "n") {
 				return;
 			}
-			if (str1 != "n" && str1 != "s") {
+			if (resposta != "n" && resposta != "s") {
 				std::cout << "Opcao invalida" << std::endl;
 			}
-		} while (str1 != "s" && str1 != "n");
+		} while (resposta != "s" && resposta != "n");
 		usuario->comprar(opc, parcelas);
 		std::cout << "Compra realizada com exito" << std::endl;
 	}
@@ -476,23 +475,23 @@ void Operacoes::ComprarTudo(Usuario* usuario) {
 		}
 		do {
 			std::cout << "Voce pagara " << valorCount << ", prossegue? (s/n): ";
-			std::cin >> str1;
-			if (str1 == "n") {
+			std::cin >> resposta;
+			if (resposta == "n") {
 				return;
 			}
-			if (str1 != "n" && str1 != "s") {
+			if (resposta != "n" && resposta != "s") {
 				std::cout << "Opcao invalida" << std::endl;
 			}
-		} while (str1 != "s" && str1 != "n");
+		} while (resposta != "s" && resposta != "n");
 		usuario->comprar(opc, -1); //o pagamento eh a vista
 		std::cout << "Compra realizada com exito" << std::endl;
 	}
 
 }
 void Operacoes::pesquisar(std::vector<Anuncio*>* anuncios) {
-	char opc;
+	char opc; //resposta (s/n)
 	int QtTags = 1;
-	std::cout << "Voce deseja pesquisar por mais de uma tag? (s/n); ";
+	std::cout << "Voce deseja pesquisar por mais de uma tag? (s/n): ";
 	std::cin >> opc;
 	if (opc == 's' || opc == 'S') {
 		std::cout << "Digite a quantidade de tags que voce deseja pesquisar: ";
@@ -521,7 +520,7 @@ void Operacoes::pesquisar(std::vector<Anuncio*>* anuncios) {
 }
 void Operacoes::ViewCompras(Usuario* usuario) {
 	std::vector<Compra>* compras = usuario->getCompras();
-	struct tm dataCompra;
+	struct tm dataCompra; //structs pro localtime_s
 	struct tm dataEntrega;
 	struct tm dataDev;
 	time_t dtaCompr;
@@ -568,7 +567,7 @@ void Operacoes::ViewCompras(Usuario* usuario) {
 void Operacoes::listarUsuarios(std::vector<Usuario>* usuarios, std::vector<Admin>* admins) {
 	std::cout << "Usuarios comuns: " << std::endl;
 	for (int i = 0; i < usuarios->size(); i++) {
-		if (usuarios->at(i).getTempoDeBanimento() == std::numeric_limits<time_t>::max()) {
+		if (usuarios->at(i).getTempoDeBanimento() == std::numeric_limits<time_t>::max()) { //limits::max eh ban permanente
 			std::cout << "Usuario: " << usuarios->at(i).login << ", sob CPF " << usuarios->at(i).getCpf() << ", com email " << usuarios->at(i).getEmail() << ", com telefone " << usuarios->at(i).getTelefone() << ", esta banido permanentemente" << std::endl;
 		}
 		else if (usuarios->at(i).getTempoDeBanimento() == 0) {
@@ -591,7 +590,7 @@ void Operacoes::listarUsuarios(std::vector<Usuario>* usuarios, std::vector<Admin
 		}
 	}
 }
-void Operacoes::deletarAds(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, std::vector<Anuncio*>* anuncios) {
+void Operacoes::deletarAds(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, std::vector<Anuncio*>* anuncios) { //deletar ad de outro usuario
 	int id;
 	std::cout << "Digite o ID do anuncio a ser deletado: ";
 	std::cin >> id;
@@ -623,5 +622,5 @@ void Operacoes::deletarAds(std::vector<Usuario>* usuarios, std::vector<Admin>* a
 			}
 		}
 	}
-	std::cout << "Anuncio nao encontrado." << std::endl;
+	std::cout << "Anuncio nao encontrado." << std::endl; //early return (eh util as vezes)
 }

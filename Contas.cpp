@@ -3,8 +3,8 @@
 #include <limits>
 #include "Contas.hpp"
 #include "Operacoes.hpp"
-void Cadastrar(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, bool cadAdmin) {
-	bool conflito = false;
+void Cadastrar(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, bool cadAdmin) { //cadastra usuario ou admin
+	bool conflito = false; //verifica se o login ja existe (chave primaria)
 	std::string login, senha, email, telefone, endereco, cpf;
 	std::cout << "Digite o nome de usuario a ser criado: ";
 	std::cin >> login;
@@ -49,11 +49,11 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 	std::cin >> login;
 	std::cout << "Digite a sua senha: ";
 	std::cin >> senha;
-	for (int i = 0; i < usuarios->size(); i++) {
+	for (int i = 0; i < usuarios->size(); i++) { 
 		if (usuarios->at(i).login == login && usuarios->at(i).getSenha() == senha) {
 			if (usuarios->at(i).getTempoDeBanimento() == 0) { //a funcao obtem o tempo em dias (int)
 				usuarios->at(i).verificarCompras(); //verifica se alguma compra chegou
-				Operacoes::OpcUsuario(usuarios, admins, &usuarios->at(i), countId, anuncios);
+				Operacoes::OpcUsuario(usuarios, admins, &usuarios->at(i), countId, anuncios); //polimorfismo (evita cast)
 			}
 			else if (usuarios->at(i).getTempoDeBanimento() == std::numeric_limits<time_t>::max()) { //obtem a variavel time_t direto com valor limite
 				std::cout << "A sua conta foi banida permanentemente. Contate um admininstrador do sistema." << std::endl;
@@ -68,7 +68,7 @@ void Login(std::vector<Usuario>* usuarios, std::vector<Admin>* admins, int* coun
 		if (admins->at(i).login == login && admins->at(i).getSenha() == senha) {
 			if (admins->at(i).getTempoDeBanimento() == 0) { //a funcao obtem o tempo em dias (int)
 				admins->at(i).verificarCompras(); //verifica se alguma compra chegou
-				Operacoes::OpcUsuario(usuarios, admins, &admins->at(i), countId, anuncios);
+				Operacoes::OpcUsuario(usuarios, admins, &admins->at(i), countId, anuncios); //polimorfismo (pq odeiam tanto cast?)
 			}
 			else if (admins->at(i).getTempoDeBanimento() == std::numeric_limits<time_t>::max()) { //obtem a variavel time_t direto com valor limite
 				std::cout << "A sua conta foi banida permanentemente. Contate um admininstrador do sistema." << std::endl;
