@@ -132,8 +132,8 @@ void Operacoes::AreaComprador(std::vector<Usuario>* usuarios, Usuario* usuario, 
 		boolAux = false; //existe?
 		std::cout << "Digite o ID do anuncio a ser desfavoritado: ";
 		std::cin >> id;
-		for (int i = 0; i < usuario->getAnuncios()->size(); i++) {
-			if (usuario->getAnuncios()->at(i).id == id) {
+		for (int i = 0; i < usuario->getFavoritos().size(); i++) {
+			if (usuario->getFavoritos().at(i)->id == id) {
 				usuario->desfavoritar(i);
 				boolAux = true;
 				break;
@@ -487,7 +487,6 @@ void Operacoes::ComprarTudo(Usuario* usuario) {
 		usuario->comprar(opc, -1); //o pagamento eh a vista
 		std::cout << "Compra realizada com exito" << std::endl;
 	}
-
 }
 void Operacoes::pesquisar(std::vector<Anuncio*>* anuncios) {
 	char opc;
@@ -520,6 +519,7 @@ void Operacoes::pesquisar(std::vector<Anuncio*>* anuncios) {
 	}
 }
 void Operacoes::ViewCompras(Usuario* usuario) {
+	usuario->verificarCompras();
 	std::vector<Compra>* compras = usuario->getCompras();
 	struct tm dataCompra;
 	struct tm dataEntrega;
@@ -534,14 +534,14 @@ void Operacoes::ViewCompras(Usuario* usuario) {
 				dtaEntr = compras->at(i).getDataEntrega();
 				localtime_s(&dataCompra, &dtaCompr);
 				localtime_s(&dataEntrega, &dtaEntr);
-				std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << dataCompra.tm_mday << "/" << dataCompra.tm_mon << ", com data de entrega prevista " << dataEntrega.tm_mday << "/" << dataEntrega.tm_mon << "\nProduto: " << compras->at(i).getAnuncio()->produto.nome << ", do anuncio " << compras->at(i).getAnuncio()->titulo << ", com ID " << compras->at(i).getAnuncio()->id << std::endl;
+				std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << dataCompra.tm_mday << "/" << dataCompra.tm_mon + 1 << ", com data de entrega prevista " << dataEntrega.tm_mday << "/" << dataEntrega.tm_mon + 1 << "\nProduto: " << compras->at(i).getAnuncio()->produto.nome << ", do anuncio " << compras->at(i).getAnuncio()->titulo << ", com ID " << compras->at(i).getAnuncio()->id << std::endl;
 				break;
 			case 3:
 				dtaCompr = compras->at(i).getDataCompra();
 				dtaEntr = compras->at(i).getDataEntrega();
 				localtime_s(&dataCompra, &dtaCompr);
 				localtime_s(&dataEntrega, &dtaEntr);
-				std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << dataCompra.tm_mday << "/" << dataCompra.tm_mon << ", entregue em " << dataEntrega.tm_mday << "/" << dataEntrega.tm_mon << "\nProduto: " << compras->at(i).getAnuncio()->produto.nome << ", do anuncio " << compras->at(i).getAnuncio()->titulo << ", com ID " << compras->at(i).getAnuncio()->id << std::endl;
+				std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << dataCompra.tm_mday << "/" << dataCompra.tm_mon + 1 << ", entregue em " << dataEntrega.tm_mday << "/" << dataEntrega.tm_mon + 1 << "\nProduto: " << compras->at(i).getAnuncio()->produto.nome << ", do anuncio " << compras->at(i).getAnuncio()->titulo << ", com ID " << compras->at(i).getAnuncio()->id << std::endl;
 				break;
 			case 4:
 				std::cout << "Compra ID " << compras->at(i).getId() << ", cancelada" << std::endl;
@@ -551,7 +551,7 @@ void Operacoes::ViewCompras(Usuario* usuario) {
 				dtaEntr = compras->at(i).getDataEntrega();
 				localtime_s(&dataCompra, &dtaCompr);
 				localtime_s(&dataEntrega, &dtaEntr);
-				std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << dataCompra.tm_mday << "/" << dataCompra.tm_mon << ", entregue em " << dataEntrega.tm_mday << "/" << dataEntrega.tm_mon << ", está aguardando devolucao\nProduto: " << compras->at(i).getAnuncio()->produto.nome << ", do anuncio " << compras->at(i).getAnuncio()->titulo << ", com ID " << compras->at(i).getAnuncio()->id << std::endl;
+				std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << dataCompra.tm_mday << "/" << dataCompra.tm_mon + 1 << ", entregue em " << dataEntrega.tm_mday << "/" << dataEntrega.tm_mon + 1 << ", está aguardando devolucao\nProduto: " << compras->at(i).getAnuncio()->produto.nome << ", do anuncio " << compras->at(i).getAnuncio()->titulo << ", com ID " << compras->at(i).getAnuncio()->id << std::endl;
 				break;
 			case 6:
 				dtaCompr = compras->at(i).getDataCompra();
@@ -560,7 +560,7 @@ void Operacoes::ViewCompras(Usuario* usuario) {
 				localtime_s(&dataCompra, &dtaCompr);
 				localtime_s(&dataEntrega, &dtaEntr);
 				localtime_s(&dataDev, &dtaDev);
-				std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << dataCompra.tm_mday << "/" << dataCompra.tm_mon << "entregue em " << dataEntrega.tm_mday << "/" << dataEntrega.tm_mon << ", devolvida em " << dataDev.tm_mday << "/" << dataDev.tm_mon << "\nProduto: " << compras->at(i).getAnuncio()->produto.nome << ", do anuncio " << compras->at(i).getAnuncio()->titulo << ", com ID " << compras->at(i).getAnuncio()->id << std::endl;
+				std::cout << "Compra ID " << compras->at(i).getId() << ", realizada no dia " << dataCompra.tm_mday << "/" << dataCompra.tm_mon + 1 << "entregue em " << dataEntrega.tm_mday << "/" << dataEntrega.tm_mon + 1 << ", devolvida em " << dataDev.tm_mday << "/" << dataDev.tm_mon + 1 << "\nProduto: " << compras->at(i).getAnuncio()->produto.nome << ", do anuncio " << compras->at(i).getAnuncio()->titulo << ", com ID " << compras->at(i).getAnuncio()->id << std::endl;
 				break;
 		}
 	}

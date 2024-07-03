@@ -11,6 +11,5 @@ public:
 	~Admin() {};
 	bool banirUsuario(Usuario* usuarioBanir, int tempoDeBanimento);
 	bool unbanUsuario(Usuario* usuarioDesbanir);
-	bool excluirAnuncio(Anuncio* anuncioDeletar);
 };
 #endif
